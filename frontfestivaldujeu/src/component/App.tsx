@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import SignIn from './connexion/SignIn';
 import SignUp from './connexion/SignUp';
 import { PageAccueil } from './accueil/PageAccueil';
-import "../output.css"
+import "./output.css"
 import { AdminPage } from './admin/AdminPage';
 
 function App() {

@@ -24,10 +24,10 @@ const robin : User = {
 
 
 export const AdminPage = () => {
-    const [listeUser, setListeUser] = useState([robin]);
+    const [listeUser, setListeUser] = useState([robin, robin, robin, robin, robin, robin, robin, robin, robin, robin, robin, robin, robin, robin]);
   
     return (
-      <div>
+      <div className="border">
         {listeUser.map((user) => (
           <ProfilUserModifiable key={user.id} u={user} />
         ))}

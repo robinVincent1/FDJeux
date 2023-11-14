@@ -1,5 +1,7 @@
 import React, { useState, ChangeEvent } from "react";
 import { User } from "./AdminPage";
+import "../output.css"
+import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
 
 
 type ProfilUserModifiableProps = {
@@ -17,13 +19,13 @@ export const ProfilUserModifiable = ({u}: ProfilUserModifiableProps) => {
   };
 
   return (
-    <div className="p-8">
+    <div className="border ">
         <div>
         {u.pseudo}
         </div>
       
       <p>
-        <div>
+        <div className="">
         {u.name}
         </div>
         <div>
@@ -32,10 +34,10 @@ export const ProfilUserModifiable = ({u}: ProfilUserModifiableProps) => {
         {modif ? (
           <button
             onClick={() => {
-              return setModif(true);
+              return setModif(false);
             }}
           >
-            {u.role}
+             Role : <strong> {u.role}</strong>
           </button>
         ) : (
           <div>
@@ -53,6 +55,11 @@ export const ProfilUserModifiable = ({u}: ProfilUserModifiableProps) => {
               <option value="Accueil bénévole">Accueil bénévole</option>
               <option value="Bénévole">Bénévole</option>
             </select>
+            <button
+            onClick={() => {
+                return setModif(true);
+            }}
+            > <CheckCircleOutlineRoundedIcon /></button>
           </div>
         )}
       </p>

@@ -1,4 +1,6 @@
 import React, { ChangeEvent, useState } from 'react';
+import "../output.css"
+
 
 interface Dropdown2Props {
     propo: (value: boolean) => void;

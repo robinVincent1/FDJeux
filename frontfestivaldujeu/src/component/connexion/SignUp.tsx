@@ -15,7 +15,7 @@ import Dropdown from "./Dropdown";
 import Dropdown2 from "./Dropdown2";
 import { useState } from "react";
 import "../styles/styles.css";
-import "../../output.css"
+import "../output.css"
 
 
 function Copyright(props: any) {
