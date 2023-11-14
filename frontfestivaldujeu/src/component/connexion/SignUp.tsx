@@ -14,6 +14,9 @@ import Container from "@mui/material/Container";
 import Dropdown from "./Dropdown";
 import Dropdown2 from "./Dropdown2";
 import { useState } from "react";
+import "../styles/styles.css";
+import "../../output.css"
+
 
 function Copyright(props: any) {
   return (
@@ -148,7 +151,7 @@ export default function SignUp() {
                   id="adPostale"
                 />
               </Grid>
-              <div className="">
+              <div className="p-16">
                 <Dropdown />
                 <Dropdown2 propo={SetProposition} />
               </div>
