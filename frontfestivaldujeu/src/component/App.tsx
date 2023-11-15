@@ -25,7 +25,7 @@ function App() {
         </header>
         <main>
         <Routes>
-          <Route path="/" element={<SignIn />} />
+        <Route path="/" element={<SignIn />} />
           <Route path="/accueil" element={<PageAccueil />} />
           <Route path="/planning" element={<PlanningPage />}/>
           <Route path="/signup" element={<SignUp />} />

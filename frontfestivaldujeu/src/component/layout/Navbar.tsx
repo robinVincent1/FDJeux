@@ -17,6 +17,8 @@ import { Link } from "react-router-dom";
 const pages = [{title:'Accueil',href:'/accueil'},{title:'Planning',href:'/planning'}, {title: "Forum", href: "/forum"}, {title: "News", href: "/news"}];
 const settings = [{title:'Mon profil',href:'/profil'}, {title:'Se déconnecter',href:'/logout'}, {title: "Admin", href: "/admin"}];
 
+
+
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -40,7 +42,24 @@ function Navbar() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-        <img src="/logo_FDJ_FINAL.svg"/>
+          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="#app-bar-with-responsive-menu"
+            sx={{
+              mr: 2,
+              display: { xs: 'none', md: 'flex' },
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            LOGO
+          </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -99,16 +118,15 @@ function Navbar() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Link to={page.href} style={{ textDecoration: 'none' }}>
-                <Button color="inherit">{page.title}</Button>
-                </Link>
+                <Link to={page.href}/>
+
             ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar src="/profil-picture.jpg" />
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -128,10 +146,8 @@ function Navbar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting.title} onClick={handleCloseUserMenu}>
-                  <Link to={setting.href} style={{ textDecoration: 'none' }}>
-                    <Typography textAlign="center">{setting.title}</Typography>
-                  </Link>
+                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
             </Menu>
