@@ -9,6 +9,7 @@ import SignUp from './connexion/SignUp';
 import { PageAccueil } from './accueil/PageAccueil';
 import "./output.css"
 import { AdminPage } from './admin/AdminPage';
+import PlanningPage from './planning/PlanningPage'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<PageAccueil />}/>
           <Route path="/signin" element={<SignIn />} />
+          <Route path="/planning" element={<PlanningPage />}/>
           <Route path="/signup" element={<SignUp />} />
           <Route path="admin" element={<AdminPage />} />
         </Routes>
