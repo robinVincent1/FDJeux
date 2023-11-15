@@ -10,18 +10,26 @@ import { PageAccueil } from './accueil/PageAccueil';
 import "./output.css"
 import { AdminPage } from './admin/AdminPage';
 import PlanningPage from './planning/PlanningPage'
+import  Navbar  from './layout/Navbar';
 
 function App() {
   return (
     <div>
       <Router>
+        <header>
+          <Navbar />
+        </header>
+        <main>
         <Routes>
           <Route path="/" element={<PageAccueil />}/>
           <Route path="/signin" element={<SignIn />} />
           <Route path="/planning" element={<PlanningPage />}/>
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/logout" element={<PageAccueil />} />
+          <Route path='/profil' element={<PageAccueil />} />
           <Route path="admin" element={<AdminPage />} />
         </Routes>
+        </main>
       </Router>
     </div>
   );
