@@ -7,6 +7,7 @@ import "../output.css"
 export const PageAccueil = () => {
 
     return (
+
         <div>
 
         </div>
