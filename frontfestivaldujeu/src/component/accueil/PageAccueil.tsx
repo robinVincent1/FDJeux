@@ -3,7 +3,7 @@ import "../output.css"
 
 export const PageAccueil = () => {
     return (
-        <div className="border">
+        <div className="border p-">
             <Link to="/signin">
                 Connexion 
             </Link>
