@@ -67,10 +67,13 @@ interface CreneauProps {
                 >
                 <ModalClose />
                 <Typography id="modal-modal-title" variant="h6" component="h2">
-                    Modal title
+                {ouvert?"Ouvert":"Fermé"} / {titre} / {jour} {horaire} ({nb_inscrit}/{nb_max})
                 </Typography>
                 <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            {list_benevole.map((benevole) => (
+                <Typography>{benevole.prenom} ({benevole.pseudo})</Typography>
+            ))}
+                <Typography>Referent : {referent.prenom} ({referent.pseudo})</Typography>
                 </Typography>
             </ModalDialog>
         </Modal>
