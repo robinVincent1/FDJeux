@@ -9,7 +9,7 @@ import SignUp from './connexion/SignUp';
 import { PageAccueil } from './accueil/PageAccueil';
 import "./output.css"
 import { AdminPage } from './admin/AdminPage';
-import PlanningPage from './planning/PlanningPage'
+import PlanningPage from './planning/PlanningPage';
 import  Navbar  from './layout/Navbar';
 import { ProfilPage } from './profil/ProfilPage';
 import { NewsPage } from './news/NewsPage';
@@ -28,9 +28,11 @@ function App() {
           <Route path="/planning" element={<PlanningPage />}/>
           <Route path="/signup" element={<SignUp />} />
           <Route path='/profil' element={<ProfilPage />} />
-          <Route path="/admin" element={<AdminPage />} />
           <Route path="/news" element={<NewsPage />}/>
-        </Routes>
+          <Route path="admin" element={<AdminPage />} />
+          </Routes>
+
+
         </main>
       </Router>
     </div>
