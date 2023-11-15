@@ -6,17 +6,27 @@ import ModalClose from '@mui/joy/ModalClose';
 import Button from '@mui/joy/Button';
 import Typography from '@mui/material/Typography';
 import Input from '@mui/material/Input';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 interface PlanningProps {
+  //list_jours
   list_jours:{id:number,nom:string,list_horaire:[number,number][]}[]
 }
 
-let list_ligne=[{key:1,titre:"Animation Jeux"},{key:2,titre:"Forum"}]
+let list_ligne: { key: any; titre: string; }[] | { key: number; }[]=[]
+let week =["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"]
+let planningweek=["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"]
 
 const PlanningPage : React.FC<PlanningProps> = ({
   list_jours
 })  => {
+  week = planningweek.filter((jour) => !list_jours.some((jour2) => jour2.nom === jour));
   const [inputValue, setInputValue] = useState<string>('');
+  const [selectedValue, setSelectedValue] = useState<string>('');
   const [inputValueHoraire_Debut, setInputValueHoraire_Debut] = useState<string>('');
   const [inputValueHoraire_Fin, setInputValueHoraire_Fin] = useState<string>('');
   const [openModals, setOpenModals] = useState<{ [key: number]: boolean }>({});
@@ -62,10 +72,14 @@ const PlanningPage : React.FC<PlanningProps> = ({
   }
 
   function addtolistligne (){
+    if (list_ligne.length === 0){
+      list_ligne.push({key:0,titre:inputValue})
+    }
+    else{
     const newkey = list_ligne[list_ligne.length -1].key  + 1
     list_ligne.push({key:newkey,titre:inputValue})
-    console.log(list_ligne)
     setInputValue("");
+    }
   }
 
 
@@ -79,10 +93,25 @@ const PlanningPage : React.FC<PlanningProps> = ({
   }
 
   function addtolistjour (){
+    if (list_jours.length === 0){
+      list_jours.push({id:0,nom:selectedValue,list_horaire:[]})
+    }
+    else{
     const newkey = list_jours[list_jours.length -1].id  + 1
-    list_jours.push({id:newkey,nom:inputValue,list_horaire:[]})
-    setInputValue("");
+    list_jours.push({id:newkey,nom:selectedValue,list_horaire:[]})
+    }
+    setSelectedValue("");
+    //Remove from week all the days in the list_jour list
+      planningweek = planningweek.filter((jour) => !list_jours.some((jour2) => jour2.nom === jour));
+
+  
   }
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setSelectedValue(event.target.value as string);
+  };
+
+
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -91,7 +120,7 @@ const PlanningPage : React.FC<PlanningProps> = ({
   <colgroup span={list_jours.length}></colgroup>
   <thead className="text-xs text-white uppercase bg-blue-600 border-b border-blue-400 dark:text-white">
   <tr>
-  <td rowSpan={list_jours.length}></td>
+  <td rowSpan={list_jours.length+1}></td>
     {list_jours.map((jour)=> (
           <th colSpan={jour.list_horaire.length} scope="colgroup" className="px-6 py-3 bg-blue-500">
             {jour.nom}
@@ -136,7 +165,21 @@ const PlanningPage : React.FC<PlanningProps> = ({
                 variant="plain"
                 >
               Ajouter un jour
-              <Input type="text" placeholder="Jour"  value={inputValue} onChange={handleInput} />
+              <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Jour</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={selectedValue}
+                  label="Jour"
+                  onChange={handleChange}
+                >
+              {week.map((jour)=> (
+                <MenuItem value={jour}>{jour}</MenuItem>
+              ))}
+
+            </Select>
+</FormControl>
               
                 <Button color="danger" onClick={handleCloseModal_Jour}>
                   Fermé
@@ -152,6 +195,7 @@ const PlanningPage : React.FC<PlanningProps> = ({
       </th>
   </tr>
   <tr>
+    
     {list_jours.map((jour)=> (
       <>
         {jour.list_horaire.map((horaire) => (
@@ -166,7 +210,7 @@ const PlanningPage : React.FC<PlanningProps> = ({
   </thead>
   <tbody>
   {list_ligne.map((ligne)=> (
-    <LignePlanning titre={ligne.titre} nb_creneaux={nbColonne}/>
+    'titre' in ligne && <LignePlanning titre={ligne.titre} nb_creneaux={nbColonne}/>
     ))}
           <Button onClick={handleOpenModal_Ligne} color="danger">Ajouter une ligne</Button>
       <Modal 
