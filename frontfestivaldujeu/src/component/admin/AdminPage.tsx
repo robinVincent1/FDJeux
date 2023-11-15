@@ -9,6 +9,8 @@ export type User = {
     image: string;
     pseudo: string;
     role: string;
+    adressePostale: string;
+    association: string;
 
 }
 
@@ -19,7 +21,9 @@ const lucas : User = {
     password: "kcndnc",
     image: "jcdsc",
     pseudo: "robinvincent",
-    role: "Référent"
+    role: "Référent",
+    adressePostale: "",
+    association: "",
 }
 
 const robin : User = {
@@ -29,7 +33,9 @@ const robin : User = {
   password: "kcndnc",
   image: "jcdsc",
   pseudo: "robinvincent",
-  role: "Admin"
+  role: "Admin",
+  adressePostale: "",
+  association: "",
 }
 
 const lilian : User = {
@@ -39,7 +45,9 @@ const lilian : User = {
   password: "kcndnc",
   image: "jcdsc",
   pseudo: "robinvincent",
-  role: "Réspo soirée"
+  role: "Réspo soirée",
+  adressePostale: "",
+  association: "",
 }
 
 const samy : User = {
@@ -49,7 +57,9 @@ const samy : User = {
   password: "kcndnc",
   image: "jcdsc",
   pseudo: "robinvincent",
-  role: "Bénévole Accueil"
+  role: "Bénévole Accueil",
+  adressePostale: "",
+  association: "",
 }
 
 const romain : User = {
@@ -59,7 +69,9 @@ const romain : User = {
   password: "kcndnc",
   image: "jcdsc",
   pseudo: "robinvincent",
-  role: "Bénévole"
+  role: "Bénévole",
+  adressePostale: "",
+  association: "",
 }
 
 

@@ -11,6 +11,7 @@ import "./output.css"
 import { AdminPage } from './admin/AdminPage';
 import PlanningPage from './planning/PlanningPage'
 import  Navbar  from './layout/Navbar';
+import { ProfilPage } from './profil/ProfilPage';
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
           <Route path="/planning" element={<PlanningPage />}/>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/logout" element={<PageAccueil />} />
-          <Route path='/profil' element={<PageAccueil />} />
+          <Route path='/profil' element={<ProfilPage />} />
           <Route path="admin" element={<AdminPage />} />
         </Routes>
         </main>

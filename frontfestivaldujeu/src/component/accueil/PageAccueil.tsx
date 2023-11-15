@@ -5,7 +5,6 @@ import Navbar from "../layout/Navbar"
 export const PageAccueil = () => {
     return (
         <div className="border">
-            <Navbar/>
         </div>
     )
 }

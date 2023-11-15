@@ -151,9 +151,13 @@ export default function SignUp() {
                   id="adPostale"
                 />
               </Grid>
-              <div className="p-16">
+              <div>
+              <div className="p-2 pl-4">
                 <Dropdown />
-                <Dropdown2 propo={SetProposition} />
+              </div>
+              <div className=" pl-4">
+              <Dropdown2 propo={SetProposition} />
+              </div>
               </div>
               {Proposition && (
                   <Grid item xs={12}>
