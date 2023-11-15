@@ -9,7 +9,7 @@ import SignUp from './connexion/SignUp';
 import { PageAccueil } from './accueil/PageAccueil';
 import "./output.css"
 import { AdminPage } from './admin/AdminPage';
-import PlanningPage from './planning/PlanningPage'
+import {PlanningPage} from './planning/PlanningPage'
 import  Navbar  from './layout/Navbar';
 
 function App() {
