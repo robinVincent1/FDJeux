@@ -12,6 +12,7 @@ import { AdminPage } from './admin/AdminPage';
 import PlanningPage from './planning/PlanningPage'
 import  Navbar  from './layout/Navbar';
 import { ProfilPage } from './profil/ProfilPage';
+import { NewsPage } from './news/NewsPage';
 
 function App() {
   return (
@@ -22,13 +23,13 @@ function App() {
         </header>
         <main>
         <Routes>
-          <Route path="/" element={<PageAccueil />}/>
-          <Route path="/signin" element={<SignIn />} />
+          <Route path="/" element={<SignIn />} />
+          <Route path="/accueil" element={<PageAccueil />} />
           <Route path="/planning" element={<PlanningPage />}/>
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/logout" element={<PageAccueil />} />
           <Route path='/profil' element={<ProfilPage />} />
-          <Route path="admin" element={<AdminPage />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/news" element={<NewsPage />}/>
         </Routes>
         </main>
       </Router>

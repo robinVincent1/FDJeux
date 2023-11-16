@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from "react-router-dom";
 
-const pages = [{title:'Accueil',href:'/'},{title:'Planning',href:'/planning'}];
+const pages = [{title:'Accueil',href:'/accueil'},{title:'Planning',href:'/planning'}];
 const settings = [{title:'Mon profil',href:'/profil'}, {title:'Se déconnecter',href:'/logout'}];
 
 function Navbar() {

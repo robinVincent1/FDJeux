@@ -17,6 +17,7 @@ const robin: User = {
   role: "Admin",
   adressePostale: "167 avenue abbé Paul Parguel",
   association: "Aucune",
+  nbEdition: 3,
 };
 
 export const ProfilPage = () => {
@@ -55,7 +56,7 @@ export const ProfilPage = () => {
   return (
     <div className="border">
       <div className="flex justify-center p-4">
-        <img className="w-64 h-64" src="/profil-picture.jpg" />
+        <img className="w-32 h-32" src="/profil-picture.jpg" />
       </div>
       <div className="flex justify-center">
         <div className=" justify-center p-4">
@@ -65,6 +66,10 @@ export const ProfilPage = () => {
         <div className=" justify-center p-4">
           <p className="p-4">Role  </p>
           <p className="border-2 border-black rounded p-4">{user.role}</p>
+        </div>
+        <div className=" justify-center p-4">
+          <p className="p-4">Edition  </p>
+          <p className="border-2 border-black rounded p-4">{user.nbEdition}</p>
         </div>
       </div>
 

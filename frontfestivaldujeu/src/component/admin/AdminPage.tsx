@@ -12,6 +12,7 @@ export type User = {
     adressePostale: string;
     association: string;
     telephone: string;
+    nbEdition: number;
 
 }
 
@@ -25,7 +26,8 @@ const lucas : User = {
     role: "Référent",
     adressePostale: "",
     association: "",
-    telephone: "0682165431"
+    telephone: "0682165431",
+    nbEdition: 3,
 }
 
 const robin : User = {
@@ -38,7 +40,8 @@ const robin : User = {
   role: "Admin",
   adressePostale: "",
   association: "",
-  telephone: "0682165431"
+  telephone: "0682165431",
+  nbEdition: 3,
 }
 
 const lilian : User = {
@@ -51,7 +54,8 @@ const lilian : User = {
   role: "Réspo soirée",
   adressePostale: "",
   association: "",
-  telephone: "0682165431"
+  telephone: "0682165431",
+  nbEdition: 3,
 }
 
 const samy : User = {
@@ -64,7 +68,8 @@ const samy : User = {
   role: "Bénévole Accueil",
   adressePostale: "",
   association: "",
-  telephone: "0682165431"
+  telephone: "0682165431",
+  nbEdition: 3,
 }
 
 const romain : User = {
@@ -77,7 +82,8 @@ const romain : User = {
   role: "Bénévole",
   adressePostale: "",
   association: "",
-  telephone: "0682165431"
+  telephone: "0682165431",
+  nbEdition: 3,
 }
 
 
