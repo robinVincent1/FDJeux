@@ -38,7 +38,7 @@ export const CreerNews = () => {
       </div>
       <div className="flex justify-center">
         <button
-          className="hover:bg-black border-black border hover:text-white p-2 rounded"
+          className="hover:bg-[#3379FF] text-[#3379FF] border-[#3379FF] border-2 hover:text-white p-2 rounded"
           onClick={handleAjouterClick}
         >
           Ajouter

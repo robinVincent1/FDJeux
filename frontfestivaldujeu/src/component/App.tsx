@@ -13,6 +13,7 @@ import PlanningPage from './planning/PlanningPage'
 import  Navbar  from './layout/Navbar';
 import { ProfilPage } from './profil/ProfilPage';
 import { CreerNewsPage } from './news/CreerNewsPage';
+import { NewsPage } from './news/NewsPage';
 
 function App() {
   return (
@@ -29,7 +30,8 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path='/profil' element={<ProfilPage />} />
           <Route path="/admin" element={<AdminPage />} />
-          <Route path="/CreerNews" element={<CreerNewsPage />}/>
+          <Route path="/creerNews" element={<CreerNewsPage />}/>
+          <Route path="/news" element={<NewsPage />}/>
         </Routes>
         </main>
       </Router>
