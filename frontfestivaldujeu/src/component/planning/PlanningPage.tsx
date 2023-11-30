@@ -1,7 +1,7 @@
 import React from 'react'
 import Planning from './Planning'
 
-export const PlanningPage = () => {
+export const PlanningGeneralPage = () => {
   return (
     <div><Planning list_jours={[]}/></div>
   )
