@@ -44,7 +44,7 @@ const LignePlanning: React.FC<LigneProps> = ({
       for (let i = 0; i < nb_creneaux; i++) {
         creneaux.push(
           <td key={i} className="px-6 py-4 bg-blue-500">
-            <Creneau ouvert={true} horaire="9h-11h" jour="Samedi" titre={titre} nb_max={15} nb_inscrit={8} />
+            <Creneau ouvert={true} horaire="9h-11h" jour="Samedi" titre={titre} nb_max={15} nb_inscrit={8} list_benevole={[]} />
           </td>
         );
       }

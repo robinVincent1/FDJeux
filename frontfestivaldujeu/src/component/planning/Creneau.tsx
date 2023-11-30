@@ -20,6 +20,8 @@ interface CreneauProps {
     titre: string;
     nb_max: number;
     nb_inscrit: number;
+    list_benevole : {prenom:string,pseudo:string}[]
+    referent? : {prenom:string,pseudo:string,email:string}
   }
   
   const Creneau: React.FC<CreneauProps> = ({
@@ -28,7 +30,9 @@ interface CreneauProps {
     jour,
     titre,
     nb_max,
-    nb_inscrit
+    nb_inscrit,
+    list_benevole,
+    referent
   }) => {
         const [open, setOpen] = React.useState(false);
         const [openModifier, setOpenModifier] = React.useState(false);
@@ -37,8 +41,6 @@ interface CreneauProps {
         const handleClose = () => setOpen(false);
         const handleOpenModifier = () => setOpenModifier(true);
         const handleCloseModifier = () => setOpenModifier(false);
-        const list_benevole=[{prenom:"Lilian",pseudo:"Lilianmnr"},{prenom:"Robin",pseudo:"RobinV"},{prenom:"Lucas",pseudo:"LucasV"}]
-        const referent={prenom:"Roger",pseudo:"Rogermnr",email:"rogermnr@gmail.com"}
         let ouvertlocal : boolean = ouvert
       
 
@@ -96,7 +98,7 @@ interface CreneauProps {
               </Typography>
                 
             ))}
-                <Typography>Referent : {referent.prenom} ({referent.pseudo})</Typography>
+                <Typography>Referent : {referent?.prenom} ({referent?.pseudo})</Typography>
                 </Typography>
                 <Button onClick={handleOpenModifier}>Modifié</Button>
                   <Modal

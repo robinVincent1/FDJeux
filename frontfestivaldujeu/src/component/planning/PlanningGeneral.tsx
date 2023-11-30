@@ -15,14 +15,16 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 interface PlanningProps {
   //list_jours
   list_jours:{id:number,nom:string,list_horaire:[number,number][]}[]
+  list_ligne: { key: any; titre: string; }[]
 }
 
-let list_ligne: { key: any; titre: string; }[] | { key: number; }[]=[]
+
 let week =["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"]
 let planningweek=["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"]
 
-const PlanningPage : React.FC<PlanningProps> = ({
-  list_jours
+const PlanningGeneral : React.FC<PlanningProps> = ({
+  list_jours,
+  list_ligne
 })  => {
   week = planningweek.filter((jour) => !list_jours.some((jour2) => jour2.nom === jour));
   const [inputValue, setInputValue] = useState<string>('');
@@ -225,7 +227,6 @@ const PlanningPage : React.FC<PlanningProps> = ({
                 >
               Ajouter une ligne
               <Input type="text" placeholder="Nom de la ligne"  value={inputValue} onChange={handleInput} />
-              
                 <Button color="danger" onClick={handleCloseModal_Ligne}>
                   Fermé
                 </Button>
@@ -243,4 +244,4 @@ const PlanningPage : React.FC<PlanningProps> = ({
   )
 }
 
-export default PlanningPage;
+export default PlanningGeneral;

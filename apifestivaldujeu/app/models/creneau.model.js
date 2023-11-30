@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const PlanningGeneralLigneModel = require('./PlanningGeneralLigne.model')(sequelize, Sequelize);
 
 module.exports = (sequelize, Sequelize) => {
   const Creneau = sequelize.define('creneau', {
@@ -32,6 +33,7 @@ module.exports = (sequelize, Sequelize) => {
   });
 
 Creneau.belongsToMany(User, {as : 'Benevoles', through : 'CreneauBenevole'});
+Creneau.belongsTo(PlanningGeneralLigneModel, { as: 'PlanningGeneralLigne' });
 
   return Creneau;
 };
