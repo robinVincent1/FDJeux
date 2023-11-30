@@ -12,7 +12,7 @@ import { AdminPage } from './admin/AdminPage';
 import PlanningPage from './planning/PlanningPage'
 import  Navbar  from './layout/Navbar';
 import { ProfilPage } from './profil/ProfilPage';
-import { NewsPage } from './news/NewsPage';
+import { CreerNewsPage } from './news/CreerNewsPage';
 
 function App() {
   return (
@@ -29,7 +29,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path='/profil' element={<ProfilPage />} />
           <Route path="/admin" element={<AdminPage />} />
-          <Route path="/news" element={<NewsPage />}/>
+          <Route path="/CreerNews" element={<CreerNewsPage />}/>
         </Routes>
         </main>
       </Router>
