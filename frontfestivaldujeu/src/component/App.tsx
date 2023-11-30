@@ -14,6 +14,7 @@ import  Navbar  from './layout/Navbar';
 import { ProfilPage } from './profil/ProfilPage';
 import { CreerNewsPage } from './news/CreerNewsPage';
 import { NewsPage } from './news/NewsPage';
+import { PageForum } from './forum/PageForum';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/creerNews" element={<CreerNewsPage />}/>
           <Route path="/news" element={<NewsPage />}/>
+          <Route path="forum" element={<PageForum />} />
         </Routes>
         </main>
       </Router>
