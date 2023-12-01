@@ -69,23 +69,24 @@ export const PageForum = () => {
 
   return (
     <div>
-      <div className="pt-8 ml-16 mr-16 flex justify-center">
-        <TextField
-          onChange={handlob}
-          fullWidth
-          label="Quel est l'objet de votre question ?"
-          id="fullWidth"
-          size="medium"
-          style={{ width: "50%", margin: "auto" }}
-        />
-      </div>
-      <div className="pt-2 ml-16 mr-16 flex">
+        <h1 className="flex justify-center p-4 font-bold text-2xl"> FORUM</h1>
+      <div className="pt-8 ml-16 mr-16  flex">
         <TextField
           onChange={handleq}
           fullWidth
           label="Posez votre question ici !"
           id="fullWidth"
           size="medium"
+        />
+      </div>
+      <div className="pt-2 ml-16 pb-8 mr-16 flex justify-center">
+        <TextField
+          onChange={handlob}
+          fullWidth
+          label="Quel est l'objet de votre question ?"
+          id="fullWidth"
+          size="medium"
+          style={{ width: "50%" }}
         />
         <button
           className="ml-4 border-2 rounded p-2 border-[#3379FF] hover:text-white hover:bg-[#3379FF] text-[#3379FF]"
