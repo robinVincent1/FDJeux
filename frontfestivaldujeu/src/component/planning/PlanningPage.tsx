@@ -7,3 +7,4 @@ export const PlanningGeneralPage = () => {
   )
 }
 //[{id:0,nom:"Samedi",list_horaire:[[9,11],[11,14]] }, {id:1,nom:"Dimanche",list_horaire:[[9,11],[14,17]]}]
+//[{id:0,nom:"Samedi",list_horaire:[[9,11],[11,14]] }, {id:1,nom:"Dimanche",list_horaire:[[9,11],[14,17]]}]

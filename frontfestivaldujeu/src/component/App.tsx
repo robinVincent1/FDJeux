@@ -9,10 +9,12 @@ import SignUp from './connexion/SignUp';
 import { PageAccueil } from './accueil/PageAccueil';
 import "./output.css"
 import { AdminPage } from './admin/AdminPage';
-import {PlanningGeneralPage} from './planning/PlanningPage'
+import {PlanningGeneralPage} from './planning/PlanningPage';
 import  Navbar  from './layout/Navbar';
 import { ProfilPage } from './profil/ProfilPage';
+import { CreerNewsPage } from './news/CreerNewsPage';
 import { NewsPage } from './news/NewsPage';
+import { PageForum } from './forum/PageForum';
 import { PlanningPersoPage } from './planning/PlanningPersoPage';
 
 function App() {
@@ -30,11 +32,11 @@ function App() {
           <Route path="/planning_perso" element={<PlanningPersoPage />}/>
           <Route path="/signup" element={<SignUp />} />
           <Route path='/profil' element={<ProfilPage />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/creerNews" element={<CreerNewsPage />}/>
           <Route path="/news" element={<NewsPage />}/>
-          <Route path="admin" element={<AdminPage />} />
-          </Routes>
-
-
+          <Route path="forum" element={<PageForum />} />
+        </Routes>
         </main>
       </Router>
     </div>
