@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect, FormEvent } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,32 +11,54 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { useNavigate } from 'react-router-dom';
 
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        FestivalDuJeux
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+interface SignInProps {}
 
+function SignIn(props: SignInProps) {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
+  const [err, setErr] = useState<string>('');
 
-
-
-export default function SignIn() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      console.log("j'essai d'envoyer le message")
+      const response = await fetch('http://localhost:8080/user/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await response.json();
+      if (response.ok) {
+        localStorage.setItem('token', data.accessToken);
+        navigate('/home');
+        console.log('Connexion réussie');
+      } else {
+        console.log('Identifiants de connexion invalides');
+        throw new Error(data.errors || 'Erreur identification');
+      }
+    } catch (error: any) {
+      console.error(error);
+      setErr(error.message);
+    }
   };
+
+  useEffect(() => {
+    const nav = document.querySelector('nav');
+    if (nav) {
+      nav.style.display = 'none';
+    }
+
+    return () => {
+      if (nav) {
+        nav.style.display = 'block';
+      }
+    };
+  }, [navigate]);
 
   return (
     <div>
@@ -50,42 +72,47 @@ export default function SignIn() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ margin: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Connexion
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ marginTop: 1 }}>
             <TextField
               margin="normal"
               required
               fullWidth
               id="email"
-              label="Adresse email "
+              label="Adresse email"
               name="email"
               autoComplete="email"
               autoFocus
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="Mot de passe"
+              name="password"
               label="Mot de passe"
               type="password"
               id="password"
               autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            {err && <p style={{ color: 'red' }}>{err}</p>}
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ marginTop: 3, marginBottom: 2 }}
             >
               Connexion
             </Button>
@@ -103,8 +130,9 @@ export default function SignIn() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
-      </div>
+    </div>
   );
 }
+
+export default SignIn;

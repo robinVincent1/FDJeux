@@ -56,10 +56,22 @@ const create = async (req, res) => {
     if (alreadyCreate) errors.push('Email already used !');
 
     if (errors.length > 0) throw new Error(errors);
+    if (!req.body.firstName) errors.push('First name is required');
+    if (!req.body.lastName) errors.push('Last name is required');
 
     const user = await User.create({
       email: req.body.email,
       password: req.body.password,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      association: req.body.association,
+      nbEdition: req.body.nbEdition,
+      pseudo: req.body.pseudo,
+      postalAdress: req.body.postalAdress,
+      propo: req.body.propo,
+      telephone: req.body.telephone,
+      photoProfil: req.body.photoProfil,
+
     });
 
     const token = jwt.sign({ id: user.idUser, admin : user.role === 'admin' }, process.env.JWT_SECRET, { expiresIn: '24h' });

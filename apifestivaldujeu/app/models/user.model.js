@@ -28,6 +28,36 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.DataTypes.ENUM('user', 'admin'),
       defaultValue: 'user',
     },
+    firstName: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    lastName: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    nbEdition: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+    },
+    pseudo: {
+      type: Sequelize.STRING,
+    },
+    postalAdress: {
+      type: Sequelize.STRING,
+    },
+    propo: {
+      type: Sequelize.STRING,
+    },
+    association: {
+      type: Sequelize.STRING,
+    },
+    telephone: {
+      type: Sequelize.STRING,
+    },
+    photoProfil: {
+      type: Sequelize.STRING,
+    },
   });
 
   User.beforeCreate(async user => {
