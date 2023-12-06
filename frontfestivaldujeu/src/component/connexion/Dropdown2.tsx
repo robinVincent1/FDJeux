@@ -22,7 +22,7 @@ const Dropdown2: React.FC<Dropdown2Props> = ({propo}) => {
 
   return (
     <div>
-      <label htmlFor="dropdown">Hebergement :</label>
+      <label className='pr-8' htmlFor="dropdown">Hebergement :</label>
       <select id="dropdown" value={selectedOption} onChange={handleSelectChange}>
         <option value="P">Proposition</option>
         <option value="R">Recherche</option>

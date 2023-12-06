@@ -67,5 +67,7 @@ module.exports = (sequelize, Sequelize) => {
     return (user.password = hash);
   });
 
+  User.belongsToMany(Creneau, {as : 'Creneaux', through : 'CreneauBenevole'});
+
   return User;
 };

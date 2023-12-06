@@ -9,7 +9,7 @@ const Dropdown = () => {
 
   return (
     <div>
-      <label htmlFor="dropdown">Association :</label>
+      <label className='pr-8' htmlFor="dropdown">Association :</label>
       <select id="dropdown" value={selectedOption} onChange={handleSelectChange}>
         <option value="">Aucune</option>
       </select>

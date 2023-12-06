@@ -1,8 +1,10 @@
 import React from 'react'
-import Creneau from './Creneau'
+import Planning from './Planning'
 
-export default function () {
+export const PlanningGeneralPage = () => {
   return (
-    <div><Creneau ouvert={true} horaire="9h-11h" jour="Samedi" titre="oui" nb_max={15} nb_inscrit={8} /></div>
+    <div><Planning list_jours={[]}/></div>
   )
 }
+//[{id:0,nom:"Samedi",list_horaire:[[9,11],[11,14]] }, {id:1,nom:"Dimanche",list_horaire:[[9,11],[14,17]]}]
+//[{id:0,nom:"Samedi",list_horaire:[[9,11],[11,14]] }, {id:1,nom:"Dimanche",list_horaire:[[9,11],[14,17]]}]
