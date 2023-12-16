@@ -10,4 +10,5 @@ module.exports = (sequelize, Sequelize) => {
         
     });
     PlanningGeneral.hasMany(JourModel, { as: 'jours' });
+    return PlanningGeneral;
 };

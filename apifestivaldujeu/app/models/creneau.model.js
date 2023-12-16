@@ -8,6 +8,9 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: true,
       autoIncrement: true,
     },
+    idPlanningGeneralLigne: {
+    type: Sequelize.INTEGER,
+    },
     ouvert:{
         type:Sequelize.BOOLEAN,
     },
