@@ -1,5 +1,6 @@
-const JourModel = require('./Jour.model')(sequelize, Sequelize);
 const sequelize = require('../../db/conn');
+const Sequelize = require('sequelize');
+const Jour = require('./jour.model')(sequelize, Sequelize);
 
 module.exports = (sequelize, Sequelize) => {
     const PlanningGeneral = sequelize.define('planning_general', {
@@ -10,6 +11,6 @@ module.exports = (sequelize, Sequelize) => {
         },
         
     });
-    PlanningGeneral.hasMany(JourModel, { as: 'jours' });
+    PlanningGeneral.hasMany(Jour, { as: 'jours' });
     return PlanningGeneral;
 };

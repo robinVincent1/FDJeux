@@ -38,7 +38,7 @@ module.exports = (sequelize, Sequelize) => {
     },
   }, {timestamps: false});
 
-  Creneau.belongsTo(PlanningGeneralLigneModel, { as: 'PlanningGeneralLigne' });
+  Creneau.belongsTo(PlanningGeneralLigneModel, { as: 'Creneaux' });
   Creneau.hasMany(User, { as: 'users' })
 
   return Creneau;
