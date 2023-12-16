@@ -7,7 +7,7 @@ const app = express();
 const init = require('./init');
 
 const allowedOrigins = [
-  'http://localhost:4000',
+  'http://localhost:3000',
 ];
 
 app.use(cors({
@@ -27,6 +27,8 @@ db.sequelize
 app.get('/', function (req, res) {
   res.send('Server up');
 });
+
+require('./app/routes/user.route')(app);
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
