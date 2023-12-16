@@ -1,10 +1,17 @@
 import React, { useState } from "react";
-import { TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 
 export const CreerNews = () => {
-
   const [titre, setTitre] = useState("");
   const [description, setDescription] = useState("");
+
+  const handleTitreChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitre(e.target.value);
+  };
+
+  const handleDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDescription(e.target.value);
+  };
 
   const handleAjouterClick = () => {
     console.log("Titre:", titre);
@@ -13,36 +20,38 @@ export const CreerNews = () => {
 
   return (
     <div>
-      <div className="flex justify-center p-4">
+      <div className="pb-4 flex justify-center">
         <TextField
-          id="filled-multiline-flexible"
-          label="Titre"
-          multiline
-          maxRows={4}
-          sx={{ width: "60%", margin: "0px" }}
-          value={titre}
-          onChange={(e) => setTitre(e.target.value)}
+          onChange={handleTitreChange}
+          fullWidth
+          label="Ajoutez le titre ici !"
+          id="fullWidth"
+          size="medium"
+          sx={{ width: "70%" }}
         />
       </div>
-      <div className="flex justify-center pt-8">
+      <div className="pb-4 flex justify-center">
         <TextField
-          id="outlined-multiline-static"
-          label="Description"
+          onChange={handleDescriptionChange}
+          fullWidth
           multiline
           rows={4}
-          defaultValue=""
-          sx={{ width: "80%", height: "200px", margin: "10px" }}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          label="Ajoutez la description ici !"
+          id="fullWidth"
+          size="medium"
+          sx={{ width: "70%" }}
         />
       </div>
       <div className="flex justify-center">
-        <button
-          className="hover:bg-[#3379FF] text-[#3379FF] border-[#3379FF] border-2 hover:text-white p-2 rounded"
+        <Button
           onClick={handleAjouterClick}
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ width: "10%" }}
         >
-          Ajouter
-        </button>
+          Envoyer
+        </Button>
       </div>
     </div>
   );
