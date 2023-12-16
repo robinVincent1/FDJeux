@@ -16,6 +16,10 @@ import { CreerNewsPage } from './news/CreerNewsPage';
 import { NewsPage } from './news/NewsPage';
 import { PageForum } from './forum/PageForum';
 import { PlanningPersoPage } from './planning/PlanningPersoPage';
+import { PageInfos } from './infosPratiques/PageInfos';
+import { CreerInfosPage } from './infosPratiques/CreerInfosPages';
+import {PageHebergement} from './hebergement/PageHebergement';
+import { CreerHebergement } from './hebergement/CreerHebergement';
 
 function App() {
   return (
@@ -36,6 +40,10 @@ function App() {
           <Route path="/creerNews" element={<CreerNewsPage />}/>
           <Route path="/news" element={<NewsPage />}/>
           <Route path="forum" element={<PageForum />} />
+          <Route path="infos" element={<PageInfos />}/>
+          <Route path="creerinfos" element={<CreerInfosPage/>} />
+          <Route path="hebergement" element={<PageHebergement/>} />
+          <Route path="PropositionHebergement" element={<CreerHebergement/>}/>
         </Routes>
         </main>
       </Router>
