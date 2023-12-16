@@ -5,6 +5,7 @@ const Creneau = require('./creneau.model')(sequelize, Sequelize);
 const Jour = require('./jour.model')(sequelize, Sequelize);
 const PlanningGeneralLigne = require('./planning_general_ligne.model')(sequelize, Sequelize);
 const PlanningGeneral = require('./planning_general.model')(sequelize, Sequelize);
+const Horaire = require('./horaire.model')(sequelize, Sequelize);
 
 
 module.exports = {
@@ -12,5 +13,6 @@ module.exports = {
   Creneau,
   Jour,
   PlanningGeneralLigne,
-  PlanningGeneral
+  PlanningGeneral,
+  Horaire
 };

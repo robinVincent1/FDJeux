@@ -1,6 +1,4 @@
-// horaire.model.js
-const sequelize = require('../../db/conn');
-const Sequelize = require('sequelize');
+
 
 module.exports = (sequelize, Sequelize) => {
     const Horaire = sequelize.define('horaire', {
@@ -10,14 +8,20 @@ module.exports = (sequelize, Sequelize) => {
             autoIncrement: true,
         },
         heure_debut: {
-            type: Sequelize.TIME,
+            type: Sequelize.INTEGER,
             allowNull: false,
         },
         heure_fin: {
-            type: Sequelize.TIME,
+            type: Sequelize.INTEGER,
+            allowNull: false,
+        },
+        jourId: {
+            type: Sequelize.INTEGER,
             allowNull: false,
         },
     });
+
+
 
     return Horaire;
 };

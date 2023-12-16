@@ -1,43 +1,48 @@
-const {Jour} = require('../models');
+const { Jour, Horaire } = require('../models');
 
 const create = async (req, res) => {
-    try {
-        const jour = await Jour.create(req.body);
-        res.send(jour);
-    } catch (error) {
-        console.log(error);
-        res.status(400).send({ errors: error.message });
-    }
-}
+  try {
+    const jour = await Jour.create(req.body);
+    res.status(201).json(jour);
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: 'Erreur lors de la création du jour', errors: error.errors });
+  }
+};
 
 const getAllJour = async (req, res) => {
-    try {
-        const jour = await Jour.findAll();
-        res.send(jour);
-    } catch (error) {
-        console.log(error);
-        res.status(400).send({ errors: error.message });
-    }
-}
+  try {
+    const jours = await Jour.findAll();
+    res.status(200).json(jours);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Erreur lors de la récupération des jours', errors: error.errors });
+  }
+};
 
 const deleteById = async (req, res) => {
-    try {
-        const jour = await Jour.findOne({
-        where: {
-            idJour: req.params.id,
-        },
-        });
-        if (!jour) throw new Error('Jour not found');
-        await jour.destroy();
-        res.send(jour);
-    } catch (error) {
-        console.log(error);
-        res.status(400).send({ errors: error.message });
-    }
+  try {
+    const jour = await Jour.findOne({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    if (!jour) {
+      res.status(404).json({ message: 'Jour non trouvé' });
+      return;
     }
 
-    module.exports = {
-        deleteById,
-        create,
-        getAllJour
-    }
+    await jour.destroy();
+    res.status(200).json(jour);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Erreur lors de la suppression du jour', errors: error.errors });
+  }
+};
+
+module.exports = {
+  deleteById,
+  create,
+  getAllJour,
+};

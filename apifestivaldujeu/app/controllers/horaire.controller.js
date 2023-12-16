@@ -1,14 +1,46 @@
 const {Horaire} = require('../models');
 
-const addHoraire = async (req, res) => {
+
+const create = async (req, res) => {
     try {
-        const horaire = await Horaire.create(req.body);
-        res.send(horaire);
+        console.log(req.body.jourId);
+       const horaire = await Horaire.create({
+        heure_debut : req.body.heure_debut,
+        heure_fin : req.body.heure_fin,
+        jourId : req.body.jourId,
+       });
+
+        res.status(201).json(horaire);
     } catch (error) {
-        console.log(error);
-        res.status(400).send({ errors: error.message });
+        console.error(error);
+        res.status(400).json({ message: 'Erreur lors de la création de l\'horaire', errors: error.errors });
     }
 }
+
+const getbyJourId = async (req, res) => {
+    try {
+        const horaires = await Horaire.findAll({
+            where: {
+                jourId: req.params.id,
+            },
+        });
+        res.status(200).json(horaires);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Erreur lors de la récupération des horaires', errors: error.errors });
+    }
+};
+
+const getAllHoraire = async (req, res) => {
+    try {
+        const horaires = await Horaire.findAll();
+        res.status(200).json(horaires);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Erreur lors de la récupération des horaires', errors: error.errors });
+    }
+};
+
 
 
 const deleteById = async (req, res) => {
@@ -61,7 +93,9 @@ const deleteById = async (req, res) => {
     
         module.exports = {
             deleteById,
+            getbyJourId,
             modifyHeureDebut,
             modifyHeureFin,
-            addHoraire,
+            create,
+            getAllHoraire,
         }

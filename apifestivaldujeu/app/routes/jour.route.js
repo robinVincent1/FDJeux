@@ -1,18 +1,15 @@
-const creneau = require('../controllers/creneau.controller');
+
+const controller = require('../controllers/jour.controller');
 const { isLoggedIn, isAdmin } = require('../middleware/auth');
 
 module.exports = app => {
     const router = require('express').Router();
+
+    router.get('/',controller.getAllJour);
     
-    router.get('/',creneau.getAll);
-    
-    router.get('/:id',creneau.getById);
-    
-    router.post('/', creneau.create);
-    
-    router.put('/',creneau.update);
-    
-    router.delete('/:id', creneau.deleteById);
+    router.post('/', controller.create);
+
+    router.delete('/:id', controller.deleteById);
     
     app.use('/jours', router);
     }

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, {useEffect, ChangeEvent, useState } from 'react'
 import LignePlanning from './LignePlanning'
 import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
@@ -12,9 +12,19 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
+interface Horaire {
+  id: number;
+  debut: number;
+  fin: number;
+}
+
+interface Jour {
+  id: number;
+  nom: string;
+  list_horaire: Horaire[];
+}
+
 interface PlanningProps {
-  //list_jours
-  list_jours:{id:number,nom:string,list_horaire:[number,number][]}[]
   list_ligne: { key: any; titre: string; }[]
 }
 
@@ -23,18 +33,24 @@ let week =["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"]
 let planningweek=["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"]
 
 const PlanningGeneral : React.FC<PlanningProps> = ({
-  list_jours,
   list_ligne
 })  => {
-  week = planningweek.filter((jour) => !list_jours.some((jour2) => jour2.nom === jour));
+
   const [inputValue, setInputValue] = useState<string>('');
   const [selectedValue, setSelectedValue] = useState<string>('');
   const [inputValueHoraire_Debut, setInputValueHoraire_Debut] = useState<string>('');
   const [inputValueHoraire_Fin, setInputValueHoraire_Fin] = useState<string>('');
   const [openModals, setOpenModals] = useState<{ [key: number]: boolean }>({});
-  const [nbColonne, setNbColonne] = useState<number>(initnbColonne());
+  const [nbColonne, setNbColonne] = useState<number>(0);
   const [openModal_Ligne, setOpenModal_Ligne] = React.useState(false);
   const [openModal_Jour, setOpenModal_Jour] = React.useState(false);
+  const [list_jours, setListJours] = useState<Jour[]>([]);
+
+  useEffect(() => {
+    getAllJours();
+  }, []);
+
+
 
   const handleOpenModal_Jour = () => setOpenModal_Jour(true);
   const handleCloseModal_Jour = () => setOpenModal_Jour(false);
@@ -65,13 +81,6 @@ const PlanningGeneral : React.FC<PlanningProps> = ({
     setInputValueHoraire_Fin(value);
   }
   
-  function addToListHoraire (list:[number,number][]){
-    list.push([parseInt(inputValueHoraire_Debut),parseInt(inputValueHoraire_Fin)])
-    console.log(list)
-    setNbColonne(nbColonne+1)
-    setInputValueHoraire_Debut("");
-    setInputValueHoraire_Fin("");
-  }
 
   function addtolistligne (){
     if (list_ligne.length === 0){
@@ -86,7 +95,7 @@ const PlanningGeneral : React.FC<PlanningProps> = ({
 
 
 
-  function initnbColonne(){
+  async function initnbColonne(){
     let nbColonne = 0
     for(let i=0;i<list_jours.length;i++){
       nbColonne+=list_jours[i].list_horaire.length
@@ -94,9 +103,45 @@ const PlanningGeneral : React.FC<PlanningProps> = ({
     return nbColonne
   }
 
+  async function fillListhoraire(jourid : number){
+    try{
+      const response = await fetch(`http://localhost:8080/horaire/${jourid}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      const horaireData: Horaire[] = await response.json();
+      return horaireData
+    }
+  }
+
+
+
+  async function addtolisthoraire (jourid : number){
+    try{
+      const response = await fetch('http://localhost:8080/horaire', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        heure_debut: parseInt(inputValueHoraire_Debut),
+        heure_fin: parseInt(inputValueHoraire_Fin),
+        jourId : jourid,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error('Erreur lors de l\'ajout de l\'horaire');
+    }
+    }catch (error) {
+  console.error('Erreur lors de l\'ajout de l\'horaire', error);
+  }
+  }
+
   async function addtolistjour (){
     try{
-      const response = await fetch('http://localhost:8080/jours/', {
+      const response = await fetch('http://localhost:8080/jours', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -114,6 +159,30 @@ const PlanningGeneral : React.FC<PlanningProps> = ({
   console.error('Erreur lors de l\'ajout du jour', error);
   }
   }
+ 
+  async function getAllJours(){
+    try{
+      const response = await fetch('http://localhost:8080/jours', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      const joursData: Jour[] = await response.json();
+      const joursAvecListeHoraire = joursData.map(jour => ({
+        ...jour,
+        list_horaire: jour.list_horaire || [],
+      }));
+      setListJours(joursAvecListeHoraire);
+    ;}
+    catch (error) {
+  console.error('Erreur lors de la récupération des jours', error);
+    }
+  }
+
+
+    
+
 
   const handleChange = (event: SelectChangeEvent) => {
     setSelectedValue(event.target.value as string);
@@ -130,33 +199,30 @@ const PlanningGeneral : React.FC<PlanningProps> = ({
   <tr>
   <td rowSpan={list_jours.length+1}></td>
     {list_jours.map((jour)=> (
-          <th colSpan={jour.list_horaire.length} scope="colgroup" className="px-6 py-3 bg-blue-500">
-            {jour.nom}
-            <Button onClick={() => handleOpenModal_Horaire(jour.id)} color="danger">+</Button>
-            <Modal 
-        open={openModals[jour.id] || false}
-        onClose={() => handleCloseModal_Horaire(jour.id)}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-         <ModalDialog 
-                color="neutral"
-                variant="plain"
+            <th colSpan={jour.list_horaire.length} scope="colgroup" className="px-6 py-3 bg-blue-500">
+              {jour.nom}
+              <Button onClick={() => handleOpenModal_Horaire(jour.id)} color="danger">+</Button>
+              <Modal 
+                open={openModals[jour.id] || false}
+                onClose={() => handleCloseModal_Horaire(jour.id)}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <ModalDialog 
+                  color="neutral"
+                  variant="plain"
                 >
-              Ajouter une horaire
-              <Input className="w-1/2" type="text" placeholder="Heure de début" value={inputValueHoraire_Debut}  onChange={handleInputHoraire_Debut} />
-              <Input className="w-1/2" type="text" placeholder="Heure de fin"  value={inputValueHoraire_Fin} onChange={handleInputHoraire_Fin} />
-                <Button color="danger" onClick={() => handleCloseModal_Horaire(jour.id)}>
-                  Fermé
-                </Button>
-                <Button className="bg-[#6f4ef2] shadow-lg shadow-indigo-500/20" onClick ={  () => {
-                  addToListHoraire(jour.list_horaire);
-                  handleCloseModal_Horaire(jour.id);}}
-                 >
-                  Ajouter
-                </Button>
+                  Ajouter une horaire
+                  <Input className="w-1/2" type="text" placeholder="Heure de début" value={inputValueHoraire_Debut}  onChange={handleInputHoraire_Debut} />
+                  <Input className="w-1/2" type="text" placeholder="Heure de fin"  value={inputValueHoraire_Fin} onChange={handleInputHoraire_Fin} />
+                  <Button color="danger" onClick={() => handleCloseModal_Horaire(jour.id)}>
+                    Fermé
+                  </Button>
+                  <Button className="bg-[#6f4ef2] shadow-lg shadow-indigo-500/20" onClick={() => addtolisthoraire(jour.id)}>
+                    Ajouter
+                  </Button>
                 </ModalDialog>
-      </Modal>
+              </Modal>
 
             </th>
       ))}
@@ -202,13 +268,13 @@ const PlanningGeneral : React.FC<PlanningProps> = ({
       </Modal>
       </th>
   </tr>
-  <tr>
+    <tr>
     
     {list_jours.map((jour)=> (
       <>
         {jour.list_horaire.map((horaire) => (
           <th scope="col" className="px-6 py-3 bg-blue-500">
-          <div>{horaire[0]}h-{horaire[1]}h</div>
+          <div>{horaire.debut}h-{horaire.fin}h</div>
           </th>
         ))}
         
