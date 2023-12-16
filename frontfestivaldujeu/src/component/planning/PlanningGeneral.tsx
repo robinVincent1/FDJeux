@@ -94,19 +94,25 @@ const PlanningGeneral : React.FC<PlanningProps> = ({
     return nbColonne
   }
 
-  function addtolistjour (){
-    if (list_jours.length === 0){
-      list_jours.push({id:0,nom:selectedValue,list_horaire:[]})
-    }
-    else{
-    const newkey = list_jours[list_jours.length -1].id  + 1
-    list_jours.push({id:newkey,nom:selectedValue,list_horaire:[]})
-    }
-    setSelectedValue("");
-    //Remove from week all the days in the list_jour list
-      planningweek = planningweek.filter((jour) => !list_jours.some((jour2) => jour2.nom === jour));
+  async function addtolistjour (){
+    try{
+      const response = await fetch('http://localhost:8080/jours/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        nom: selectedValue
+      
+      }),
+    });
 
-  
+    if (!response.ok) {
+      throw new Error('Erreur lors de l\'ajout du jour');
+    }
+    }catch (error) {
+  console.error('Erreur lors de l\'ajout du jour', error);
+  }
   }
 
   const handleChange = (event: SelectChangeEvent) => {
