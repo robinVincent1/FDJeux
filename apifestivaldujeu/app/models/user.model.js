@@ -1,4 +1,6 @@
 const bcrypt = require('bcrypt');
+const sequelize = require('../../db/conn');
+const Sequelize = require('sequelize');
 
 module.exports = (sequelize, Sequelize) => {
   const User = sequelize.define('user', {
@@ -65,9 +67,7 @@ module.exports = (sequelize, Sequelize) => {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(user.password, salt);
     return (user.password = hash);
-  });
-
-  User.belongsToMany(Creneau, {as : 'Creneaux', through : 'CreneauBenevole'});
+  },{timestamps: false});
 
   return User;
 };

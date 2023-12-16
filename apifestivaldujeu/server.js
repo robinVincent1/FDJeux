@@ -3,6 +3,7 @@ const express = require('express');
 const { db } = require('./app/models');
 const cors = require('cors');
 const app = express();
+const sequelize = require('./db/conn');
 
 const init = require('./init');
 
@@ -12,16 +13,26 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: allowedOrigins
-}))
+}));
 app.use(express.json());
 
-db.sequelize
-  .sync()
-  .then(async () => {
+// Ensure sequelize is properly initialized
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connection to the database has been established successfully.');
+    return sequelize.sync(); // Sync the database
+  })
+  .then(() => {
     console.log('Synced db.');
+    // Start the server after the database is synced
+    const port = process.env.PORT || 8080;
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
   })
   .catch(err => {
-    console.log('Failed to sync db: ' + err.message);
+    console.error('Unable to connect to the database:', err.message);
   });
 
 app.get('/', function (req, res) {
@@ -29,8 +40,3 @@ app.get('/', function (req, res) {
 });
 
 require('./app/routes/user.route')(app);
-
-const port = process.env.PORT || 8080;
-app.listen(port, () => {
-  console.log(`Serveur is running on port ${port}`);
-});

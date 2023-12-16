@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const sequelize = require('../../db/conn');
 
 module.exports = (sequelize, Sequelize) => {
   const Question = sequelize.define('Question', {

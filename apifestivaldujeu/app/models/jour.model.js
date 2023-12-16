@@ -1,4 +1,5 @@
-// jour.model.js
+const sequelize = require('../../db/conn');
+
 module.exports = (sequelize, Sequelize) => {
     const Jour = sequelize.define('jour', {
         id: {

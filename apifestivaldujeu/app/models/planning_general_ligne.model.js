@@ -1,3 +1,5 @@
+const sequelize = require('../../db/conn');
+
 module.exports = (sequelize, Sequelize) => {
     const PlanningGeneralLigne = sequelize.define('planning_general_ligne', {
         idPlanningGeneralLigne:{
