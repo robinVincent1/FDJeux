@@ -10,10 +10,6 @@ const News = require("./news.model")(sequelize, Sequelize);
 const Question = require("./question.model")(sequelize, Sequelize);
 const Reponse = require("./reponse.model")(sequelize, Sequelize);
 
-Question.hasMany(Reponse, { as: 'listeReponse', foreignKey: 'questionId' });
-Reponse.belongsTo(Question, { foreignKey: 'questionId', onDelete: 'CASCADE' });
-
-
 module.exports = {
   User,
   Creneau,

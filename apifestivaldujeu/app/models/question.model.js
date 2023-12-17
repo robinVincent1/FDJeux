@@ -1,4 +1,6 @@
-const Reponse = require('./reponse.model');
+const sequelize = require('../../db/conn');
+const Sequelize  = require('sequelize');
+const Reponse = require('./reponse.model')(sequelize, Sequelize);
 
 module.exports = (sequelize, Sequelize) => {
 const Question = sequelize.define('Question', {

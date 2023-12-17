@@ -1,7 +1,6 @@
-// reponse.model.js
-const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/conn');
-const Question = require('./question.model');
+const Sequelize = require('sequelize');
+const Question = require('./question.model')(sequelize, Sequelize);
 
 module.exports = (sequelize, Sequelize) => {
 const Reponse = sequelize.define('Reponse', {
