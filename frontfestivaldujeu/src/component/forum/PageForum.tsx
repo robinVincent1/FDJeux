@@ -33,6 +33,7 @@ export const PageForum = () => {
     })
       .then((response) => response.json())
       .then((data) => setListe(data))
+      .then((data) => console.log(data))
       .catch((error) =>
         console.error(
           "Erreur lors de la récupération des questions avec réponses :",
@@ -123,7 +124,7 @@ export const PageForum = () => {
         </button>
       </div>
 
-      {liste.map((e, index) => (
+      {liste && liste.map((e, index) => (
         <BlockQuestion key={index} quest={e} />
       ))}
     </div>

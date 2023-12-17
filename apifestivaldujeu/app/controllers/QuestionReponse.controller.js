@@ -1,7 +1,7 @@
 const { Question, Reponse } = require('../models');
 
 // Créer une question sans réponse
-exports.createQuestion = async (req, res) => {
+const createQuestion = async (req, res) => {
   try {
     const { createur, objet, question } = req.body;
 
@@ -15,7 +15,7 @@ exports.createQuestion = async (req, res) => {
 };
 
 // Ajouter de nouvelles réponses à une question existante
-exports.addReponsesToQuestion = async (req, res) => {
+const addReponsesToQuestion = async (req, res) => {
   try {
     const { questionId, reponses } = req.body;
 
@@ -38,7 +38,7 @@ exports.addReponsesToQuestion = async (req, res) => {
 };
 
 // Supprimer une question et ses réponses associées
-exports.deleteQuestionWithReponses = async (req, res) => {
+const deleteQuestionWithReponses = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -63,7 +63,7 @@ exports.deleteQuestionWithReponses = async (req, res) => {
 
 
 // Supprimer uniquement une réponse
-exports.deleteReponse = async (req, res) => {
+const deleteReponse = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -86,11 +86,11 @@ exports.deleteReponse = async (req, res) => {
 
 
 // Récupérer toutes les questions avec leurs réponses associées
-exports.getAllQuestionsWithReponses = async (req, res) => {
+const getAllQuestionsWithReponses = async (req, res) => {
   try {
     // Utiliser la méthode findAll avec include pour récupérer également les réponses
     const questionsWithReponses = await Question.findAll({
-      include: [{ model: Reponse, as: 'reponses' }],
+      include: [{ model: Reponse, as: 'reponse' }],
     });
 
     res.status(200).json(questionsWithReponses);
@@ -99,3 +99,11 @@ exports.getAllQuestionsWithReponses = async (req, res) => {
     res.status(500).json({ error: 'Erreur lors de la récupération des questions avec réponses' });
   }
 };
+
+module.exports = {
+    createQuestion,
+    getAllQuestionsWithReponses,
+    deleteQuestionWithReponses,
+    deleteReponse,
+    addReponsesToQuestion,
+}

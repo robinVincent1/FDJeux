@@ -1,8 +1,10 @@
+const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/conn');
-const Sequelize = require('sequelize');
-const Question = require('./question.model')(sequelize, Sequelize);
 
-module.exports = (sequelize, Sequelize) => {
+
+const defineReponse = (sequelize, Sequelize) => {
+
+
   const Reponse = sequelize.define('Reponse', {
     idReponse: {
       type: Sequelize.INTEGER,
@@ -17,7 +19,7 @@ module.exports = (sequelize, Sequelize) => {
     },
   });
 
-  Reponse.belongsTo(Question, { as: "reponse" });
+  return Reponse;
+};
 
-  return Reponse
-}
+module.exports = defineReponse;
