@@ -14,31 +14,6 @@ exports.createQuestion = async (req, res) => {
   }
 };
 
-
-// Ajouter de nouvelles réponses à une question existante
-exports.addReponsesToQuestion = async (req, res) => {
-  try {
-    const { questionId, reponses } = req.body;
-
-    // Vérifier si la question existe
-    const existingQuestion = await Question.findByPk(questionId);
-    if (!existingQuestion) {
-      return res.status(404).json({ error: 'Question non trouvée' });
-    }
-
-    // Créer les nouvelles réponses associées à la question
-    const nouvellesReponses = await Reponse.bulkCreate(
-      reponses.map((reponse) => ({ ...reponse, questionId }))
-    );
-
-    res.status(201).json(nouvellesReponses);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Erreur lors de l\'ajout de réponses à la question' });
-  }
-};
-
-
 // Ajouter de nouvelles réponses à une question existante
 exports.addReponsesToQuestion = async (req, res) => {
   try {
