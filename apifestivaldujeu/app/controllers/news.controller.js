@@ -1,4 +1,4 @@
-const {News} = require('../models')
+const { News } = require('../models')
 
 
 const getById = async (req, res) => {
@@ -16,22 +16,33 @@ const getById = async (req, res) => {
     }
   };
 
-  createNews = async (req, res) => {
-    try {
-      const { createur, titre, description, favori } = req.body;
-      const newNews = await News.create({
-        createur,
-        titre,
-        description,
-        favori,
-      });
 
+const getAllNews = async (req, res) => {
+  News.findAll()
+    .then((news) => {
+      res.status(200).json(news);
+    })
+    .catch((err) => {
+      res.status(500).json({ message: err.message });
+    });
+};
+
+  const createNews = async (req, res) => {
+    try {
+      const newNews = await News.create({
+        createur: req.body.createur,
+        titre: req.body.titre,
+        description: req.body.description,
+        favori: req.body.favori, 
+      });
+  
       res.status(201).json(newNews);
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Erreur lors de la création de la news' });
     }
   }
+  
 
   updateNews = async (req, res) => {
     try {
@@ -57,7 +68,7 @@ const getById = async (req, res) => {
     }
   }
 
-  deleteNews = async (req, res) => {
+  const deleteNews = async (req, res) => {
     try {
       const newsId = req.params.id;
 
@@ -75,4 +86,4 @@ const getById = async (req, res) => {
     }
   }
 
-  module.exports = { getById, createNews, updateNews, deleteNews}
+  module.exports = { getById, createNews, updateNews, deleteNews, getAllNews}

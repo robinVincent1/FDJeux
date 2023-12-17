@@ -1,14 +1,12 @@
-const db = require('../models');
+const {Infos} = require("../models")
 
-const Infos = db.infos;
 
 // Créer une information
-exports.createInfo = (req, res) => {
-  const { titre, description } = req.body;
+exports.createInfo = async (req, res) => {
 
-  Infos.create({
-    titre,
-    description,
+   const info = await Infos.create({
+    titre : req.body.titre,
+    description: req.body.description,
   })
     .then((info) => {
       res.status(201).json(info);
@@ -19,7 +17,7 @@ exports.createInfo = (req, res) => {
 };
 
 // Récupérer toutes les informations
-exports.getAllInfos = (req, res) => {
+exports.getAllInfos = async (req, res) => {
   Infos.findAll()
     .then((infos) => {
       res.status(200).json(infos);
@@ -70,21 +68,22 @@ exports.updateInfo = (req, res) => {
 };
 
 // Supprimer une information par ID
-exports.deleteInfo = (req, res) => {
+exports.deleteInfo = async (req, res) => {
   const { id } = req.params;
 
-  Infos.findByPk(id)
-    .then((info) => {
-      if (!info) {
-        return res.status(404).json({ message: 'Information non trouvée' });
-      }
+  try {
+    const info = await Infos.findByPk(id);
 
-      return info.destroy();
-    })
-    .then(() => {
-      res.status(204).json({ message: 'Information supprimée avec succès' });
-    })
-    .catch((err) => {
-      res.status(500).json({ message: err.message });
-    });
+    if (!info) {
+      return res.status(404).json({ message: 'Information non trouvée' });
+    }
+
+    await info.destroy();
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+
+  // Envoyer la réponse après la suppression réussie
+  res.status(204).json({ message: 'Information supprimée avec succès' });
 };
+

@@ -1,27 +1,24 @@
-const bcrypt = require('bcrypt');
-const sequelize = require('../../db/conn');
+const Reponse = require('./reponse.model');
 
 module.exports = (sequelize, Sequelize) => {
-  const Question = sequelize.define('Question', {
-    idQuestion:{
+const Question = sequelize.define('Question', {
+  idQuestion: {
     type: Sequelize.INTEGER,
     primaryKey: true,
-    autoIncrement: true, 
-    },
-    createur: {
-        type:Sequelize.USER,
-    },
-    objet: {
-        type:Sequelize.String,
-    },
-    question: {
-        type:Sequelize.String,
-    },
-    listeReponse: {
-        type:Sequelize.ARRAY(Sequelize.Reponse),
-    }
+    autoIncrement: true,
+  },
+  createur: {
+    type: Sequelize.STRING,
+  },
+  objet: {
+    type: Sequelize.STRING,
+  },
+  question: {
+    type: Sequelize.STRING,
+  },
 });
 
+Question.hasMany(Reponse, { as: 'listeReponse', foreignKey: 'questionId' });
 
-  return Question;
-};
+return Question
+}

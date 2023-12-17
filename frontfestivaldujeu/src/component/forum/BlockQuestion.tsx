@@ -39,8 +39,6 @@ export const BlockQuestion = ({ quest }: Props) => {
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       // Add the new comment to the comments list
-      setComments((prevComments) => [...prevComments, newCom]);
-
       // Clear the input field
       setNewCom({ createur: "robin", reponse: "" });
     }

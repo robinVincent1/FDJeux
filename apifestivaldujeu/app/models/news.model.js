@@ -9,16 +9,16 @@ module.exports = (sequelize, Sequelize) => {
     autoIncrement: true, 
     },
     createur: {
-        type:Sequelize.USER,
+        type:Sequelize.STRING,
     },
     titre: {
-        type:Sequelize.String,
+        type:Sequelize.STRING,
     },
     description: {
-        type:Sequelize.String,
+        type:Sequelize.STRING,
     },
     favori: {
-        type:Sequelize.Boolean,
+        type:Sequelize.BOOLEAN,
     }
 });
 

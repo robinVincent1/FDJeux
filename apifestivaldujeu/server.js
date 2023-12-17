@@ -40,3 +40,6 @@ app.get('/', function (req, res) {
 });
 
 require('./app/routes/user.route')(app);
+require('./app/routes/infos.route')(app);
+require('./app/routes/news.route')(app);
+require('./app/routes/questionReponse.route')(app);

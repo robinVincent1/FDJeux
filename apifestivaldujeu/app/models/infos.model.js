@@ -1,19 +1,18 @@
 
 module.exports = (sequelize, Sequelize) => {
-  const Infos = sequelize.define('infos', {
-    idInfos:{
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    autoIncrement: true, 
+  const Infos = sequelize.define('Infos', {
+    idInfos: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
     },
     titre: {
-        type:Sequelize.String,
+      type: Sequelize.STRING,
     },
     description: {
-        type:Sequelize.String,
+      type: Sequelize.STRING,
     },
-});
-
+  });
 
   return Infos;
 };

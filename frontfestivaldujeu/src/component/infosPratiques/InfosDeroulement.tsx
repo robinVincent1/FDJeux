@@ -2,14 +2,38 @@ import React from "react";
 import { Infos } from "./PageInfos";
 import { Button } from "@mui/material";
 
-export const InfosDeroulement = ({ inf }: { inf: Infos }) => {
+interface InfosDeroulementProps {
+    inf: Infos;
+    onDelete: () => void;
+  }
+  
+  export const InfosDeroulement: React.FC<InfosDeroulementProps> = ({ inf, onDelete }) => {
     const admin = true;
-    const handleDeleteInfos = () => {
+    
+    const handleDeleteInfos = async () => {
         const confirmDelete = window.confirm(
           "Etes-vous sur de vouloir supprimer cette information ?"
         );
         if (confirmDelete) {
-          // Add your delete logic here
+            try {
+                const response = await fetch(`http://localhost:8080/infos/${inf.idInfos}`, {
+                  method: "DELETE",
+                  headers: {
+                    "Content-Type": "application/json",
+                    // Ajoutez les en-têtes nécessaires, par exemple un token d'authentification si requis
+                  },
+                });
+          
+                if (response.status === 204) {
+                  // Suppression réussie
+                  onDelete(); // Appeler la fonction onDelete pour mettre à jour l'état parent
+                } else {
+                  // Gérer d'autres statuts de réponse en conséquence
+                  console.error(`Erreur lors de la suppression de l'information. Statut ${response.status}`);
+                }
+              } catch (error: any) {
+                console.error("Erreur lors de la suppression de l'information:", error.message);
+              }
           console.log("Question deleted!");
         }
       };
@@ -29,7 +53,7 @@ export const InfosDeroulement = ({ inf }: { inf: Infos }) => {
                     type="submit"
                     fullWidth
                     variant="contained"
-                    sx={{ width: "30%" }}
+                    sx={{ width: "70%" }}
                 >
                     Supprimer
                 </Button>

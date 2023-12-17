@@ -1,8 +1,44 @@
 import { Button, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Infos } from "./PageInfos";
+
 
 export const CreerInfosPage = () => {
+
+  const createInfo = async (titre: string, description: string) => {
+    try {
+      const response = await fetch('http://localhost:8080/infos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // Ajoutez d'autres en-têtes nécessaires ici
+        },
+        body: JSON.stringify({
+          titre: titre,
+          description: description,
+        }),
+      });
+  
+      if (!response.ok) {
+        // Si la réponse n'est pas dans la plage 200, gérer l'erreur
+        throw new Error(`Erreur lors de la création de l'information: ${response.statusText}`);
+      }
+  
+      // Analyser la réponse JSON
+      const createdInfo = await response.json();
+      console.log('Information créée avec succès:', createdInfo);
+  
+      // Vous pouvez également effectuer d'autres actions ici, par exemple, mettre à jour l'état de votre composant React.
+  
+    } catch (error: any) {
+      console.error('Erreur lors de la création de l\'information:', error.message);
+      // Gérer l'erreur, par exemple, afficher un message à l'utilisateur.
+    }
+  };
+  
+
+
   const navigate = useNavigate(); // Utilisation de useNavigate pour gérer la redirection
 
   const [newTitre, setNewTitre] = useState("");
@@ -16,9 +52,7 @@ export const CreerInfosPage = () => {
   };
 
   const send = () => {
-    // Envoyer à la BD si nécessaire
-
-    // Rediriger vers la page "/accueil"
+    createInfo(newTitre ,newDes)
     navigate("/accueil");
   };
 

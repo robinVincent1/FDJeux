@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../output.css";
 import Navbar from "../layout/Navbar";
@@ -9,34 +9,44 @@ import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 
 type NewsType = {
+  idNews: string;
   titre: string;
   description: string;
   createur: string;
   favori: boolean;
 };
 
-export const newsTest: NewsType = {
-  titre: "Ceci est le titre",
-  description: "Ceci est la descriptionkjbcdbic bdhbcdsjbccbsdkhbcsdkhjc",
-  createur: "Robin Vincent",
-  favori: true,
-};
 
 export const NewsPage = () => {
-  const news = [newsTest, newsTest, newsTest];
+  const [news, setNews] = useState<NewsType[]>([]);
   const [admin, setAdmin] = useState(true);
+
+  useEffect(() => {
+    // Appel API pour récupérer toutes les infos
+    fetch("http://localhost:8080/news")
+      .then((response) => response.json())
+      .then((data) => setNews(data))
+      .then((data) => console.log(data))
+      .catch((error) => console.error("Erreur lors de la récupération des infos :", error));
+  }, []);
+
+  const onDele = () => {
+    window.location.reload();
+  }
 
   return (
     <div>
       <div className=" justify-center ml-8">
-        {news.map((e, index) => {
+        {news.map((e) => {
           return (
-            <div className="p-8" key={index}>
+            <div className="p-8">
               <News
                 titre={e.titre}
                 description={e.description}
                 createur={e.createur}
                 favori={e.favori}
+                id={e.idNews}
+                onDelete={onDele}
               />
             </div>
           );
