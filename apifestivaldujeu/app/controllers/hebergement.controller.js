@@ -1,16 +1,15 @@
-const db = require('../models');
-
-const Hebergement = db.hebergement;
+const {Hebergement} = require('../models');
 
 // Créer un hebergement
 exports.createHebergement = (req, res) => {
-  const { createur, titre, description, adresse } = req.body;
+  const { createur, titre, description, adresse, communication } = req.body;
 
   Hebergement.create({
     createur,
     titre,
     description,
     adresse,
+    communication,
   })
     .then((hebergement) => {
       res.status(201).json(hebergement);
@@ -51,7 +50,7 @@ exports.getHebergementById = (req, res) => {
 exports.updateHebergement = (req, res) => {
   const { id } = req.params;
 
-  const { createur, titre, description, adresse } = req.body;
+  const { createur, titre, description, adresse, communication } = req.body;
 
   Hebergement.findByPk(id)
     .then((hebergement) => {
@@ -63,6 +62,7 @@ exports.updateHebergement = (req, res) => {
       hebergement.titre = titre;
       hebergement.description = description;
       hebergement.adresse = adresse;
+      hebergement.communication = communication
 
       return hebergement.save();
     })

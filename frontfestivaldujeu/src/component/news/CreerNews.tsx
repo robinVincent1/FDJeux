@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Button, TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export const CreerNews = () => {
   const [titre, setTitre] = useState("");
   const [description, setDescription] = useState("");
+  const naviguate = useNavigate();
 
   const handleTitreChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitre(e.target.value);
@@ -34,8 +36,7 @@ export const CreerNews = () => {
       // Analyser la réponse JSON
       const createdNews = await response.json();
       console.log('Information créée avec succès:', createdNews);
-  
-      // Vous pouvez également effectuer d'autres actions ici, par exemple, mettre à jour l'état de votre composant React.
+      naviguate("/news")
   
     } catch (error: any) {
       console.error('Erreur lors de la création de l\'information:', error.message);

@@ -15,7 +15,7 @@ export const News = ({ titre, description, createur, favori, id, onDelete }: Pro
     const [admin, setAdmin] = useState(true);
     const [fav, setFav] = useState(favori);
 
-    const handleDeleteNews = async () => {
+    const handleDeleteNews = async (id: string) => {
         const confirmDelete = window.confirm(
           "Etes-vous sur de vouloir supprimer cette information ?"
         );
@@ -52,7 +52,7 @@ export const News = ({ titre, description, createur, favori, id, onDelete }: Pro
             <div className="">
             {admin ? (
                 <div className="">
-                    <button onClick={handleDeleteNews}>
+                    <button onClick={() => handleDeleteNews(id)}>
                         <DeleteIcon />
                     </button>
                     <button className={`text-${fav ? 'red' : 'black'}-500`}

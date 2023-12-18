@@ -14,7 +14,7 @@ module.exports = app => {
   router.delete('/:id', qrController.deleteQuestionWithReponses);
 
   // Route pour supprimer uniquement une réponse
-  router.delete('/:id/reponses', qrController.deleteReponse);
+  router.delete('/reponse/:id', qrController.deleteReponse);
 
   // Route pour récupérer toutes les questions avec réponses associées
   router.get('/', qrController.getAllQuestionsWithReponses);

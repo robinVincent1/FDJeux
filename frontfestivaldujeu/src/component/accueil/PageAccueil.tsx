@@ -15,19 +15,20 @@ export const PageAccueil = () => {
       .then((response) => response.json())
       .then((data) => setListeInfos(data))
       .then((data) => console.log(data))
-      .catch((error) => console.error("Erreur lors de la récupération des infos :", error));
+      .catch((error) =>
+        console.error("Erreur lors de la récupération des infos :", error)
+      );
   }, []);
 
   const deleteInfo = async (id: string) => {
     try {
       await fetch(`http://localhost:8080/infos/${id}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
 
-      // Recharge la page
-      window.location.reload();
+      setListeInfos((infos) => infos.filter((info) => info.idInfos !== id));
     } catch (error) {
-      console.error('Erreur lors de la suppression de l\'information :', error);
+      console.error("Erreur lors de la suppression de l'information :", error);
     }
   };
 
@@ -37,7 +38,10 @@ export const PageAccueil = () => {
         <InfosDeroulement inf={e} onDelete={() => deleteInfo(e.idInfos)} />
       ))}
       {admin ? (
-        <Link to="/creerinfos" className="text-[#3379FF] p-4 flex justify-center items-center">
+        <Link
+          to="/creerinfos"
+          className="text-[#3379FF] p-4 flex justify-center items-center"
+        >
           <AddCircleRoundedIcon />
         </Link>
       ) : null}

@@ -18,6 +18,9 @@ module.exports = (sequelize, Sequelize) => {
     },
     adresse: {
         type:Sequelize.STRING,
+    },
+    communication : {
+        type: Sequelize.STRING,
     }
 });
 

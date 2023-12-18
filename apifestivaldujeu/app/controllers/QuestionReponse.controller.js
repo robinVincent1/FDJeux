@@ -14,28 +14,31 @@ const createQuestion = async (req, res) => {
   }
 };
 
-// Ajouter de nouvelles réponses à une question existante
+// Ajouter une nouvelle réponse à une question existante
 const addReponsesToQuestion = async (req, res) => {
   try {
-    const { questionId, reponses } = req.body;
+    const { id } = req.params; // Assurez-vous que votre route contient un paramètre "id"
+    const nouvelleReponse = req.body; // Le corps de la requête contient la nouvelle réponse
 
     // Vérifier si la question existe
-    const existingQuestion = await Question.findByPk(questionId);
+    const existingQuestion = await Question.findByPk(id);
     if (!existingQuestion) {
       return res.status(404).json({ error: 'Question non trouvée' });
     }
 
-    // Créer les nouvelles réponses associées à la question
-    const nouvellesReponses = await Reponse.bulkCreate(
-      reponses.map((reponse) => ({ ...reponse, questionId }))
-    );
+    // Créer la nouvelle réponse associée à la question
+    const nouvelleReponseCreee = await Reponse.create({
+      ...nouvelleReponse,
+      questionId: id,
+    });
 
-    res.status(201).json(nouvellesReponses);
+    res.status(201).json(nouvelleReponseCreee);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Erreur lors de l\'ajout de réponses à la question' });
+    res.status(500).json({ error: "Erreur lors de l'ajout de la nouvelle réponse à la question" });
   }
 };
+
 
 // Supprimer une question et ses réponses associées
 const deleteQuestionWithReponses = async (req, res) => {
@@ -44,7 +47,7 @@ const deleteQuestionWithReponses = async (req, res) => {
 
     // Vérifier si la question existe
     const existingQuestion = await Question.findByPk(id, {
-      include: [{ model: Reponse, as: 'reponses' }],
+      include: [{ model: Reponse, as: 'idReponse' }],
     });
 
     if (!existingQuestion) {

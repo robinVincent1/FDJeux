@@ -1,38 +1,78 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { User } from "../admin/AdminPage";
 import { HebergementDeroulement } from "./HebergementDeroulement";
 import { Heber } from "./TypeHebergement";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 
-const robin: User = {
-  id: "1idzhcdzvch",
-  name: "Robin Vincent",
-  email: "robin.vin100@gmail.com",
-  password: "kcndnc",
-  image: "jcdsc",
-  pseudo: "robinvincent",
-  role: "Admin",
-  adressePostale: "",
-  association: "",
-  telephone: "0682165431",
-  nbEdition: 3,
-};
-
-const H: Heber = {
-  createur: robin,
-  titre: "Titre",
-  description: "jbh dsjbc sdjcbsdh sdjkcbshdc jbcjsd jkdsbchsd",
-  adresse: "adresse"
-};
-
 export const PageHebergement = () => {
-  const listeHeber: Heber[] = [H, H, H, H, H, H];
-  const navigate = useNavigate(); // Utilisation de useNavigate pour la navigation
+  const [listeHeber, setListeHeber] = useState<Heber[]>([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Appel API pour récupérer toutes les questions avec réponses
+    fetch("http://localhost:8080/hebergement", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setListeHeber(data);
+        console.log(data);
+      })
+      .catch((error) =>
+        console.error(
+          "Erreur lors de la récupération des hebergements :",
+          error
+        )
+      );
+  }, []);
 
   const handleEnvoyerClick = () => {
-    // Logique pour gérer l'envoi ou la navigation vers "/propositionHebergement"
     navigate("/propositionHebergement");
+  };
+
+  // Fonction pour supprimer un hebergement
+  const deleteHebergement = async (HebergementId: string) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/hebergement/${HebergementId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.status === 200) {
+        console.log("Hebergement supprimée avec succès");
+        return response.json();
+      } else {
+        console.error(
+          `Erreur lors de la suppression de l'hebergement. Statut ${response.status}`
+        );
+      }
+    } catch (error: any) {
+      console.error(
+        "Erreur lors de la suppression de l hebergement :",
+        error.message
+      );
+    }
+  };
+
+  const handleDeleteHebergement = (id: string) => {
+    const confirmDelete = window.confirm(
+      "Etes-vous sur de vouloir supprimer cette proposition ?"
+    );
+    if (confirmDelete) {
+      deleteHebergement(id)
+      .catch((error) => {
+        console.error('Erreur lors de la suppression de l hebergement :', error.message);
+      });
+      setListeHeber((hebergements) => hebergements.filter((heber) => heber.idHebergement !== id))
+    }
   };
 
   return (
@@ -50,7 +90,7 @@ export const PageHebergement = () => {
       </div>
       <div className="flex justify-center"></div>
       {listeHeber.map((e) => (
-        <HebergementDeroulement heber={e} />
+        <HebergementDeroulement heber={e} deleteH={() => handleDeleteHebergement(e.idHebergement)}/>
       ))}
     </div>
   );

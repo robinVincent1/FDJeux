@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../output.css";
 import Navbar from "../layout/Navbar";
 import { News } from "../news/News";
@@ -30,8 +30,9 @@ export const NewsPage = () => {
       .catch((error) => console.error("Erreur lors de la récupération des infos :", error));
   }, []);
 
-  const onDele = () => {
-    window.location.reload();
+  const onDele = (id: string) => {
+    setNews((news) => news.filter((item) => item.idNews !== id)
+  );
   }
 
   return (
@@ -46,7 +47,7 @@ export const NewsPage = () => {
                 createur={e.createur}
                 favori={e.favori}
                 id={e.idNews}
-                onDelete={onDele}
+                onDelete={() => onDele(e.idNews)}
               />
             </div>
           );

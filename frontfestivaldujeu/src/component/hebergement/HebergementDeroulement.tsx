@@ -2,13 +2,14 @@ import { Button } from "@mui/material"
 import React from "react"
 import { Heber } from "./TypeHebergement"
 
-export const HebergementDeroulement = ({heber}: {heber: Heber}) => {
+type Props = {
+    heber: Heber,
+    deleteH: () => void,
+}
+
+export const HebergementDeroulement = ({heber, deleteH} : Props) => {
 
     const admin = true
-
-    const handleDeleteHeber = () => {
-        
-    }
 
     return (
         <div className="border rounded p-2 ml-2 mr-2 mt-2 break-words border-black">
@@ -23,20 +24,17 @@ export const HebergementDeroulement = ({heber}: {heber: Heber}) => {
             </div>
             <div className="p-2">
             <div className="italic">
-                {heber.createur.name}
+                {heber.createur}
             </div>
             <div className="italic">
-                {heber.createur.email}
-            </div>
-            <div className="italic">
-                {heber.createur.telephone}
+                {heber.communication}
             </div>
             </div>
 
             <div className="flex justify-center">
             {admin ? (
                 <Button
-                    onClick={ handleDeleteHeber}
+                    onClick={ deleteH}
                     type="submit"
                     fullWidth
                     variant="contained"

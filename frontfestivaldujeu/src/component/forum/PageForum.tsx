@@ -6,6 +6,7 @@ export type Reponse = {
   idReponse: string;
   createur: string;
   reponse: string;
+  questionId: string;
 };
 
 export type Question = {
@@ -13,7 +14,7 @@ export type Question = {
   objet: string;
   createur: string;
   question: string;
-  listeReponse: Reponse[];
+  idReponse: Reponse[];
 };
 
 export const PageForum = () => {
@@ -32,8 +33,10 @@ export const PageForum = () => {
       },
     })
       .then((response) => response.json())
-      .then((data) => setListe(data))
-      .then((data) => console.log(data))
+      .then((data) => {
+        setListe(data);
+        console.log(data);
+      })      
       .catch((error) =>
         console.error(
           "Erreur lors de la récupération des questions avec réponses :",
@@ -43,9 +46,9 @@ export const PageForum = () => {
   }, []);
 
   const handleSendQuestion = () => {
-    const confirmDelete = window.confirm("Il manque l'objet ou la question !");
-    if (confirmDelete) {
-      console.log("Question deleted!");
+    const confirm = window.confirm("Il manque l'objet ou la question !");
+    if (confirm) {
+      console.log("Question envoyé!");
     }
   };
 
@@ -58,42 +61,74 @@ export const PageForum = () => {
   };
 
   const handleCreerQuestion = async () => {
-    if (newOb == "" || newq == "") {
+    if (newOb === "" || newq === "") {
       handleSendQuestion();
     } else {
       const newQuestion = {
         objet: newOb,
         createur: "robin",
         question: newq,
-        listeReponse: [],
+        idReponse: [],
       };
       try {
         const response = await fetch("http://localhost:8080/qr", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            // Ajoutez d'autres en-têtes nécessaires ici
           },
           body: JSON.stringify(newQuestion),
         });
-
+  
         if (response.status === 201) {
           // La question a été créée avec succès
+          const responseData = await response.json();
           console.log("Question créée avec succès !");
+  
+          // Ajouter la nouvelle question à la liste locale avec l'ID attribué par l'API
+          setListe((prevListe) => [...prevListe, { ...newQuestion, idQuestion: responseData.idQuestion }]);
         } else {
-          // Gérer d'autres statuts de réponse en conséquence
           console.error(
             `Erreur lors de la création de la question. Statut ${response.status}`
           );
         }
       } catch (error: any) {
-        console.error(
-          "Erreur lors de la création de la question :",
-          error.message
-        );
+        console.error("Erreur lors de la création de la question :", error.message);
       }
     }
   };
+  
+    // Fonction pour supprimer une question
+const deleteQuestion = async (questionId: string) => {
+  try {
+    const response = await fetch(`http://localhost:8080/qr/${questionId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (response.status === 200) {
+      console.log('Question supprimée avec succès');
+      return response.json();
+    } else {
+      console.error(`Erreur lors de la suppression de la question. Statut ${response.status}`);
+    }
+  } catch (error: any) {
+    console.error('Erreur lors de la suppression de la question :', error.message);
+  }
+};
+
+const handleDeleteQuestion = (ques: Question) => {
+  const confirmDelete = window.confirm(
+    "Etes-vous sur de vouloir supprimer cette question ?"
+  );
+  if (confirmDelete) {
+    deleteQuestion(ques.idQuestion)
+    .catch((error) => {
+      console.error('Erreur lors de la suppression de la question :', error.message);
+    });
+    setListe((questions) => questions.filter((question) => question.idQuestion !== ques.idQuestion))
+  }
+};
 
   return (
     <div>
@@ -124,8 +159,8 @@ export const PageForum = () => {
         </button>
       </div>
 
-      {liste && liste.map((e, index) => (
-        <BlockQuestion key={index} quest={e} />
+      {liste && liste.map((e) => (
+        <BlockQuestion quest={e} deleteQuestion={() => handleDeleteQuestion(e)}/>
       ))}
     </div>
   );
