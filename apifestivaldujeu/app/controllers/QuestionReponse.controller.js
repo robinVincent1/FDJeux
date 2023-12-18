@@ -90,7 +90,7 @@ const getAllQuestionsWithReponses = async (req, res) => {
   try {
     // Utiliser la méthode findAll avec include pour récupérer également les réponses
     const questionsWithReponses = await Question.findAll({
-      include: [{ model: Reponse, as: 'reponse' }],
+      include: [{ model: Reponse, as: 'idReponse' }],
     });
 
     res.status(200).json(questionsWithReponses);

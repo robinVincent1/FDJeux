@@ -17,6 +17,9 @@ const defineReponse = (sequelize, Sequelize) => {
     reponse: {
       type: Sequelize.STRING,
     },
+    idQuestion: {
+      type: Sequelize.STRING,
+    },
   });
 
   return Reponse;
