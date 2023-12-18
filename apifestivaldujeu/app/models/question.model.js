@@ -22,7 +22,7 @@ const defineQuestion = (sequelize, Sequelize) => {
         },
     });
 ;
-    Question.hasMany(Reponse, { as: 'listReponse', foreignKey: 'idReponse' });
+    Question.hasMany(Reponse, { as: 'idReponse', foreignKey: 'questionId' });
     return Question
 }
 

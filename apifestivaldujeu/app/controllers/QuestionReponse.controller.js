@@ -92,7 +92,7 @@ const getAllQuestionsWithReponses = async (req, res) => {
     const questionsWithReponses = await Question.findAll({
       include: [{ model: Reponse, as: 'idReponse' }],
     });
-
+    console.log(questionsWithReponses);
     res.status(200).json(questionsWithReponses);
   } catch (error) {
     console.error(error);
