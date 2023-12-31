@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import StarIcon from '@mui/icons-material/Star';
+import { NewsType } from "./NewsPage";
 
 type Props = {
     titre: string,
@@ -9,12 +10,11 @@ type Props = {
     favori: boolean,
     id: string,
     onDelete: () => void,
+    onUpdate: (updatedNews: NewsType) => void,
 }
 
-export const News = ({ titre, description, createur, favori, id, onDelete }: Props) => {
+export const News = ({ titre, description, createur, favori, id, onDelete, onUpdate }: Props) => {
     const [admin, setAdmin] = useState(true);
-    const [fav, setFav] = useState(favori);
-
     const handleDeleteNews = async (id: string) => {
         const confirmDelete = window.confirm(
           "Etes-vous sur de vouloir supprimer cette information ?"
@@ -55,9 +55,16 @@ export const News = ({ titre, description, createur, favori, id, onDelete }: Pro
                     <button onClick={() => handleDeleteNews(id)}>
                         <DeleteIcon />
                     </button>
-                    <button className={`text-${fav ? 'red' : 'black'}-500`}
+                    <button className={`text-${favori ? '[red]' : 'black'}`}
                     onClick={() => {
-                        setFav(!fav);
+                        const updateNews : NewsType = {
+                          idNews: id,
+                          createur: createur,
+                          titre: titre,
+                          description: description,
+                          favori: !favori,
+                        };
+                        onUpdate(updateNews);
                     }}
                     >
                         <StarIcon />

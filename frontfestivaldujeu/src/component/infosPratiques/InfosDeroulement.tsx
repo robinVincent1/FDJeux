@@ -53,7 +53,7 @@ interface InfosDeroulementProps {
                     type="submit"
                     fullWidth
                     variant="contained"
-                    sx={{ width: "100%" }}
+                    sx={{ width: "90%" }}
                 >
                     Supprimer
                 </Button>

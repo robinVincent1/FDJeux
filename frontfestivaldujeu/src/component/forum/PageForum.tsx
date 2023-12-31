@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BlockQuestion } from "./BlockQuestion";
 import TextField from "@mui/material/TextField";
+import { Button } from "@mui/material";
 
 export type Reponse = {
   idReponse: string;
@@ -36,7 +37,7 @@ export const PageForum = () => {
       .then((data) => {
         setListe(data);
         console.log(data);
-      })      
+      })
       .catch((error) =>
         console.error(
           "Erreur lors de la récupération des questions avec réponses :",
@@ -78,62 +79,77 @@ export const PageForum = () => {
           },
           body: JSON.stringify(newQuestion),
         });
-  
+
         if (response.status === 201) {
           // La question a été créée avec succès
           const responseData = await response.json();
           console.log("Question créée avec succès !");
-  
+
           // Ajouter la nouvelle question à la liste locale avec l'ID attribué par l'API
-          setListe((prevListe) => [...prevListe, { ...newQuestion, idQuestion: responseData.idQuestion }]);
+          setListe((prevListe) => [
+            ...prevListe,
+            { ...newQuestion, idQuestion: responseData.idQuestion },
+          ]);
         } else {
           console.error(
             `Erreur lors de la création de la question. Statut ${response.status}`
           );
         }
       } catch (error: any) {
-        console.error("Erreur lors de la création de la question :", error.message);
+        console.error(
+          "Erreur lors de la création de la question :",
+          error.message
+        );
       }
     }
   };
-  
-    // Fonction pour supprimer une question
-const deleteQuestion = async (questionId: string) => {
-  try {
-    const response = await fetch(`http://localhost:8080/qr/${questionId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (response.status === 200) {
-      console.log('Question supprimée avec succès');
-      return response.json();
-    } else {
-      console.error(`Erreur lors de la suppression de la question. Statut ${response.status}`);
-    }
-  } catch (error: any) {
-    console.error('Erreur lors de la suppression de la question :', error.message);
-  }
-};
 
-const handleDeleteQuestion = (ques: Question) => {
-  const confirmDelete = window.confirm(
-    "Etes-vous sur de vouloir supprimer cette question ?"
-  );
-  if (confirmDelete) {
-    deleteQuestion(ques.idQuestion)
-    .catch((error) => {
-      console.error('Erreur lors de la suppression de la question :', error.message);
-    });
-    setListe((questions) => questions.filter((question) => question.idQuestion !== ques.idQuestion))
-  }
-};
+  // Fonction pour supprimer une question
+  const deleteQuestion = async (questionId: string) => {
+    try {
+      const response = await fetch(`http://localhost:8080/qr/${questionId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.status === 200) {
+        console.log("Question supprimée avec succès");
+        return response.json();
+      } else {
+        console.error(
+          `Erreur lors de la suppression de la question. Statut ${response.status}`
+        );
+      }
+    } catch (error: any) {
+      console.error(
+        "Erreur lors de la suppression de la question :",
+        error.message
+      );
+    }
+  };
+
+  const handleDeleteQuestion = (ques: Question) => {
+    const confirmDelete = window.confirm(
+      "Etes-vous sur de vouloir supprimer cette question ?"
+    );
+    if (confirmDelete) {
+      deleteQuestion(ques.idQuestion).catch((error) => {
+        console.error(
+          "Erreur lors de la suppression de la question :",
+          error.message
+        );
+      });
+      setListe((questions) =>
+        questions.filter((question) => question.idQuestion !== ques.idQuestion)
+      );
+    }
+  };
 
   return (
     <div>
       <h1 className="flex justify-center p-4 font-bold text-2xl"> FORUM</h1>
-      <div className="pt-8 ml-16 mr-16  flex">
+      <div className="pt-8 ml-16 mr-16 flex">
         <TextField
           onChange={handleq}
           fullWidth
@@ -151,17 +167,27 @@ const handleDeleteQuestion = (ques: Question) => {
           size="medium"
           style={{ width: "50%" }}
         />
-        <button
-          className="ml-4 border-2 rounded p-2 border-[#3379FF] hover:text-white hover:bg-[#3379FF] text-[#3379FF]"
+        <div className="ml-4 flex items-center">
+        <Button
           onClick={handleCreerQuestion}
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ width: "100%" }}
         >
           Envoyer
-        </button>
+        </Button>
+        </div>
+
       </div>
 
-      {liste && liste.map((e) => (
-        <BlockQuestion quest={e} deleteQuestion={() => handleDeleteQuestion(e)}/>
-      ))}
+      {liste &&
+        liste.map((e) => (
+          <BlockQuestion
+            quest={e}
+            deleteQuestion={() => handleDeleteQuestion(e)}
+          />
+        ))}
     </div>
   );
 };

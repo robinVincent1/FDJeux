@@ -15,7 +15,7 @@ export const CreerNews = () => {
     setDescription(e.target.value);
   };
 
-  const createNews = async (titre: string, description: string) => {
+  const createNews = async (titre: string, description: string, createur: string) => {
     try {
       const response = await fetch('http://localhost:8080/news', {
         method: 'POST',
@@ -24,8 +24,10 @@ export const CreerNews = () => {
           // Ajoutez d'autres en-têtes nécessaires ici
         },
         body: JSON.stringify({
+          createur: createur,
           titre: titre,
           description: description,
+          favori: false,
         }),
       });
       if (!response.ok) {
@@ -46,7 +48,7 @@ export const CreerNews = () => {
   
 
   const handleAjouterClick = () => {
-    createNews(titre, description)
+    createNews(titre, description, "robin")
   };
 
   return (

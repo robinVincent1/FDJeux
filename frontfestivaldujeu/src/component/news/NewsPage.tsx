@@ -8,7 +8,7 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 
-type NewsType = {
+export type NewsType = {
   idNews: string;
   titre: string;
   description: string;
@@ -35,6 +35,33 @@ export const NewsPage = () => {
   );
   }
 
+  const handleUpdateNews = async (updatedNews: NewsType) => {
+    try {
+      // Appel API pour mettre à jour la news côté serveur
+      const response = await fetch(`http://localhost:8080/news/${updatedNews.idNews}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedNews),
+      });
+
+      if (response.status === 200) {
+        // Mise à jour locale de la liste de news
+        setNews((currentNews) =>
+          currentNews.map((item) =>
+            item.idNews === updatedNews.idNews ? { ...item, ...updatedNews } : item
+          )
+        );
+        console.log("News mise à jour avec succès !");
+      } else {
+        console.error(`Erreur lors de la mise à jour de la news. Statut ${response.status}`);
+      }
+    } catch (error: any) {
+      console.error("Erreur lors de la mise à jour de la news :", error.message);
+    }
+  };
+
   return (
     <div>
       <div className=" justify-center ml-8">
@@ -48,6 +75,7 @@ export const NewsPage = () => {
                 favori={e.favori}
                 id={e.idNews}
                 onDelete={() => onDele(e.idNews)}
+                onUpdate={(updatedNews: NewsType) => handleUpdateNews(updatedNews)}
               />
             </div>
           );

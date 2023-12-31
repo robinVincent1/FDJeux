@@ -3,7 +3,7 @@ import { User } from "../admin/AdminPage";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import { Avatar, TextField } from "@mui/material";
+import { Avatar, Chip, TextField } from "@mui/material";
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
 
 const robin: User = {
@@ -77,7 +77,7 @@ export const ProfilPage = () => {
       <div className=" flex justify-center">
         <div className="  justify-center">
           <p className="p-4 mr-4 text-align">Pseudo </p>
-          <div className="flex">
+          <div className="flex items-center">
           <TextField
             autoComplete="given-name"
             onChange={handlePseudoChange}
@@ -87,14 +87,10 @@ export const ProfilPage = () => {
             autoFocus
             style={{ width: "100%", margin: "auto" }}
           />
-          <button
-            className="p-4 text-[#3379FF]"
-            onClick={() => {
-              return setUserPseudo(pseudo);
-            }}
-          >
-            <CheckCircleOutlineRoundedIcon />
-          </button>
+          <div className="ml-2 ">
+          <Chip label={<CheckCircleOutlineRoundedIcon />} onClick={() => setUserPseudo(pseudo)} />
+          </div>
+          
         </div>
         </div>
       </div>
@@ -103,7 +99,7 @@ export const ProfilPage = () => {
       <div className=" pt-4 flex justify-center">
         <div className=" justify-center">
           <p className="p-4 mr-4 text-align">Adresse Email </p>
-          <div className="flex">
+          <div className="flex items-center">
           <TextField
             autoComplete="given-name"
             onChange={handleEmailChange}
@@ -113,14 +109,10 @@ export const ProfilPage = () => {
             autoFocus
             style={{ width: "100%", margin: "auto" }}
           />
-          <button
-            className="p-4 text-[#3379FF]"
-            onClick={() => {
-              return setUserEmail(email);
-            }}
-          >
-            <CheckCircleOutlineRoundedIcon />
-          </button>
+          <div className="ml-2 ">
+          <Chip label={<CheckCircleOutlineRoundedIcon />} onClick={() => setUserEmail(email)} />
+          </div>
+          
         </div>
         </div>
       </div>
@@ -130,7 +122,7 @@ export const ProfilPage = () => {
       <div className=" pt-4 flex justify-center ">
         <div className="  justify-center">
           <p className="p-4 mr-4 text-align">Téléphone </p>
-          <div className="flex">
+          <div className="flex items-center">
           <TextField
             autoComplete="given-name"
             onChange={handleTelChange}
@@ -140,14 +132,10 @@ export const ProfilPage = () => {
             autoFocus
             style={{ width: "100%", margin: "auto" }}
           />
-          <button
-            className="p-4 text-[#3379FF]"
-            onClick={() => {
-              return setUserTel(tel);
-            }}
-          >
-            <CheckCircleOutlineRoundedIcon />
-          </button>
+          <div className="ml-2 ">
+          <Chip label={<CheckCircleOutlineRoundedIcon />} onClick={() => setUserTel(tel)} />
+          </div>
+          
         </div>
       </div>
       </div>
@@ -157,7 +145,7 @@ export const ProfilPage = () => {
       <div className=" pt-4 flex justify-center">
         <div className=" justify-center">
           <p className="p-4 mr-4 text-align">Adresse Postale </p>
-          <div className="flex">
+          <div className="flex items-center">
           <TextField
             autoComplete="given-name"
             onChange={handleAPChange}
@@ -167,14 +155,10 @@ export const ProfilPage = () => {
             autoFocus
             style={{ width: "100%", margin: "auto" }}
           />
-          <button
-            className="p-4 text-[#3379FF]"
-            onClick={() => {
-              return setUserAP(AP);
-            }}
-          >
-            <CheckCircleOutlineRoundedIcon />
-          </button>
+          <div className="ml-2 ">
+          <Chip label={<CheckCircleOutlineRoundedIcon />} onClick={() => setUserAP(AP)} />
+          </div>
+          
         </div>
         </div>
       </div>
@@ -183,7 +167,7 @@ export const ProfilPage = () => {
       <div className=" pt-4 flex justify-center pb-16">
         <div className="  justify-center">
           <p className="p-4 mr-4 text-align">Association </p>
-          <div className="flex">
+          <div className="flex items-center">
           <TextField
             autoComplete="given-name"
             onChange={handleAssocChange}
@@ -193,14 +177,10 @@ export const ProfilPage = () => {
             autoFocus
             style={{ width: "100%", margin: "auto" }}
           />
-          <button
-            className="p-4 text-[#3379FF]"
-            onClick={() => {
-              return setUserAssoc(assoc);
-            }}
-          >
-            <CheckCircleOutlineRoundedIcon />
-          </button>
+          <div className="ml-2 ">
+          <Chip label={<CheckCircleOutlineRoundedIcon />} onClick={() => setUserAssoc(assoc)} />
+          </div>
+          
         </div>
         </div>
       </div>

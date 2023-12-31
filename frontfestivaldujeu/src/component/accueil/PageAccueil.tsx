@@ -4,10 +4,22 @@ import "../output.css";
 import { Infos } from "../infosPratiques/PageInfos";
 import { InfosDeroulement } from "../infosPratiques/InfosDeroulement";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
+import { NewsType } from "../news/NewsPage";
+import { NewsFav } from "./NewsFav";
 
 export const PageAccueil = () => {
   const [listeInfos, setListeInfos] = useState<Infos[]>([]);
+  const [listeNewsFav, setListeNewsFav] = useState<NewsType[]>([]);
   const admin = true;
+
+  useEffect(() => {
+    // Appel API pour récupérer toutes les infos
+    fetch("http://localhost:8080/news/fav")
+      .then((response) => response.json())
+      .then((data) => setListeNewsFav(data))
+      .then((data) => console.log(data))
+      .catch((error) => console.error("Erreur lors de la récupération des infos :", error));
+  }, []);
 
   useEffect(() => {
     // Appel API pour récupérer toutes les infos
@@ -33,7 +45,8 @@ export const PageAccueil = () => {
   };
 
   return (
-    <div className=" flex justify-center break-words">
+    <div className="bg-grey min-h-screen">
+      <div className=" flex justify-center break-words">
       {listeInfos.map((e) => (
         <InfosDeroulement inf={e} onDelete={() => deleteInfo(e.idInfos)} />
       ))}
@@ -45,6 +58,13 @@ export const PageAccueil = () => {
           <AddCircleRoundedIcon />
         </Link>
       ) : null}
+      </div>
+        <div>
+          {listeNewsFav.map((e) => (
+            <NewsFav news={e} />
+          ))}
+        </div>
+
     </div>
   );
 };

@@ -83,7 +83,7 @@ export const PageHebergement = () => {
           type="submit"
           fullWidth
           variant="contained"
-          sx={{ width: "10%" }}
+          sx={{ width: "100%" }}
         >
           Ajouter une proposition
         </Button>

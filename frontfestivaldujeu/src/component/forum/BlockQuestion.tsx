@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Question, Reponse } from "./PageForum";
 import DeleteIcon from "@mui/icons-material/Delete";
 import TextField from "@mui/material/TextField";
+import { IconButton } from "@mui/material";
+import MessageIcon from "@mui/icons-material/Message";
 
 type Props = {
   quest: Question;
@@ -139,65 +141,55 @@ export const BlockQuestion = ({ quest, deleteQuestion }: Props) => {
         <p className="font-bold ml-4">{quest.objet}</p>
         <p className="ml-4">{quest.question}</p>
         <p className="italic ml-4">{quest.createur}</p>
-        {admin ? (
-          <div className="flex justify-end">
-            <button onClick={() => deleteQuestion()}>
-              <DeleteIcon />
-            </button>
-          </div>
-        ) : null}
+        <div className="flex justify-center">
+          {admin ? (
+            <div className="flex justify-end">
+              <IconButton aria-label="delete" onClick={() => deleteQuestion()}>
+                <DeleteIcon />
+              </IconButton>
+            </div>
+          ) : null}
+          <button
+            className="flex ml-4"
+            onClick={() => {
+              setisShow(!isShow);
+            }}
+          >
+            <MessageIcon />
+          </button>
+        </div>
       </div>
       <div className="p-"></div>
-      <div className="p-2 ml-16 border-b border-l border-r rounded mr-16 border-black">
-        {isShow ? (
-          <div>
-            <button
-              className="italic underline"
-              onClick={() => {
-                setisShow(false);
-              }}
-            >
-              Cacher les réponses
-            </button>
-            {comments.map((rep, index) => (
-              <div key={index} className="">
-                <p>
-                  {admin ? (
-                    <button onClick={() => handleDeleteResponse(rep)}>
-                      <DeleteIcon />
-                    </button>
-                  ) : null}
-                  <strong>{rep.createur} :</strong> {rep.reponse}
-                </p>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div>
-            <div>
-              <strong>{comments[0]?.createur} : </strong> {comments[0]?.reponse}
-              <button
-                className="flex italic underline"
-                onClick={() => {
-                  setisShow(true);
-                }}
-              >
-                Autres réponses ...
-              </button>
+      {isShow ? (
+        <div className="p-2 ml-16  mr-16  ">
+          {comments.map((rep, index) => (
+            <div key={index} className="pt-2">
+              <p className=" border border-black">
+                {admin ? (
+                  <IconButton
+                    aria-label="delete"
+                    onClick={() => handleDeleteResponse(rep)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                ) : null}
+                <strong className="ml-2">{rep.createur} :</strong> {rep.reponse}
+              </p>
             </div>
+          ))}
+          <div className="ml-2">
+            <TextField
+              style={{ width: "90%", margin: "auto" }}
+              id="standard-basic"
+              label="Réponds ici !"
+              variant="standard"
+              onChange={handleNewCom}
+              onKeyPress={handleKeyPress}
+              value={newCom.reponse}
+            />
           </div>
-        )}
-
-        <TextField
-          style={{ width: "50%", margin: "auto" }}
-          id="standard-basic"
-          label="Réponds ici !"
-          variant="standard"
-          onChange={handleNewCom}
-          onKeyPress={handleKeyPress}
-          value={newCom.reponse}
-        />
-      </div>
+        </div>
+      ) : null}
     </div>
   );
 };
