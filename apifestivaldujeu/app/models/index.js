@@ -10,6 +10,7 @@ const News = require("./news.model")(sequelize, Sequelize);
 const Question = require("./question.model")(sequelize, Sequelize);
 const Reponse = require("./reponse.model")(sequelize, Sequelize);
 const Hebergement = require('./hebergement.model')(sequelize, Sequelize);
+const Festival = require("./festival.model")(sequelize, Sequelize);
 
 module.exports = {
   User,
@@ -21,5 +22,6 @@ module.exports = {
   News,
   Question,
   Reponse,
-  Hebergement
+  Hebergement,
+  Festival,
 };

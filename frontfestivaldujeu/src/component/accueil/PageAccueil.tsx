@@ -6,19 +6,36 @@ import { InfosDeroulement } from "../infosPratiques/InfosDeroulement";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import { NewsType } from "../news/NewsPage";
 import { NewsFav } from "./NewsFav";
+import { Festival, test } from "../festival/PageFestival";
+import TableauAcc from "./TableauAcc";
+import { Button } from "@mui/material";
 
 export const PageAccueil = () => {
   const [listeInfos, setListeInfos] = useState<Infos[]>([]);
   const [listeNewsFav, setListeNewsFav] = useState<NewsType[]>([]);
+  const [festi, setFesti] = useState<Festival>(test);
   const admin = true;
 
   useEffect(() => {
-    // Appel API pour récupérer toutes les infos
+    // Appel API pour récupérer le festival
+    fetch("http://localhost:8080/festival/enCours")
+      .then((response) => response.json())
+      .then((data) => setFesti(data))
+      .then((data) => console.log(data))
+      .catch((error) =>
+        console.error("Erreur lors de la récupération du festival :", error)
+      );
+  }, []);
+
+  useEffect(() => {
+    // Appel API pour récupérer toutes les news
     fetch("http://localhost:8080/news/fav")
       .then((response) => response.json())
       .then((data) => setListeNewsFav(data))
       .then((data) => console.log(data))
-      .catch((error) => console.error("Erreur lors de la récupération des infos :", error));
+      .catch((error) =>
+        console.error("Erreur lors de la récupération des infos :", error)
+      );
   }, []);
 
   useEffect(() => {
@@ -44,27 +61,92 @@ export const PageAccueil = () => {
     }
   };
 
+  const InscriptionFesti = async (festivalId: string, flexible: boolean) => {
+    const id = localStorage.getItem("userId");
+    console.log(id)
+
+    try {
+      const response = await fetch(`http://localhost:8080/user`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: id,
+          festivalId: festivalId,
+          flexible: flexible,
+        }),
+      });
+
+      if (!response.ok) {
+        // Gérer les erreurs ici
+        console.error("Erreur lors de la modification :", response.statusText);
+      } else {
+        // Si tout s'est bien passé
+        const data = await response.json();
+        console.log("Modification réussie :", data);
+      }
+    } catch (error: any) {
+      console.error("Erreur lors de la modification :", error.message);
+    }
+  };
+
   return (
     <div className="bg-grey min-h-screen">
-      <div className=" flex justify-center break-words">
-      {listeInfos.map((e) => (
-        <InfosDeroulement inf={e} onDelete={() => deleteInfo(e.idInfos)} />
-      ))}
-      {admin ? (
-        <Link
-          to="/creerinfos"
-          className="text-[#3379FF] p-4 flex justify-center items-center"
-        >
-          <AddCircleRoundedIcon />
-        </Link>
-      ) : null}
+      <h1 className="p-4 text-xl font-bold flex justify-center">
+        Bienvenue sur le site du Festival du Jeu de Montpellier !
+      </h1>
+      <div className=" flex justify-center break-words pt-8">
+        {listeInfos.map((e) => (
+          <InfosDeroulement inf={e} onDelete={() => deleteInfo(e.idInfos)} />
+        ))}
+        {admin ? (
+          <Link
+            to="/creerinfos"
+            className="text-[#3379FF] p-4 flex justify-center items-center"
+          >
+            <AddCircleRoundedIcon />
+          </Link>
+        ) : null}
       </div>
-        <div>
-          {listeNewsFav.map((e) => (
-            <NewsFav news={e} />
-          ))}
+      <div className="p-8">
+        <TableauAcc Festi={festi} />
+      </div>
+      <div className="p-2 flex justify-center">
+        <div className="p-2 flex justify-center">
+          <Button
+            onClick={() => {
+              InscriptionFesti(test.idFestival, false);
+            }}
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ width: "100%" }}
+          >
+            S'inscrire
+          </Button>
         </div>
-
+        <div className="p-2 flex justify-center">
+          <Button
+            onClick={() => {
+              InscriptionFesti(test.idFestival, true);
+            }}
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ width: "100%" }}
+          >
+            S'inscrire (flexible)
+          </Button>
+        </div>
+      </div>
+      <div className="pt-4">
+        {listeNewsFav.map((e) => (
+          <div className="p-2">
+            <NewsFav news={e} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

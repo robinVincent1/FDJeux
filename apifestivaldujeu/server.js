@@ -44,3 +44,4 @@ require('./app/routes/infos.route')(app);
 require('./app/routes/news.route')(app);
 require('./app/routes/questionReponse.route')(app);
 require('./app/routes/hebergement.route')(app);
+require("./app/routes/festival.route")(app);

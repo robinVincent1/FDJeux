@@ -43,9 +43,7 @@ export const ProfilUserModifiable = ({ u }: ProfilUserModifiableProps) => {
               >
                 <option value="Admin">Admin</option>
                 <option value="Référent">Référent</option>
-                <option value="Réspo soirée">
-                  Réspo soirée
-                </option>
+                <option value="Réspo soirée">Réspo soirée</option>
                 <option value="Accueil bénévole">Accueil bénévole</option>
                 <option value="Bénévole">Bénévole</option>
               </select>

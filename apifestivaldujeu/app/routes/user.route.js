@@ -12,7 +12,7 @@ module.exports = app => {
 
   router.post('/', controller.create);
 
-  // router.put('/', controller.update);
+  router.put('/', controller.addFestivalToUser);
 
   // router.delete('/:id', controller.deleteById);
 

@@ -8,7 +8,7 @@ interface InfosDeroulementProps {
   }
   
   export const InfosDeroulement: React.FC<InfosDeroulementProps> = ({ inf, onDelete }) => {
-    const admin = true;
+    const admin = false;
     
     const handleDeleteInfos = async () => {
         const confirmDelete = window.confirm(

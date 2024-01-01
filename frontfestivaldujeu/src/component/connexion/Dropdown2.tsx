@@ -1,33 +1,41 @@
-import React, { ChangeEvent, useState } from 'react';
-import "../output.css"
-
+import React, { ChangeEvent, useState } from "react";
+import "../output.css";
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 
 interface Dropdown2Props {
-    propo: (value: boolean) => void;
-  }
-  
+  setHebergementState: (value: boolean) => void;
+}
 
-const Dropdown2: React.FC<Dropdown2Props> = ({propo}) => {
-  const [selectedOption, setSelectedOption] = useState('');
+const Dropdown2: React.FC<Dropdown2Props> = ({ setHebergementState }) => {
+  const [selectedOption, setSelectedOption] = useState<string>("");
 
-  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedOption(event.target.value);
-    if(event.target.value == "P") {
-        propo(true)
-    }
-    else {
-        propo(false)
+  const handleSelectChange = (event: SelectChangeEvent<string>) => {
+    const value = event.target.value;
+    setSelectedOption(value);
+
+    if (value === "P") {
+      setHebergementState(true);
+    } else {
+      setHebergementState(false);
     }
   };
 
   return (
     <div>
-      <label className='pr-8' htmlFor="dropdown">Hebergement :</label>
-      <select id="dropdown" value={selectedOption} onChange={handleSelectChange}>
-        <option value="P">Proposition</option>
-        <option value="R">Recherche</option>
-        <option value="Ri">Rien</option>
-      </select>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Hebergement</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={selectedOption}
+          label="Hebergement"
+          onChange={handleSelectChange}
+        >
+          <MenuItem value="P">Proposition</MenuItem>
+          <MenuItem value="R">Recherche</MenuItem>
+          <MenuItem value="Ri">Rien</MenuItem>
+        </Select>
+      </FormControl>
     </div>
   );
 };

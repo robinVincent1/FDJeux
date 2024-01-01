@@ -3,7 +3,7 @@ const sequelize = require('../../db/conn');
 const Sequelize = require('sequelize');
 
 module.exports = (sequelize, Sequelize) => {
-  const User = sequelize.define('user', {
+  const User = sequelize.define('User', {
     idUser: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -27,7 +27,7 @@ module.exports = (sequelize, Sequelize) => {
       defaultValue: false,
     },
     role: {
-      type: Sequelize.DataTypes.ENUM('user', 'admin'),
+      type: Sequelize.DataTypes.ENUM('user', 'admin', 'référent', 'Résponsable soirée', 'Accueil Bénévole', 'Bénévole'),
       defaultValue: 'user',
     },
     firstName: {
@@ -60,6 +60,12 @@ module.exports = (sequelize, Sequelize) => {
     photoProfil: {
       type: Sequelize.STRING,
     },
+    idFestival: {
+      type: Sequelize.STRING,
+    },
+    flexible: {
+      type: Sequelize.BOOLEAN,
+    }
   });
 
   User.beforeCreate(async user => {
