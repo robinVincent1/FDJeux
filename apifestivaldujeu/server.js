@@ -42,3 +42,6 @@ app.get('/', function (req, res) {
 require('./app/routes/user.route')(app);
 require('./app/routes/jour.route')(app);
 require('./app/routes/horaire.route')(app);
+require('./app/routes/planning_general_ligne.route')(app);
+require('./app/routes/creneau.route')(app);
+

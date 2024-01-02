@@ -14,18 +14,40 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 interface Horaire {
   id: number;
-  debut: number;
-  fin: number;
+  jourId: number;
+  heure_debut: number;
+  heure_fin: number;
 }
 
 interface Jour {
   id: number;
   nom: string;
-  list_horaire: Horaire[];
+  list_horaire:  Horaire[];
 }
 
+interface Creneau{
+  idCreneau: number;
+  LigneId: number;
+  JourId:number;
+  HoraireId:number;
+  ouvert:boolean,
+  titre:string,
+  nb_max:number,
+  nb_inscrit:number,
+  referent : string,
+  heure_debut: number;
+  heure_fin: number;
+}
+
+interface Ligne {
+  idPlanningGeneralLigne : number;
+  PlanningGeneralId: number;
+  titre: string;
+  list_creneaux : Creneau[];
+}
+
+
 interface PlanningProps {
-  list_ligne: { key: any; titre: string; }[]
 }
 
 
@@ -33,7 +55,6 @@ let week =["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"]
 let planningweek=["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"]
 
 const PlanningGeneral : React.FC<PlanningProps> = ({
-  list_ligne
 })  => {
 
   const [inputValue, setInputValue] = useState<string>('');
@@ -45,10 +66,11 @@ const PlanningGeneral : React.FC<PlanningProps> = ({
   const [openModal_Ligne, setOpenModal_Ligne] = React.useState(false);
   const [openModal_Jour, setOpenModal_Jour] = React.useState(false);
   const [list_jours, setListJours] = useState<Jour[]>([]);
+  const [list_ligne, setListLigne] = useState<Ligne[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    getAllJours();
-  }, []);
+
+
 
 
 
@@ -81,29 +103,125 @@ const PlanningGeneral : React.FC<PlanningProps> = ({
     setInputValueHoraire_Fin(value);
   }
   
-
-  function addtolistligne (){
-    if (list_ligne.length === 0){
-      list_ligne.push({key:0,titre:inputValue})
+  async function createcreneau(jourid: number, horaireid: number, LigneId: number, titre: string) {
+    try {
+      const response = await fetch('http://localhost:8080/creneau', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          LigneId: LigneId,
+          JourId: jourid,
+          HoraireId: horaireid,
+          ouvert: false,
+          titre: titre,
+          nb_max: 10,
+          nb_inscrit: 0,
+          referent: "test",
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Erreur lors de l\'ajout du creneau 1');
+      }
+  
+      const creneauData: Creneau = await response.json();
+      return creneauData;
+    } catch (error) {
+      console.error('Erreur lors de l\'ajout du creneau 2', error);
+      throw error;
     }
-    else{
-    const newkey = list_ligne[list_ligne.length -1].key  + 1
-    list_ligne.push({key:newkey,titre:inputValue})
-    setInputValue("");
+  }
+  
+
+  async function getcreneaubyId(JourId: number, HoraireId: number, LigneId: number){
+    try {
+      const response = await fetch(`http://localhost:8080/creneau/${JourId}/${HoraireId}/${LigneId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (!response.ok) {
+        // Si la réponse n'est pas OK, renvoyer une valeur appropriée
+        console.error('Erreur lors de la récupération des creneaux. Statut:', response.status);
+        return undefined;
+      }
+  
+      const creneauData : Creneau = await response.json();
+      return creneauData;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des creneaux', error);
+      // Gérer l'erreur ici, si nécessaire
+      return undefined;
+    }
+  }
+  
+
+  async function addcreneautolistligne (){
+    const newlistligne : Ligne[] = [...list_ligne];
+    newlistligne.forEach(ligne => {
+      ligne.list_creneaux = [];
+    });
+    for(let i = 0; i < list_ligne.length; i++){
+      for(let j=0; j < list_jours.length; j++){
+        for(let k=0; k < list_jours[j].list_horaire.length; k++){
+          const creneauData = await getcreneaubyId(list_jours[j].id, list_jours[j].list_horaire[k].id, list_ligne[i].idPlanningGeneralLigne);
+          if (creneauData == undefined ) {
+            await createcreneau(list_jours[j].id,list_jours[j].list_horaire[k].id,list_ligne[i].idPlanningGeneralLigne,list_ligne[i].titre);
+          }
+          if (creneauData) {
+            newlistligne[i].list_creneaux.push(creneauData)
+          }
+        }
+    }
+  }
+  setListLigne(newlistligne)
+
+}
+
+
+
+
+
+  async function addligne (){
+      try{
+        const response = await fetch('http://localhost:8080/planning_general_ligne', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          titre: inputValue,
+          idPlanningGeneral: 1
+        }),
+      });
+      }
+      catch (error) {
+    console.error('Erreur lors de l\'ajout de la ligne', error);
     }
   }
 
-
-
-  async function initnbColonne(){
-    let nbColonne = 0
-    for(let i=0;i<list_jours.length;i++){
-      nbColonne+=list_jours[i].list_horaire.length
+  async function getligne (){
+    try{
+      const response = await fetch('http://localhost:8080/planning_general_ligne', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      const ligneData: Ligne[] = await response.json();
+      setListLigne(ligneData) 
+    }catch(error){
+      console.error('Erreur lors de la récupération des lignes', error);
     }
-    return nbColonne
   }
 
-  async function fillListhoraire(jourid : number){
+  
+
+  async function gethorairebyId(jourid : number){
     try{
       const response = await fetch(`http://localhost:8080/horaire/${jourid}`, {
       method: 'GET',
@@ -113,11 +231,12 @@ const PlanningGeneral : React.FC<PlanningProps> = ({
     })
       const horaireData: Horaire[] = await response.json();
       return horaireData
+    }catch(error){
+      console.error('Erreur lors de la récupération des horaires', error);
     }
   }
 
-
-
+  
   async function addtolisthoraire (jourid : number){
     try{
       const response = await fetch('http://localhost:8080/horaire', {
@@ -160,25 +279,7 @@ const PlanningGeneral : React.FC<PlanningProps> = ({
   }
   }
  
-  async function getAllJours(){
-    try{
-      const response = await fetch('http://localhost:8080/jours', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      const joursData: Jour[] = await response.json();
-      const joursAvecListeHoraire = joursData.map(jour => ({
-        ...jour,
-        list_horaire: jour.list_horaire || [],
-      }));
-      setListJours(joursAvecListeHoraire);
-    ;}
-    catch (error) {
-  console.error('Erreur lors de la récupération des jours', error);
-    }
-  }
+
 
 
     
@@ -190,8 +291,65 @@ const PlanningGeneral : React.FC<PlanningProps> = ({
 
 
 
+ // ...
+
+useEffect(() => {
+  setLoading(true);
+  console.log(loading)
+  const fetchData = async () => {
+    setNbColonne(0);
+    try {
+      const response = await fetch('http://localhost:8080/jours', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const joursData: Jour[] = await response.json();
+
+      const newlistjour: Jour[] = [];
+      for (let i = 0; i < joursData.length; i++) {
+        const jour = joursData[i];
+        try {
+          const list_horaire = await gethorairebyId(jour.id);
+          newlistjour.push({ ...jour, list_horaire: list_horaire || [] });
+        } catch (error) {
+          console.error('Error while fetching and converting list_horaire:', error);
+          newlistjour.push(jour);
+        }
+      }
+
+      setListJours(newlistjour);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des jours', error);
+    } 
+  };
+
+  fetchData();
+  getligne();
+}, []);
+
+const [hasAddedCreneaux, setHasAddedCreneaux] = useState(false);
+
+useEffect(() => {
+  if (list_ligne.length > 0 && !hasAddedCreneaux && list_jours.length > 0) {
+    addcreneautolistligne();
+    setHasAddedCreneaux(true);
+    setLoading(false);
+  }
+}, [list_ligne, hasAddedCreneaux,list_jours]);
+
+
+
+
+
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+          {loading ? (
+      // Afficher un indicateur de chargement ou un message pendant le chargement
+      <p>Chargement en cours...</p>
+    ) : (
         <table className="w-full text-sm text-left rtl:text-right text-blue-100 dark:text-blue-100">
           <col/>
   <colgroup span={list_jours.length}></colgroup>
@@ -199,7 +357,7 @@ const PlanningGeneral : React.FC<PlanningProps> = ({
   <tr>
   <td rowSpan={list_jours.length+1}></td>
     {list_jours.map((jour)=> (
-            <th colSpan={jour.list_horaire.length} scope="colgroup" className="px-6 py-3 bg-blue-500">
+            <th colSpan={Array.isArray(jour.list_horaire) ? jour.list_horaire.length : 0} scope="colgroup" className="px-6 py-3 bg-blue-500">
               {jour.nom}
               <Button onClick={() => handleOpenModal_Horaire(jour.id)} color="danger">+</Button>
               <Modal 
@@ -248,8 +406,8 @@ const PlanningGeneral : React.FC<PlanningProps> = ({
                   label="Jour"
                   onChange={handleChange}
                 >
-              {week.map((jour)=> (
-                <MenuItem value={jour}>{jour}</MenuItem>
+              {week.map((jour,index)=> (
+                <MenuItem key={index} value={jour}>{jour}</MenuItem>
               ))}
 
             </Select>
@@ -269,22 +427,21 @@ const PlanningGeneral : React.FC<PlanningProps> = ({
       </th>
   </tr>
     <tr>
-    
     {list_jours.map((jour)=> (
       <>
-        {jour.list_horaire.map((horaire) => (
+        {jour.list_horaire && jour.list_horaire.map((horaire) => (
           <th scope="col" className="px-6 py-3 bg-blue-500">
-          <div>{horaire.debut}h-{horaire.fin}h</div>
+          <div>{horaire.heure_debut}h-{horaire.heure_fin}h</div>
           </th>
-        ))}
+         ))}
         
         </>
       ))}
   </tr>
   </thead>
   <tbody>
-  {list_ligne.map((ligne)=> (
-    'titre' in ligne && <LignePlanning titre={ligne.titre} nb_creneaux={nbColonne}/>
+  {Array.isArray(list_ligne) && list_ligne.map((ligne)=> (
+    'titre' in ligne && <LignePlanning titre={ligne.titre} nb_creneaux={nbColonne} list_creneaux={ligne.list_creneaux}/>
     ))}
           <Button onClick={handleOpenModal_Ligne} color="danger">Ajouter une ligne</Button>
       <Modal 
@@ -303,7 +460,7 @@ const PlanningGeneral : React.FC<PlanningProps> = ({
                   Fermé
                 </Button>
                 <Button className="bg-[#6f4ef2] shadow-lg shadow-indigo-500/20" onClick ={  () => {
-                  addtolistligne();
+                  addligne();
                   handleCloseModal_Ligne();}}
                  >
                   Ajouter
@@ -312,6 +469,7 @@ const PlanningGeneral : React.FC<PlanningProps> = ({
       </Modal>
   </tbody>
 </table>
+    )}
     </div>
   )
 }

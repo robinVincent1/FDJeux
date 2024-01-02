@@ -1,14 +1,28 @@
-const {PlanningGeneralLigne} = require('../models/planning_general_ligne.model.js');
+const { PlanningGeneralLigne } = require('../models');
 
-const addPlanningGeneralLigne = async function (req, res) {
+const createLigne = async function (req, res) {
     try {
-        const planningGeneralLigne = await PlanningGeneralLigne.create(req.body);
+        const { titre, idPlanningGeneral } = req.body;
+        const planningGeneralLigne = await PlanningGeneralLigne.create({
+            titre: titre,
+            idPlanningGeneral: idPlanningGeneral,
+        });
         res.send(planningGeneralLigne);
     } catch (error) {
         console.log(error);
         res.status(400).send({ errors: error.message });
     }
-}
+};
+
+const getAllLigne = async function (req, res) {
+    try {
+        const planningGeneralLigne = await PlanningGeneralLigne.findAll();
+        res.send(planningGeneralLigne);
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({ errors: error.message });
+    }
+};
 
 const deleteById = async function (req, res) {
     try{
@@ -26,24 +40,9 @@ const deleteById = async function (req, res) {
     }
 }
 
-const modifyTitre = async function (req, res) {
-    try{
-        const planningGeneralLigne = await PlanningGeneralLigne.findOne({
-            where: {
-                idPlanningGeneralLigne: req.params.id,
-            },
-        });
-        if (!planningGeneralLigne) throw new Error('PlanningGeneralLigne not found');
-        await planningGeneralLigne.update({titre:req.body.titre});
-        res.send(planningGeneralLigne);
-    } catch (error) {
-        console.log(error);
-        res.status(400).send({ errors: error.message });
-    }
-}
 
 module.exports = {
     deleteById,
-    addPlanningGeneralLigne,
-    modifyTitre,
+    createLigne,
+    getAllLigne
 }

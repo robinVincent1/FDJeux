@@ -14,8 +14,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 
 interface CreneauProps {
+   idCreneau:number;
     ouvert: boolean;
-    horaire: string;
+    horaire: number;
     jour: string;
     titre: string;
     nb_max: number;
@@ -25,6 +26,7 @@ interface CreneauProps {
   }
   
   const Creneau: React.FC<CreneauProps> = ({
+    idCreneau,
     ouvert,
     horaire,
     jour,
@@ -47,7 +49,19 @@ interface CreneauProps {
         const handleChangeOuvert = (event: SelectChangeEvent) => {
         };
 
-
+      const inscription = (idUser:number , idCreneau: number) => {
+          try{
+            const reponse = fetch(`http://localhost:8080/api/creneau_benevole/${idUser}/${idCreneau}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+            })
+          }
+          catch(error){
+            console.log(error)
+          }
+      }
       
       function ChoseColor(){
         let chosedcolor = "default"
@@ -101,6 +115,7 @@ interface CreneauProps {
                 <Typography>Referent : {referent?.prenom} ({referent?.pseudo})</Typography>
                 </Typography>
                 <Button onClick={handleOpenModifier}>Modifié</Button>
+                <Button onClick={() => inscription(4,5)}>S'inscrire</Button>
                   <Modal
                       open={openModifier}
                       onClose={handleCloseModifier}

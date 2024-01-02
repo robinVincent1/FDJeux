@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const sequelize = require('../../db/conn');
 const Sequelize = require('sequelize');
+const CreneauBenevole = require('./creneau_benevole.model')(sequelize,Sequelize);
 
 module.exports = (sequelize, Sequelize) => {
   const User = sequelize.define('user', {
@@ -61,6 +62,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
     },
   });
+
 
   User.beforeCreate(async user => {
     user.active = false;

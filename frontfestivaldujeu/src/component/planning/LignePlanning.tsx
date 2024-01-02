@@ -11,11 +11,23 @@ import Input from '@mui/material/Input';
 interface LigneProps {
     titre:string;
     nb_creneaux:number;
+    list_creneaux: Creneau[];
+  }
+
+  interface Creneau {
+    idCreneau:number;
+    ouvert: boolean;
+    heure_debut:number;
+    titre: string;
+    nb_max: number;
+    nb_inscrit: number;
+    referent? : string;
   }
 
 const LignePlanning: React.FC<LigneProps> = ({
     titre: initialTitre,
-    nb_creneaux
+    nb_creneaux,
+    list_creneaux
 }) => {
     const [titre, setTitre] = useState<string>(initialTitre);
     const [inputValue, setInputValue] = useState<string>('');
@@ -40,14 +52,15 @@ const LignePlanning: React.FC<LigneProps> = ({
         handleClose();
       }
       const generateCreneaux = () => {
-      const creneaux = [];
-      for (let i = 0; i < nb_creneaux; i++) {
+      const creneaux : any  = [];
+      //console.log("list_creneaux 1 " , list_creneaux);
+      {Array.isArray(list_creneaux) && list_creneaux.map((creneau) => (
         creneaux.push(
-          <td key={i} className="px-6 py-4 bg-blue-500">
-            <Creneau ouvert={true} horaire="9h-11h" jour="Samedi" titre={titre} nb_max={15} nb_inscrit={8} list_benevole={[]} />
+          <td key={creneau.idCreneau}  className="px-6 py-4 bg-blue-500">
+            <Creneau idCreneau={creneau.idCreneau} ouvert={true} horaire={3} jour="test" titre={creneau.titre} nb_max={creneau.nb_max} nb_inscrit={creneau.nb_inscrit} list_benevole={[]} />
           </td>
-        );
-      }
+        )
+      ))}
       return creneaux;
     };
     
