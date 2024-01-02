@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,9 +13,9 @@ import Dropdown from "./Dropdown";
 import Dropdown2 from "./Dropdown2";
 import "../styles/styles.css";
 import "../output.css";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import Autocomplete from "@mui/material/Autocomplete";
-
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 
 function Copyright(props: any) {
   return (
@@ -36,42 +36,40 @@ function Copyright(props: any) {
 }
 
 export default function SignUp() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [login, setLogin] = useState(false);
-  const [err, setError] = useState('');
+  const [err, setError] = useState("");
   const navigate = useNavigate();
   const [proposition, setProposition] = useState(true);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [postalAdress, setPostalAdress] = useState('');
-  const [photoProfil, setPhotoProfil] = useState('');
-  const [telephone, setTelephone] = useState('');
-  const [association, setAssociation] = useState('');
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [postalAdress, setPostalAdress] = useState("");
+  const [photoProfil, setPhotoProfil] = useState("");
+  const [telephone, setTelephone] = useState("");
+  const [association, setAssociation] = useState("");
   const [nbEdition, setNbEdition] = useState(0);
-  const [pseudo, setPseudo] = useState('');
-  const [propo, setPropo] = useState('');
+  const [pseudo, setPseudo] = useState("");
+  const [propo, setPropo] = useState("");
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
-  const [firstNameError, setFirstNameError] = useState('');
-  const [lastNameError, setLastNameError] = useState('');
-  const [associationError, setAssociationError] = useState('');
-  const [hebergementError, setHebergementError] = useState('');
+  const [firstNameError, setFirstNameError] = useState("");
+  const [lastNameError, setLastNameError] = useState("");
+  const [associationError, setAssociationError] = useState("");
+  const [hebergementError, setHebergementError] = useState("");
   const associationOptions = ["Association 1", "Association 2", "Aucune"];
 
-
-
   useEffect(() => {
-    const nav = document.querySelector('nav');
+    const nav = document.querySelector("nav");
     if (nav) {
-      nav.style.display = 'none';
+      nav.style.display = "none";
     }
     return () => {
       if (nav) {
-        nav.style.display = 'block';
+        nav.style.display = "block";
       }
     };
   }, []);
@@ -79,63 +77,67 @@ export default function SignUp() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log('First Name:', firstName);
-    console.log('Last Name:', lastName);
+    console.log("First Name:", firstName);
+    console.log("Last Name:", lastName);
 
     if (!firstName) {
-      return setFirstNameError('Veuillez entrer votre prénom.');
+      return setFirstNameError("Veuillez entrer votre prénom.");
     } else {
-      setFirstNameError('');
+      setFirstNameError("");
     }
 
     if (!lastName) {
-      return setLastNameError('Veuillez entrer votre nom.');
+      return setLastNameError("Veuillez entrer votre nom.");
     } else {
-      setLastNameError('');
+      setLastNameError("");
     }
     // Validation de l'adresse e-mail
     if (!email) {
-      return setEmailError('Veuillez entrer une adresse e-mail.');
+      return setEmailError("Veuillez entrer une adresse e-mail.");
     } else if (!/\S+@\S+\.\S{2,3}/.test(email)) {
       return setEmailError("L'adresse e-mail est invalide.");
     } else {
-      setEmailError('');
+      setEmailError("");
     }
 
     // Validation du mot de passe
     if (!password) {
-      return setPasswordError('Veuillez entrer un mot de passe.');
+      return setPasswordError("Veuillez entrer un mot de passe.");
     } else if (password.length < 8) {
-      return setPasswordError('Le mot de passe doit contenir au moins 8 caractères.');
+      return setPasswordError(
+        "Le mot de passe doit contenir au moins 8 caractères."
+      );
       // Validation du mot de passe avec au moins un chiffre, une lettre en majuscule, une lettre en minuscule et un caractère spécial
     } else if (!/^(?=.*\d)(?=.*[A-Z])(?=.*\W).{8,}$/.test(password)) {
-      return setPasswordError('Le mot de passe doit contenir au moins un chiffre, une lettre en majuscule, une lettre en minuscule et un caractère spécial.');
+      return setPasswordError(
+        "Le mot de passe doit contenir au moins un chiffre, une lettre en majuscule, une lettre en minuscule et un caractère spécial."
+      );
     } else {
-      setPasswordError('');
+      setPasswordError("");
     }
 
     // Validation de la confirmation du mot de passe
     if (!confirmPassword) {
-      return setConfirmPasswordError('Veuillez confirmer votre mot de passe.');
+      return setConfirmPasswordError("Veuillez confirmer votre mot de passe.");
     } else if (password !== confirmPassword) {
-      return setConfirmPasswordError('Les mots de passe ne correspondent pas.');
+      return setConfirmPasswordError("Les mots de passe ne correspondent pas.");
     } else {
-      setConfirmPasswordError('');
+      setConfirmPasswordError("");
     }
 
     if (!association) {
       return setAssociationError("Veuillez entrer le nom de l'association.");
     } else {
-      setAssociationError('');
+      setAssociationError("");
     }
 
-    console.log('Association:', firstName);
+    console.log("Association:", firstName);
     try {
-      console.log('j\'essai de fetch');
-      const response = await fetch('http://localhost:8080/user/', {
-        method: 'POST',
+      console.log("j'essai de fetch");
+      const response = await fetch("http://localhost:8080/user/", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           email,
@@ -149,22 +151,25 @@ export default function SignUp() {
           association,
           telephone,
           photoProfil,
-        })
-      })
+          idFestivals: "",
+          flexible: false,
+        }),
+      });
       const data = await response.json();
       if (!response.ok) {
-        throw new Error(data.errors || 'Erreur identification');
+        throw new Error(data.errors || "Erreur identification");
       }
 
-      console.log(`Tout va bien tu es là avec le token ${data.accessToken}`);
-      localStorage.setItem('token', data.accessToken);
+      console.log(`Tout va bien tu es là avec le token ${data}`);
+      localStorage.setItem("token", data.accessToken);
+      localStorage.setItem("userId", data.id)
       setLogin(true);
-      setError('');
-      navigate('/home');
+      setError("");
+      navigate("/accueil");
     } catch (error: any) {
       setError(error.message);
     }
-  }
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -176,7 +181,11 @@ export default function SignUp() {
       reader.onloadend = (event: ProgressEvent<FileReader>) => {
         const readerResult = event.target?.result;
 
-        if (readerResult && (typeof readerResult === 'string' || readerResult instanceof ArrayBuffer)) {
+        if (
+          readerResult &&
+          (typeof readerResult === "string" ||
+            readerResult instanceof ArrayBuffer)
+        ) {
           setPhotoProfil(readerResult as string);
           setPhotoPreview(readerResult as string); // Mettre à jour photoPreview avec l'URL de l'image
         }
@@ -186,6 +195,18 @@ export default function SignUp() {
     }
   };
 
+  const [selectedOption, setSelectedOption] = useState<string>("");
+
+  const handleSelectChange = (event: SelectChangeEvent<string>) => {
+    const value = event.target.value;
+    setSelectedOption(value);
+
+    if (value === "P") {
+      setProposition(true);
+    } else {
+      setProposition(false);
+    }
+  };
 
   return (
     <div>
@@ -339,7 +360,10 @@ export default function SignUp() {
                       helperText={associationError}
                     />
                   )}
-                  onChange={(event: React.ChangeEvent<{}>, newValue: string | null) => setAssociation(newValue ?? '')}
+                  onChange={(
+                    event: React.ChangeEvent<{}>,
+                    newValue: string | null
+                  ) => setAssociation(newValue ?? "")}
                   freeSolo
                   selectOnFocus
                   clearOnBlur
@@ -347,8 +371,23 @@ export default function SignUp() {
                   defaultValue=""
                 />
               </Grid>
-              <div className="p-16">
-                <Dropdown2 propo={setProposition} />
+              <div className=" p-4">
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">
+                    Hebergement
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={selectedOption}
+                    label="Hebergement"
+                    onChange={handleSelectChange}
+                  >
+                    <MenuItem value="P">Proposition</MenuItem>
+                    <MenuItem value="R">Recherche</MenuItem>
+                    <MenuItem value="Ri">Rien</MenuItem>
+                  </Select>
+                </FormControl>
               </div>
               {proposition && (
                 <Grid item xs={12}>
@@ -366,7 +405,7 @@ export default function SignUp() {
               <Grid item xs={12}>
                 <input
                   accept="image/*"
-                  style={{ display: 'none' }}
+                  style={{ display: "none" }}
                   id="upload-photo"
                   type="file"
                   onChange={handleFileChange}
@@ -374,30 +413,32 @@ export default function SignUp() {
                 <label
                   htmlFor="upload-photo"
                   style={{
-                    display: 'inline-block',
-                    padding: '10px 15px',
-                    cursor: 'pointer',
-                    backgroundColor: '#f0f0f0',
-                    border: '1px solid #ccc',
-                    borderRadius: '5px',
-                    fontSize: '16px',
+                    display: "inline-block",
+                    padding: "10px 15px",
+                    cursor: "pointer",
+                    backgroundColor: "#f0f0f0",
+                    border: "1px solid #ccc",
+                    borderRadius: "5px",
+                    fontSize: "16px",
                   }}
                 >
                   Choisir une photo de profil
                 </label>
-                {photoPreview && <img
-                  src={photoPreview}
-                  alt="Photo de profil"
-                  style={{
-                    width: '150px',
-                    height: '150px',
-                    borderRadius: '50%',
-                    objectFit: 'cover',
-                    marginTop: '10px',
-                    display: 'block',
-                    margin: '0 auto',
-                  }}
-                />}
+                {photoPreview && (
+                  <img
+                    src={photoPreview}
+                    alt="Photo de profil"
+                    style={{
+                      width: "150px",
+                      height: "150px",
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                      marginTop: "10px",
+                      display: "block",
+                      margin: "0 auto",
+                    }}
+                  />
+                )}
               </Grid>
             </Grid>
             <Button

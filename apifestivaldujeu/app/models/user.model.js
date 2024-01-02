@@ -4,7 +4,7 @@ const Sequelize = require('sequelize');
 const CreneauBenevole = require('./creneau_benevole.model')(sequelize,Sequelize);
 
 module.exports = (sequelize, Sequelize) => {
-  const User = sequelize.define('user', {
+  const User = sequelize.define('User', {
     idUser: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -28,7 +28,7 @@ module.exports = (sequelize, Sequelize) => {
       defaultValue: false,
     },
     role: {
-      type: Sequelize.DataTypes.ENUM('user', 'admin'),
+      type: Sequelize.DataTypes.ENUM('user', 'admin', 'référent', 'résponsable soirée', 'accueil bénévole', 'bénévole'),
       defaultValue: 'user',
     },
     firstName: {
@@ -61,6 +61,12 @@ module.exports = (sequelize, Sequelize) => {
     photoProfil: {
       type: Sequelize.STRING,
     },
+    idFestival: {
+      type: Sequelize.STRING,
+    },
+    flexible: {
+      type: Sequelize.BOOLEAN,
+    }
   });
 
 

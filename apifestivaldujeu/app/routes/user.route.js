@@ -6,15 +6,26 @@ module.exports = app => {
 
   router.get('/me', isLoggedIn, controller.getMe);
 
-  router.get('/:id', isLoggedIn, controller.getById);
+  router.get('/:id',  controller.getById);
+
+  router.get('/benevole/:idFestival',  controller.getBenevoleByFestival);
+
+  router.get('/accueilBenevole/:idFestival',  controller.getAccueilBenevoleByFestival);
+
+  router.get('/referent/:idFestival',  controller.getReferentsByFestival);
+
+  router.get('/respoSoiree/:idFestival',  controller.getRespoSoireeByFestival);
 
   router.post('/login', controller.login);
 
   router.post('/', controller.create);
 
-  // router.put('/', controller.update);
+  router.put('/', controller.addFestivalToUser);
 
-  // router.delete('/:id', controller.deleteById);
+  router.put('/ModifProfil', controller.ModifProfil);
+
+  router.put('/ModifRole/:idUser', controller.ModifRole);
+
 
   app.use('/user', router);
 };

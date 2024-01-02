@@ -35,8 +35,9 @@ function SignIn(props: SignInProps) {
       const data = await response.json();
       if (response.ok) {
         localStorage.setItem('token', data.accessToken);
-        navigate('/home');
-        console.log('Connexion réussie');
+        localStorage.setItem('userId', data.id);
+        navigate('/accueil');
+        console.log(`Connexion réussie ${data.id}`);
       } else {
         console.log('Identifiants de connexion invalides');
         throw new Error(data.errors || 'Erreur identification');

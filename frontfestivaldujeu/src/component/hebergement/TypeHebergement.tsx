@@ -1,8 +1,10 @@
 import { User } from "../admin/AdminPage";
 
 export type Heber = {
-    createur: User;
+    idHebergement: string,
+    createur: string;
     titre: string;
     adresse: string;
     description: string;
+    communication: string
 }

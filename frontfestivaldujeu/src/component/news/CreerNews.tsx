@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Button, TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export const CreerNews = () => {
   const [titre, setTitre] = useState("");
   const [description, setDescription] = useState("");
+  const naviguate = useNavigate();
 
   const handleTitreChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitre(e.target.value);
@@ -13,9 +15,40 @@ export const CreerNews = () => {
     setDescription(e.target.value);
   };
 
+  const createNews = async (titre: string, description: string, createur: string) => {
+    try {
+      const response = await fetch('http://localhost:8080/news', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // Ajoutez d'autres en-têtes nécessaires ici
+        },
+        body: JSON.stringify({
+          createur: createur,
+          titre: titre,
+          description: description,
+          favori: false,
+        }),
+      });
+      if (!response.ok) {
+        // Si la réponse n'est pas dans la plage 200, gérer l'erreur
+        throw new Error(`Erreur lors de la création de l'information: ${response.statusText}`);
+      }
+  
+      // Analyser la réponse JSON
+      const createdNews = await response.json();
+      console.log('Information créée avec succès:', createdNews);
+      naviguate("/news")
+  
+    } catch (error: any) {
+      console.error('Erreur lors de la création de l\'information:', error.message);
+      // Gérer l'erreur, par exemple, afficher un message à l'utilisateur.
+    }
+  };
+  
+
   const handleAjouterClick = () => {
-    console.log("Titre:", titre);
-    console.log("Description:", description);
+    createNews(titre, description, "robin")
   };
 
   return (
