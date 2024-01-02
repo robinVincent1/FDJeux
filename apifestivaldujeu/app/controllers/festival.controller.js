@@ -85,4 +85,46 @@ exports.incrementer = async (req, res) => {
   }
 };
 
+exports.ModifRoleUser = async (req, res) => {
+    const { ancienRole, nouveauRole } = req.body;
+    const {idFestival} = req.params;
+    console.log(idFestival)
+  
+    try {
+      const festival = await Festival.findByPk(idFestival);
+  
+      if (!festival) {
+        return res.status(404).json({ error: 'Festival non trouvé' });
+      }
+  
+      // Fonction pour gérer l'incrémentation en fonction du rôle
+      const incrementForRole = (role, incrementValue) => {
+        switch (role.toLowerCase()) {
+          case 'référent':
+            return festival.increment({ 'nbReferent': incrementValue });
+          case 'bénévole':
+            return festival.increment({ 'nbBenevole': incrementValue });
+          case 'résponsable soirée':
+            return festival.increment({ 'nbRespoSoiree': incrementValue });
+          case 'accueil bénévole':
+            return festival.increment({ 'nbAccueilBenevole': incrementValue });
+          default:
+            return Promise.resolve(); 
+        }
+      };
+  
+      // Décrémentation pour l'ancien rôle
+      await incrementForRole(ancienRole, -1);
+  
+      // Incrémentation pour le nouveau rôle
+      await incrementForRole(nouveauRole, 1);
+  
+      res.status(200).json({ message: 'Incrémentation réussie' });
+    } catch (error) {
+      console.error('Erreur lors de l\'incrémentation', error);
+      res.status(500).json({ error: 'Erreur serveur', details: error.message });
+    }
+  };
+  
+
 

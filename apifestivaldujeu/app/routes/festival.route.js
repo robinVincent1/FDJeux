@@ -11,6 +11,8 @@ module.exports = app => {
     router.post('/',  controller.createFestival);
     
     router.put('/:id',  controller.incrementer);
+
+    router.put('/modifRoleUser/:idFestival',  controller.ModifRoleUser);
     
     
     app.use('/festival', router);

@@ -32,6 +32,7 @@ export const AdminPage = () => {
     const [listeAccueilBenevole, setListeAccueilBenevole] = useState<User[]>([]);
     const [listeBenevole, setListeBenevole] = useState<User[]>([]);
     const [festi, setFesti] = useState<Festival>(test);
+    const [roleUpdated, setRoleUpdated] = useState<boolean>(false);
 
     useEffect(() => {
       // Appel API pour récupérer le festival
@@ -60,7 +61,7 @@ export const AdminPage = () => {
       };
   
       fetchData();
-    }, []);
+    }, [festi, roleUpdated]);
 
     useEffect(() => {
       const fetchData = async () => {
@@ -78,7 +79,7 @@ export const AdminPage = () => {
       };
   
       fetchData();
-    }, []);
+    }, [festi, roleUpdated]);
 
     useEffect(() => {
       const fetchData = async () => {
@@ -96,7 +97,7 @@ export const AdminPage = () => {
       };
   
       fetchData();
-    }, []);
+    }, [festi, roleUpdated]);
 
     useEffect(() => {
       const fetchData = async () => {
@@ -114,39 +115,44 @@ export const AdminPage = () => {
       };
   
       fetchData();
-    }, []);
+    }, [festi, roleUpdated]);
+
+    const handleRoleUpdate = () => {
+      // Mettez à jour roleUpdated pour forcer le rechargement des données
+      setRoleUpdated((prev) => !prev);
+    };
 
     return (
       <div className=" grid grid-cols-5">
       <div className=" ">
-        <strong className="flex justify-center  p-2 text-[red]">Admin</strong>
+        <strong className="flex justify-center  p-2 font-bold">Admin</strong>
         {listeAdmin.map((user) => (
-          <ProfilUserModifiable key={user.idUser} u={user} />
+          <ProfilUserModifiable key={user.idUser} u={user} idFestival={festi.idFestival} onRoleUpdate={handleRoleUpdate}/>
         ))}
       </div>
       <div className="">
-        <strong className="flex justify-center  p-2 text-[red]">Référent</strong>
+        <strong className="flex justify-center  p-2 font-bold">Référent</strong>
         {listeReferent.map((user) => (
-          <ProfilUserModifiable key={user.idUser} u={user} />
+          <ProfilUserModifiable key={user.idUser} u={user} idFestival={festi.idFestival} onRoleUpdate={handleRoleUpdate}/>
         ))}
       </div>
       <div className="">
-        <strong className="flex justify-center  p-2 text-[red]">Résponsable soirée </strong>
+        <strong className="flex justify-center  p-2 font-bold">Résponsable soirée </strong>
         
         {listeRespoSoiree.map((user) => (
-          <ProfilUserModifiable key={user.idUser} u={user} />
+          <ProfilUserModifiable key={user.idUser} u={user} idFestival={festi.idFestival} onRoleUpdate={handleRoleUpdate}/>
         ))}
       </div>
       <div className="">
-        <strong className="flex justify-center  p-2 text-[red]">Bénévole Accueil</strong>
+        <strong className="flex justify-center  p-2 font-bold">Bénévole Accueil</strong>
         {listeAccueilBenevole.map((user) => (
-          <ProfilUserModifiable key={user.idUser} u={user} />
+          <ProfilUserModifiable key={user.idUser} u={user} idFestival={festi.idFestival} onRoleUpdate={handleRoleUpdate}/>
         ))}
       </div>
       <div className="">
-        <strong className="flex justify-center  p-2 text-[red]">Bénévole</strong>
+        <strong className="flex justify-center  p-2 font-bold">Bénévole</strong>
         {listeBenevole.map((user) => (
-          <ProfilUserModifiable key={user.idUser} u={user} />
+          <ProfilUserModifiable key={user.idUser} u={user} idFestival={festi.idFestival} onRoleUpdate={handleRoleUpdate}/>
         ))}
       </div>
       </div>

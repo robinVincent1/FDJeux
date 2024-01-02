@@ -24,6 +24,8 @@ module.exports = app => {
 
   router.put('/ModifProfil', controller.ModifProfil);
 
+  router.put('/ModifRole/:idUser', controller.ModifRole);
+
 
   app.use('/user', router);
 };

@@ -179,7 +179,6 @@ export const PageAccueil = () => {
           </p>
         ) : (
           <div className="flex">
-            {festi.idFestival} {userConnected.idFestival}
             <div className="p-2 flex justify-center">
               <Button
                 onClick={() => {

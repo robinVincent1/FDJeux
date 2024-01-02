@@ -213,10 +213,10 @@ const getAccueilBenevoleByFestival = async (req, res) => {
 
 // Mettre à jour un Profil par ID
 const ModifRole = (req, res) => {
-  const { id } = req.params;
+  const { idUser } = req.params;
   const { role } = req.body;
 
-  User.findByPk(id)
+  User.findByPk(idUser)
     .then((user) => {
       if (!user) {
         return res.status(404).json({ message: 'User non trouvé' });
