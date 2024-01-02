@@ -1,21 +1,28 @@
-const bcrypt = require('bcrypt');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/conn');
 
-module.exports = (sequelize, Sequelize) => {
-  const Reponse = sequelize.define('reponse', {
-    idReponse:{
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    autoIncrement: true, 
+
+const defineReponse = (sequelize, Sequelize) => {
+
+
+  const Reponse = sequelize.define('Reponse', {
+    idReponse: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
     },
     createur: {
-        type:Sequelize.USER,
+      type: Sequelize.STRING,
     },
     reponse: {
-        type:Sequelize.String,
-    }
-});
-
+      type: Sequelize.STRING,
+    },
+    questionId: {
+      type: Sequelize.STRING,
+    },
+  });
 
   return Reponse;
 };
+
+module.exports = defineReponse;

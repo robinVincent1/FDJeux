@@ -15,9 +15,9 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from "react-router-dom";
 
 
-const pages = [{title:'Accueil',href:'/accueil'},{title:'Planning General ',href:'/planning_general'},{title:'News',href:'/news'},{title:'Planning Personel', href:'/planning_perso'}, {title: "Forum", href: "/forum"}, {title:"Infos", href:"/creerinfos"}, {title:"Hebergement", href:"/hebergement"}];
+const pages = [{title:'Accueil',href:'/accueil'}, {title: "festival", href: "/festival"}, {title:'Planning General ',href:'/planning_general'},{title:'News',href:'/news'},{title:'Planning Personel', href:'/planning_perso'}, {title: "Forum", href: "/forum"}, {title:"Infos", href:"/creerinfos"}, {title:"Hebergement", href:"/hebergement"}];
 
-const settings = [{title:'Mon profil',href:'/profil'}, {title:'Se déconnecter',href:'/logout'}, {title:'Admin',href:'/admin'}];
+const settings = [{title:'Mon profil',href:'/profil'}, {title:'Se déconnecter',href:'/deconnexion'}, {title:'Admin',href:'/admin'}];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
