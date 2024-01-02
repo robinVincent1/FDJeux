@@ -149,10 +149,10 @@ export const PageAccueil = () => {
 
   return (
     <div className="bg-grey min-h-screen">
-      <h1 className="p-4 text-xl font-bold flex justify-center">
-        Bienvenue sur le site du Festival du Jeu de Montpellier !
+      <h1 className="p-16 text-xl font-bold flex justify-center ">
+        <p className="  text-[#0A5483]">Bienvenue sur le site du Festival du Jeu de Montpellier !</p>
       </h1>
-      <div className=" flex justify-center break-words pt-8">
+      <div className=" flex justify-center break-words p-4 bg-[#0E8DDF]">
         {listeInfos.map((e) => (
           <InfosDeroulement
             inf={e}
@@ -174,7 +174,7 @@ export const PageAccueil = () => {
       </div>
       <div className="p-2 flex justify-center">
         {isInscrit ? (
-          <p>
+          <p className=" p-2 bg-[#62B862] text-white rounded-lg">
             Vous êtes inscrit à ce festival !
           </p>
         ) : (
@@ -208,13 +208,14 @@ export const PageAccueil = () => {
           </div>
         )}
       </div>
-      <div className="pt-4">
-        {listeNewsFav.map((e) => (
-          <div className="p-2">
-            <NewsFav news={e} />
-          </div>
-        ))}
-      </div>
+      <div className="pt-4 grid gap-4 " style={{ gridTemplateColumns: `repeat(${listeNewsFav.length}, minmax(0, 1fr))` }}>
+  {listeNewsFav.map((e) => (
+    <div className="p-2 ">
+      <NewsFav news={e} />
+    </div>
+  ))}
+</div>
+
     </div>
   );
 };

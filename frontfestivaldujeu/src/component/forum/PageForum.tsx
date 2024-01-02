@@ -148,7 +148,7 @@ export const PageForum = () => {
 
   return (
     <div>
-      <h1 className="flex justify-center p-4 font-bold text-2xl"> FORUM</h1>
+      <h1 className="flex justify-center p-4 font-bold text-2xl text-[#0A5483]"> FORUM</h1>
       <div className="pt-8 ml-16 mr-16 flex">
         <TextField
           onChange={handleq}

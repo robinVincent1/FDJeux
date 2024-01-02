@@ -138,19 +138,19 @@ export const BlockQuestion = ({ quest, deleteQuestion }: Props) => {
   return (
     <div className=" p-2">
       <div className="border-black border rounded p-2 ml-8 mr-8">
-        <p className="font-bold ml-4">{quest.objet}</p>
+        <p className="font-bold ml-4 text-[#0A5483]">{quest.objet}</p>
         <p className="ml-4">{quest.question}</p>
         <p className="italic ml-4">{quest.createur}</p>
         <div className="flex justify-center">
           {admin ? (
-            <div className="flex justify-end">
+            <div className="flex justify-end ">
               <IconButton aria-label="delete" onClick={() => deleteQuestion()}>
                 <DeleteIcon />
               </IconButton>
             </div>
           ) : null}
           <button
-            className="flex ml-4"
+            className="flex ml-4 text-[#0E8DDF]"
             onClick={() => {
               setisShow(!isShow);
             }}
@@ -164,7 +164,7 @@ export const BlockQuestion = ({ quest, deleteQuestion }: Props) => {
         <div className="p-2 ml-16  mr-16  ">
           {comments.map((rep, index) => (
             <div key={index} className="pt-2">
-              <p className=" border border-black">
+              <p className="shadow-lg p-2 rounded-lg ">
                 {admin ? (
                   <IconButton
                     aria-label="delete"
@@ -173,7 +173,7 @@ export const BlockQuestion = ({ quest, deleteQuestion }: Props) => {
                     <DeleteIcon />
                   </IconButton>
                 ) : null}
-                <strong className="ml-2">{rep.createur} :</strong> {rep.reponse}
+                <strong className="ml-2 ">{rep.createur} :</strong> {rep.reponse}
               </p>
             </div>
           ))}

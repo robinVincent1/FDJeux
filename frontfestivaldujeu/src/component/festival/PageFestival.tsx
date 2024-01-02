@@ -45,8 +45,8 @@ export const PageFestival = () => {
 
   return (
     <div>
-      <div className="p-4">
-        <p className="p-4 font-bold">Voici la liste des festivals :</p>
+      <div className="pt-16 p-4">
+        <p className="p-8 font-bold flex justify-center text-[#0A5483]">Voici la liste des festivals :</p>
         {liste.length > 0 ? (
           <Tableau listeFesti={liste} />
         ) : (
@@ -54,7 +54,7 @@ export const PageFestival = () => {
         )}
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex justify-center p-8">
         <Button
           onClick={() => {
             nav("/CreerFestival");
@@ -62,7 +62,7 @@ export const PageFestival = () => {
           type="submit"
           fullWidth
           variant="contained"
-          sx={{ width: "10%" }}
+          sx={{ width: "20%" }}
         >
           Créer un festival
         </Button>

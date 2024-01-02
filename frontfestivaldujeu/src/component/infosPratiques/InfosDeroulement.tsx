@@ -39,11 +39,11 @@ interface InfosDeroulementProps {
       };
 
     return (
-        <div className="border rounded p-2 ml-2 mr-2 mt-2 break-words border-black">
-            <h1 className="flex justify-center font-bold break-words p-2">
+        <div className=" p-2 ml-2 mr-2 break-words">
+            <h1 className="flex font-bold text-white break-words p-2">
                 {inf.titre}
             </h1>
-            <div className="flex justify-center break-words ">
+            <div className="flex justify-center text-white break-words ">
                 {inf.description}
             </div>
             <div className="flex justify-center">

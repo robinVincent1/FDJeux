@@ -46,7 +46,7 @@ export const News = ({ titre, description, createur, favori, id, onDelete, onUpd
 
     return (
         <div className=" p-4 rounded  shadow-2xl">
-            <p className="font-bold ">{titre}</p>
+            <p className="font-bold text-[#0A5483]">{titre}</p>
             <p>{description}</p>
             <p className="italic">{createur}</p>
             <div className="">

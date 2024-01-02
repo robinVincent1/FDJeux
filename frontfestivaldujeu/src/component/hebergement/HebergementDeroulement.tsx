@@ -13,7 +13,7 @@ export const HebergementDeroulement = ({heber, deleteH} : Props) => {
 
     return (
         <div className="border rounded p-2 ml-2 mr-2 mt-2 break-words border-black">
-            <h1 className="flex justify-center font-bold break-words p-2">
+            <h1 className="flex justify-center font-bold break-words p-2 text-[#0A5483]">
                 {heber.titre}
             </h1>
             <div className=" break-words ">

@@ -86,11 +86,11 @@ export const ProfilUserModifiable = ({
     <div className="p-2">
       <div className="  flex justify-center shadow-xl rounded-lg ">
         <div className="p-4">
-          <div className="text-md font-bold">
+          <div className="text-md font-bold  text-[#0A5483] flex justify-center">
             {u.firstName} {u.lastName}
           </div>
-          <div className=" text-sm">{u.pseudo}</div>
-          <div className="text-sm">{u.email}</div>
+          <div className=" text-sm flex justify-center">{u.pseudo}</div>
+          <div className="text-sm flex justify-center">{u.email}</div>
           {modif ? (
             <button
               className="border rounded p-2"
@@ -122,7 +122,7 @@ export const ProfilUserModifiable = ({
                 </Select>
               </FormControl>
               <button
-                className="pl-2"
+                className="pl-2  text-[#0A5483]"
                 onClick={() => {
                   ModifRole();
                   return setModif(true);

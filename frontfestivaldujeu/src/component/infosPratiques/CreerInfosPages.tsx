@@ -58,7 +58,7 @@ export const CreerInfosPage = () => {
 
   return (
     <div className="p-8">
-        <h1 className="font-bold flex justify-center text-xl p-8">
+        <h1 className="font-bold flex justify-center text-xl p-8 text-[#0A5483]">
             Création Information 
         </h1>
       <div className="pb-4 flex justify-center">
