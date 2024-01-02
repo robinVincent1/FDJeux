@@ -14,8 +14,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 
 interface CreneauProps {
+   idCreneau:number;
     ouvert: boolean;
-    horaire: string;
+    horaire: number;
     jour: string;
     titre: string;
     nb_max: number;
@@ -25,6 +26,7 @@ interface CreneauProps {
   }
   
   const Creneau: React.FC<CreneauProps> = ({
+    idCreneau,
     ouvert,
     horaire,
     jour,
@@ -42,12 +44,38 @@ interface CreneauProps {
         const handleOpenModifier = () => setOpenModifier(true);
         const handleCloseModifier = () => setOpenModifier(false);
         let ouvertlocal : boolean = ouvert
+        const userId = () =>{ 
+          const userid = localStorage.getItem('idUser');
+          if (userid != null){
+            return parseInt(userid)
+          }
+          else{
+            return 0
+          }
+  }
       
 
         const handleChangeOuvert = (event: SelectChangeEvent) => {
         };
 
-
+      const inscription = (idUser:number , idCreneau: number) => {
+          try{
+            if (idUser == 0){
+              alert("Vous devez être connecté pour vous inscrire")
+            }
+            else{
+            const reponse = fetch(`http://localhost:8080/api/creneau_benevole/${idUser}/${idCreneau}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+            })
+          }
+          }
+          catch(error){
+            console.log(error)
+          }
+      }
       
       function ChoseColor(){
         let chosedcolor = "default"
@@ -101,6 +129,7 @@ interface CreneauProps {
                 <Typography>Referent : {referent?.prenom} ({referent?.pseudo})</Typography>
                 </Typography>
                 <Button onClick={handleOpenModifier}>Modifié</Button>
+                <Button onClick={() => inscription(idCreneau,userId())}>S'inscrire</Button>
                   <Modal
                       open={openModifier}
                       onClose={handleCloseModifier}

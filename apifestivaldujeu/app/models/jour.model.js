@@ -15,7 +15,7 @@ module.exports = (sequelize, Sequelize) => {
         },
     });
 
-    Jour.hasMany(Horaire, { as: 'Horaires' });
+    Jour.hasMany(Horaire, { as: 'list_horaire', foreignKey: 'idJour' });
 
     return Jour;
 };
