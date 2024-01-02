@@ -3,19 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { User } from "../admin/AdminPage";
 
-const robin: User = {
-    id: "1idzhcdzvch",
-    name: "Robin Vincent",
-    email: "robin.vin100@gmail.com",
-    password: "kcndnc",
-    image: "jcdsc",
-    pseudo: "robinvincent",
-    role: "Admin",
-    adressePostale: "",
-    association: "",
-    telephone: "0682165431",
-    nbEdition: 3,
-  };
+
 
 export const CreerHebergement = () => {
   const [titre, setTitre] = useState("");

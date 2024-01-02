@@ -34,7 +34,6 @@ exports.createFestival = (req, res) => {
   };
 
   exports.getFestivalByEnCours = async (req, res) => {
-    console.log("ok")
     try {
       const festival = await Festival.findOne({
         where: {
@@ -55,18 +54,29 @@ exports.createFestival = (req, res) => {
 
 
 exports.incrementer = async (req, res) => {
-  const { idFestival } = req.params; 
-  const { user } = req.body;
+  const { id, role } = req.body; 
 
   try {
     // Recherche du festival
-    const festival = await Festival.findByPk(idFestival);
+    console.log(role)
+    const festival = await Festival.findByPk(id);
 
     if (!festival) {
       return res.status(404).json({ error: 'Festival non trouvé' });
     }
-
-    await festival.increment(user);
+    if (role == "référent") {
+        await festival.increment({ 'nbReferent': 1 });
+    }
+    else if (role == "bénévole") {
+        await festival.increment({ 'nbBenevole': 1 });
+    }
+    else if (role == "résponsable soirée") {
+        await festival.increment({ 'nbRespoSoiree': 1 });
+    }
+    else if (role == "accueil bénévole") {
+        await festival.increment({ 'nbBenevole': 1 });
+    }
+   
 
     res.status(200).json({ message: 'incrémentation réussie ' });
   } catch (error) {

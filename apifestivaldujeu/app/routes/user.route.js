@@ -6,7 +6,15 @@ module.exports = app => {
 
   router.get('/me', isLoggedIn, controller.getMe);
 
-  router.get('/:id', isLoggedIn, controller.getById);
+  router.get('/:id',  controller.getById);
+
+  router.get('/benevole/:idFestival',  controller.getBenevoleByFestival);
+
+  router.get('/accueilBenevole/:idFestival',  controller.getAccueilBenevoleByFestival);
+
+  router.get('/referent/:idFestival',  controller.getReferentsByFestival);
+
+  router.get('/respoSoiree/:idFestival',  controller.getRespoSoireeByFestival);
 
   router.post('/login', controller.login);
 
@@ -14,7 +22,8 @@ module.exports = app => {
 
   router.put('/', controller.addFestivalToUser);
 
-  // router.delete('/:id', controller.deleteById);
+  router.put('/ModifProfil', controller.ModifProfil);
+
 
   app.use('/user', router);
 };

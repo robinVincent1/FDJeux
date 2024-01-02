@@ -1,129 +1,152 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { ProfilUserModifiable } from "./ProfilUserModifiable";
+import { Festival, test } from "../festival/PageFestival";
 
 export type User = {
-    id: string;
-    name: string;
+    idUser: string;
+    firstName: string;
+    lastName: string;
     email: string;
     password: string;
-    image: string;
     pseudo: string;
     role: string;
-    adressePostale: string;
+    postalAdress: string;
     association: string;
+    propo: string;
     telephone: string;
     nbEdition: number;
-
+    photoProfil: string;
+    idFestival: string;
+    flexible: boolean;
 }
 
-const lucas : User = {
-    id: "1idzhcdzvch",
-    name: "Lucas",
-    email: "robin.vin100@gmail.com",
-    password: "kcndnc",
-    image: "jcdsc",
-    pseudo: "robinvincent",
-    role: "Référent",
-    adressePostale: "",
-    association: "",
-    telephone: "0682165431",
-    nbEdition: 3,
-}
 
-const robin : User = {
-  id: "1idzhcdzvch",
-  name: "Robin Vincent",
-  email: "robin.vin100@gmail.com",
-  password: "kcndnc",
-  image: "jcdsc",
-  pseudo: "robinvincent",
-  role: "Admin",
-  adressePostale: "",
-  association: "",
-  telephone: "0682165431",
-  nbEdition: 3,
-}
 
-const lilian : User = {
-  id: "1idzhcdzvch",
-  name: "Lilian",
-  email: "robin.vin100@gmail.com",
-  password: "kcndnc",
-  image: "jcdsc",
-  pseudo: "robinvincent",
-  role: "Réspo soirée",
-  adressePostale: "",
-  association: "",
-  telephone: "0682165431",
-  nbEdition: 3,
-}
 
-const samy : User = {
-  id: "1idzhcdzvch",
-  name: "Samy",
-  email: "robin.vin100@gmail.com",
-  password: "kcndnc",
-  image: "jcdsc",
-  pseudo: "robinvincent",
-  role: "Bénévole Accueil",
-  adressePostale: "",
-  association: "",
-  telephone: "0682165431",
-  nbEdition: 3,
-}
-
-const romain : User = {
-  id: "1idzhcdzvch",
-  name: "Romain",
-  email: "robin.vin100@gmail.com",
-  password: "kcndnc",
-  image: "jcdsc",
-  pseudo: "robinvincent",
-  role: "Bénévole",
-  adressePostale: "",
-  association: "",
-  telephone: "0682165431",
-  nbEdition: 3,
-}
 
 
 export const AdminPage = () => {
-    const [listeAdmin, setListeAdmin] = useState([robin, robin, robin, robin, robin, robin, robin, robin, robin, robin, robin, robin, robin, robin]);
-    const [listeReferent, setListeReferent] = useState([lucas, lucas,lucas,lucas,lucas,lucas,lucas,lucas,lucas,lucas,lucas,lucas,lucas,lucas,lucas,lucas,]);
-    const [listeRespoSoiree, setListeRespoSoiree] = useState([lilian,lilian,lilian,lilian,lilian,lilian,lilian,lilian,lilian,lilian,lilian,lilian,lilian,lilian,]);
-    const [listeAccueilBenevole, setListeAccueilBenevole] = useState([samy,samy,samy,samy,samy,samy,samy,samy,samy,samy,samy,samy,samy,samy,samy,samy,samy,samy,samy,]);
-    const [listeBenevole, setListeBenevole] = useState([romain,romain,romain,romain,romain,romain,romain,romain,romain,romain,romain,romain,romain,romain,romain,romain,]);
+    const [listeAdmin, setListeAdmin] = useState<User[]>([]);
+    const [listeReferent, setListeReferent] = useState<User[]>([]);
+    const [listeRespoSoiree, setListeRespoSoiree] = useState<User[]>([]);
+    const [listeAccueilBenevole, setListeAccueilBenevole] = useState<User[]>([]);
+    const [listeBenevole, setListeBenevole] = useState<User[]>([]);
+    const [festi, setFesti] = useState<Festival>(test);
+
+    useEffect(() => {
+      // Appel API pour récupérer le festival
+      fetch("http://localhost:8080/festival/enCours")
+        .then((response) => response.json())
+        .then((data) => setFesti(data))
+        .catch((error) =>
+          console.error("Erreur lors de la récupération du festival :", error)
+        );
+    }, []);
+
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          console.log(festi.idFestival)
+          const response = await fetch(`http://localhost:8080/user/referent/${festi.idFestival}`);
+          const data = await response.json();
+          setListeReferent(data)
+        } catch (error) {
+          console.error(
+            "Erreur lors de la récupération de l'utilisateur :",
+            error
+          );
+        }
+      };
+  
+      fetchData();
+    }, []);
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          console.log(festi.idFestival)
+          const response = await fetch(`http://localhost:8080/user/benevole/${festi.idFestival}`);
+          const data = await response.json();
+          setListeBenevole(data)
+        } catch (error) {
+          console.error(
+            "Erreur lors de la récupération de l'utilisateur :",
+            error
+          );
+        }
+      };
+  
+      fetchData();
+    }, []);
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          console.log(festi.idFestival)
+          const response = await fetch(`http://localhost:8080/user/respoSoiree/${festi.idFestival}`);
+          const data = await response.json();
+          setListeRespoSoiree(data)
+        } catch (error) {
+          console.error(
+            "Erreur lors de la récupération de l'utilisateur :",
+            error
+          );
+        }
+      };
+  
+      fetchData();
+    }, []);
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          console.log(festi.idFestival)
+          const response = await fetch(`http://localhost:8080/user/accueilBenevole/${festi.idFestival}`);
+          const data = await response.json();
+          setListeAccueilBenevole(data)
+        } catch (error) {
+          console.error(
+            "Erreur lors de la récupération de l'utilisateur :",
+            error
+          );
+        }
+      };
+  
+      fetchData();
+    }, []);
+
     return (
       <div className=" grid grid-cols-5">
       <div className=" ">
         <strong className="flex justify-center  p-2 text-[red]">Admin</strong>
         {listeAdmin.map((user) => (
-          <ProfilUserModifiable key={user.id} u={user} />
+          <ProfilUserModifiable key={user.idUser} u={user} />
         ))}
       </div>
       <div className="">
         <strong className="flex justify-center  p-2 text-[red]">Référent</strong>
         {listeReferent.map((user) => (
-          <ProfilUserModifiable key={user.id} u={user} />
+          <ProfilUserModifiable key={user.idUser} u={user} />
         ))}
       </div>
       <div className="">
         <strong className="flex justify-center  p-2 text-[red]">Résponsable soirée </strong>
         
         {listeRespoSoiree.map((user) => (
-          <ProfilUserModifiable key={user.id} u={user} />
+          <ProfilUserModifiable key={user.idUser} u={user} />
         ))}
       </div>
       <div className="">
         <strong className="flex justify-center  p-2 text-[red]">Bénévole Accueil</strong>
         {listeAccueilBenevole.map((user) => (
-          <ProfilUserModifiable key={user.id} u={user} />
+          <ProfilUserModifiable key={user.idUser} u={user} />
         ))}
       </div>
       <div className="">
         <strong className="flex justify-center  p-2 text-[red]">Bénévole</strong>
         {listeBenevole.map((user) => (
-          <ProfilUserModifiable key={user.id} u={user} />
+          <ProfilUserModifiable key={user.idUser} u={user} />
         ))}
       </div>
       </div>

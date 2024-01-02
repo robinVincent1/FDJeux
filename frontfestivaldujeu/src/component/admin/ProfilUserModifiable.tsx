@@ -20,7 +20,7 @@ export const ProfilUserModifiable = ({ u }: ProfilUserModifiableProps) => {
     <div className="p-2">
       <div className="  flex justify-center shadow-xl rounded-lg ">
         <div className="p-4">
-          <div className="text-md font-bold">{u.name}</div>
+          <div className="text-md font-bold">{u.firstName} {u.lastName}</div>
           <div className=" text-sm">{u.pseudo}</div>
           <div className="text-sm">{u.email}</div>
           {modif ? (

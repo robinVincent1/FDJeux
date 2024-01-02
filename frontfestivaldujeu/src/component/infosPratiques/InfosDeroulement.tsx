@@ -5,10 +5,10 @@ import { Button } from "@mui/material";
 interface InfosDeroulementProps {
     inf: Infos;
     onDelete: () => void;
+    isAdmin: boolean
   }
   
-  export const InfosDeroulement: React.FC<InfosDeroulementProps> = ({ inf, onDelete }) => {
-    const admin = false;
+  export const InfosDeroulement: React.FC<InfosDeroulementProps> = ({ inf, onDelete, isAdmin }) => {
     
     const handleDeleteInfos = async () => {
         const confirmDelete = window.confirm(
@@ -47,7 +47,7 @@ interface InfosDeroulementProps {
                 {inf.description}
             </div>
             <div className="flex justify-center">
-            {admin ? (
+            {isAdmin ? (
                 <Button
                     onClick={handleDeleteInfos}
                     type="submit"
