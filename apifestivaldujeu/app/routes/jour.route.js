@@ -6,6 +6,8 @@ module.exports = app => {
     const router = require('express').Router();
 
     router.get('/',controller.getAllJour);
+
+    router.get('/:id',controller.getJourById)
     
     router.post('/', controller.create);
 

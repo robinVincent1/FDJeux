@@ -6,11 +6,11 @@ module.exports = app => {
 
     router.post('/', controller.inscription)
 
-    router.post('/:UserId', controller.inscriptionbyid)
+    router.delete('/', controller.desinscription)
 
-    router.get('/:CreneauId',controller.getbenevoles)
+    router.get('/:idCreneau',controller.getbenevoles)
 
     router.get('/:UserId',controller.getcreneaux)
 
     app.use('/creneau_benevole', router);
-}
+}   
