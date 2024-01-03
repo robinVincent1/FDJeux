@@ -29,6 +29,10 @@ exports.getRepasByUserRepas = async (req, res) => {
                 repas: repas,
                 idFestival: idFestival,
             },
+            include: [{
+                model: User,
+                as: 'User',
+            }],
         });
 
         if (repasFinded) {
@@ -54,6 +58,10 @@ exports.getRepasByEtat = async (req, res) => {
                 etat: [1, 2],
                 repas: repas
             },
+            include: [{
+                model: User,
+                as: 'User',
+            }],
         });
 
         if (repasFinded.length > 0) {

@@ -9,17 +9,19 @@ import { Festival, test } from "../festival/PageFestival";
 export type Repas = {
   idRepas: string;
   idFestival: string;
-  idUser: User;
+  idUser: string;
   repas: number;
   etat: number;
+  User: User
 };
 
 const testR: Repas = {
   idRepas: "1",
   idFestival: "1",
-  idUser: robin,
+  idUser: "",
   repas: 0,
   etat: 1,
+  User: robin,
 };
 
 export const PageRepas = () => {
@@ -318,15 +320,18 @@ export const PageRepas = () => {
             <div className="p-4  flex">
               <div>
                 <p className="font-bold">
-                  {d.idUser.firstName} {d.idUser.lastName}
+                  {d.User.firstName} {d.User.lastName}
                 </p>
-                <p className="italic">{d.idUser.telephone}</p>
+                <p className="italic">{d.User.telephone}</p>
               </div>
 
               <div className="ml-4 flex justify-center">
                 <Button
                   color="success"
-                  onClick={() => changeSM(3)}
+                  onClick={() => {
+                    changeSM(3)
+                    ModifEtat(3, d.idRepas )
+                }}
                   type="submit"
                   fullWidth
                   variant="contained"
@@ -339,7 +344,10 @@ export const PageRepas = () => {
               <div className="ml-4 flex justify-center">
                 <Button
                   color="success"
-                  onClick={() => changeSM(2)}
+                  onClick={() =>{
+                    changeSM(2);
+                    ModifEtat(2, d.idRepas)
+                  }}
                   type="submit"
                   fullWidth
                   variant="contained"
@@ -358,15 +366,18 @@ export const PageRepas = () => {
             <div className="p-4  flex">
               <div>
                 <p className="font-bold">
-                  {d.idUser.firstName} {d.idUser.lastName}
+                  {d.User.firstName} {d.User.lastName}
                 </p>
-                <p className="italic">{d.idUser.telephone}</p>
+                <p className="italic">{d.User.telephone}</p>
               </div>
 
               <div className="ml-4 flex justify-center">
                 <Button
                   color="success"
-                  onClick={() => changeSS(3)}
+                  onClick={() => {
+                    changeSS(3)
+                    ModifEtat(3, d.idRepas)
+                  }}
                   type="submit"
                   fullWidth
                   variant="contained"
@@ -379,7 +390,10 @@ export const PageRepas = () => {
               <div className="ml-4 flex justify-center">
                 <Button
                   color="success"
-                  onClick={() => changeSS(2)}
+                  onClick={() => {
+                    changeSS(2)
+                    ModifEtat(2, d.idRepas)
+                  }}
                   type="submit"
                   fullWidth
                   variant="contained"
@@ -398,15 +412,18 @@ export const PageRepas = () => {
             <div className="p-4  flex">
               <div>
                 <p className="font-bold">
-                  {d.idUser.firstName} {d.idUser.lastName}
+                  {d.User.firstName} {d.User.lastName}
                 </p>
-                <p className="italic">{d.idUser.telephone}</p>
+                <p className="italic">{d.User.telephone}</p>
               </div>
 
               <div className="ml-4 flex justify-center">
                 <Button
                   color="success"
-                  onClick={() => changeDM(3)}
+                  onClick={() => {
+                    changeDM(3)
+                    ModifEtat(3, d.idRepas)
+                  }}
                   type="submit"
                   fullWidth
                   variant="contained"
@@ -419,7 +436,10 @@ export const PageRepas = () => {
               <div className="ml-4 flex justify-center">
                 <Button
                   color="success"
-                  onClick={() => changeDM(2)}
+                  onClick={() => {
+                    changeDM(2)
+                    ModifEtat(2, d.idRepas)
+                  }}
                   type="submit"
                   fullWidth
                   variant="contained"

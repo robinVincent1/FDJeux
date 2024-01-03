@@ -1,8 +1,7 @@
-const Sequelize = require('sequelize');
-const sequelize = require('../../db/conn');
-const { User } = require('./user.model')(sequelize, Sequelize);
+const defineUser = require("./user.model")
 
 module.exports = (sequelize, Sequelize) => {
+    const User = defineUser(sequelize, Sequelize)
     const Repas = sequelize.define('repas', {
         idRepas: {
             type: Sequelize.INTEGER,
@@ -23,6 +22,8 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false,
         }
     });
+
+    Repas.belongsTo(User, { as: "User", foreignKey: "idUser"})
 
     return Repas;
 };
