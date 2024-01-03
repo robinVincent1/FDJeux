@@ -20,6 +20,7 @@ import { CreerHebergement } from './hebergement/CreerHebergement';
 import { PageFestival } from './festival/PageFestival';
 import { CreerFestival } from './festival/CreerFestival';
 import { Deco } from './deconnexion/Deco';
+import { PageRepas } from './repas/PageRepas';
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
                   <Route path="/festival" element={<PageFestival />} />
                   <Route path="/Creerfestival" element={<CreerFestival />} />
                   <Route path="/deconnexion" element={<Deco />} />
+                  <Route path="/repas" element={<PageRepas />} />
                 </AuthWrapper>
               }
             />

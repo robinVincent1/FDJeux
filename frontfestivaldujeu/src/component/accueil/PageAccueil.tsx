@@ -144,8 +144,42 @@ export const PageAccueil = () => {
     } catch (error: any) {
       console.error("Erreur lors de la modification :", error.message);
     }
+    createRepas(1)
+    createRepas(2)
+    createRepas(3)
     setIsInscrit(true);
   };
+
+  const createRepas = async (repas: number) => {
+    const idUser = localStorage.getItem("userId");
+
+    try {
+      const response = await fetch(`http://localhost:8080/repas`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          idUser: idUser,
+          idFestival: festi.idFestival,
+          repas: repas,
+          etat: 0,
+        }),
+      });
+
+      if (!response.ok) {
+        // Gérer les erreurs ici
+        console.error("Erreur lors de la création:", response.statusText);
+      } else {
+        // Si tout s'est bien passé
+        const data = await response.json();
+        console.log("Créationréussie :", data);
+      }
+    } catch (error: any) {
+      console.error("Erreur lors de la création :", error.message);
+    }
+  }
+
 
   return (
     <div className="bg-grey min-h-screen">
