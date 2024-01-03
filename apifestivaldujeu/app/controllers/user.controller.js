@@ -157,6 +157,24 @@ const getReferentsByFestival = async (req, res) => {
   }
 };
 
+const getFlexibleFestival = async(req,res) => {
+  const { idFestival } = req.params;
+
+  try {
+    const flexible = await User.findAll({
+      where: {
+        idFestival: idFestival,
+        flexible: true,
+      },
+    });
+
+    res.status(200).json(flexible);
+  }catch(error){
+  }
+}
+
+
+
 const getBenevoleByFestival = async (req, res) => {
   const { idFestival } = req.params;
 
@@ -234,4 +252,4 @@ const ModifRole = (req, res) => {
     });
 };
 
-module.exports = { getMe, getById, create, login, addFestivalToUser, ModifProfil, getReferentsByFestival, getBenevoleByFestival, getRespoSoireeByFestival, getAccueilBenevoleByFestival, ModifRole };
+module.exports = { getMe, getById, create, login, addFestivalToUser, ModifProfil, getReferentsByFestival, getBenevoleByFestival, getRespoSoireeByFestival, getAccueilBenevoleByFestival, ModifRole,getFlexibleFestival };

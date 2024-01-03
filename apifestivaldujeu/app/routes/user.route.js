@@ -8,6 +8,8 @@ module.exports = app => {
 
   router.get('/:id',  controller.getById);
 
+  router.get('/flexible/:idFestival', controller.getFlexibleFestival);
+
   router.get('/benevole/:idFestival',  controller.getBenevoleByFestival);
 
   router.get('/accueilBenevole/:idFestival',  controller.getAccueilBenevoleByFestival);

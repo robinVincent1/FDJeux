@@ -15,8 +15,8 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 interface Horaire {
   id: number;
   jourId: number;
-  heure_debut: number;
-  heure_fin: number;
+  heure_debut: string;
+  heure_fin: string;
 }
 
 interface Jour {
@@ -35,8 +35,9 @@ interface Creneau{
   nb_max:number,
   nb_inscrit:number,
   referent : string,
-  heure_debut: number;
-  heure_fin: number;
+  heure_debut: string;
+  heure_fin: string;
+  ReferentId: number;
 }
 
 interface Ligne {
@@ -431,7 +432,7 @@ useEffect(() => {
       <>
         {jour.list_horaire && jour.list_horaire.map((horaire) => (
           <th scope="col" className="px-6 py-3 bg-blue-500">
-          <div>{horaire.heure_debut}h-{horaire.heure_fin}h</div>
+          <div>{horaire.heure_debut.split(':')[2]}h-{horaire.heure_fin.split(':')[2]}h</div>
           </th>
          ))}
         
@@ -441,7 +442,7 @@ useEffect(() => {
   </thead>
   <tbody>
   {Array.isArray(list_ligne) && list_ligne.map((ligne)=> (
-    'titre' in ligne && <LignePlanning titre={ligne.titre} nb_creneaux={nbColonne} list_creneaux={ligne.list_creneaux}/>
+    'titre' in ligne && <LignePlanning titre={ligne.titre} nb_creneaux={nbColonne} list_creneaux={ligne.list_creneaux as Creneau[]} idPlanningGeneraLigne={ligne.idPlanningGeneralLigne}/>
     ))}
           <Button onClick={handleOpenModal_Ligne} color="danger">Ajouter une ligne</Button>
       <Modal 
