@@ -1,20 +1,50 @@
-import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { Festival } from './PageFestival';
+import React from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { Festival } from "./PageFestival";
+import { Button } from "@mui/material";
+import { User } from "../admin/AdminPage";
 
 type Props = {
-    listeFesti: Festival[],
-}
+  listeFesti: Festival[];
+  maj: () => void;
+  u: User;
+};
 
-export default function tableau({listeFesti}: Props) {
+export default function tableau({ listeFesti, maj, u }: Props) {
+  const ModifEnCours = async (idFestival: string, enCours: boolean) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/festival/modifEnCours/${idFestival}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            enCours: enCours,
+          }),
+        }
+      );
 
-
+      if (!response.ok) {
+        // Gérer les erreurs ici
+        console.error("Erreur lors de la modification :", response.statusText);
+      } else {
+        // Si tout s'est bien passé
+        const data = await response.json();
+        console.log("Modification réussie :", data);
+      }
+    } catch (error: any) {
+      console.error("Erreur lors de la modification :", error.message);
+    }
+    maj();
+  };
 
   return (
     <TableContainer component={Paper}>
@@ -35,12 +65,26 @@ export default function tableau({listeFesti}: Props) {
           {listeFesti.map((row) => (
             <TableRow
               key={row.nom}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
                 {row.idFestival}
               </TableCell>
-              <TableCell align="center">{row.enCours ? "oui" : "non"}</TableCell>
+              <TableCell align="right">
+                {u.role == "admin" ? (
+                  <Button
+                    onClick={() => ModifEnCours(row.idFestival, row.enCours)}
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ width: "10%" }}
+                  >
+                    {row.enCours ? "oui" : "non"}
+                  </Button>
+                ) : (
+                  row.enCours ? "oui" : "non"
+                )}
+              </TableCell>
               <TableCell align="right">{row.nom}</TableCell>
               <TableCell align="right">{row.date}</TableCell>
               <TableCell align="center">{row.nbReferent}</TableCell>

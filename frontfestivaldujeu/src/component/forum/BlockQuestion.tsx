@@ -4,13 +4,15 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import TextField from "@mui/material/TextField";
 import { IconButton } from "@mui/material";
 import MessageIcon from "@mui/icons-material/Message";
+import { User } from "../admin/AdminPage";
 
 type Props = {
   quest: Question;
   deleteQuestion: () => void;
+  u: User;
 };
 
-export const BlockQuestion = ({ quest, deleteQuestion }: Props) => {
+export const BlockQuestion = ({ quest, deleteQuestion, u }: Props) => {
   const [admin, setAdmin] = useState(true);
   const [newCom, setNewCom] = useState({
     createur: "robin",
@@ -27,7 +29,7 @@ export const BlockQuestion = ({ quest, deleteQuestion }: Props) => {
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       setNewCom({
-        createur: "robin",
+        createur: u.firstName + " " + u.lastName,
         reponse: event.currentTarget.value,
         questionId: quest.idQuestion,
       });
@@ -142,13 +144,13 @@ export const BlockQuestion = ({ quest, deleteQuestion }: Props) => {
         <p className="ml-4">{quest.question}</p>
         <p className="italic ml-4">{quest.createur}</p>
         <div className="flex justify-center">
-          {admin ? (
+          {(u.role == "admin" || quest.createur == u.firstName + " " + u.lastName) && (
             <div className="flex justify-end ">
               <IconButton aria-label="delete" onClick={() => deleteQuestion()}>
                 <DeleteIcon />
               </IconButton>
             </div>
-          ) : null}
+          )}
           <button
             className="flex ml-4 text-[#0E8DDF]"
             onClick={() => {
@@ -165,14 +167,14 @@ export const BlockQuestion = ({ quest, deleteQuestion }: Props) => {
           {comments.map((rep, index) => (
             <div key={index} className="pt-2">
               <p className="shadow-lg p-2 rounded-lg ">
-                {admin ? (
+                {(u.role == "admin" || quest.createur == u.firstName + " " + u.lastName) && (
                   <IconButton
                     aria-label="delete"
                     onClick={() => handleDeleteResponse(rep)}
                   >
                     <DeleteIcon />
                   </IconButton>
-                ) : null}
+                )}
                 <strong className="ml-2 ">{rep.createur} :</strong> {rep.reponse}
               </p>
             </div>

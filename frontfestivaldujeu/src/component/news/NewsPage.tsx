@@ -7,6 +7,8 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
+import { User } from "../admin/AdminPage";
+import { robin } from "../profil/ProfilPage";
 
 export type NewsType = {
   idNews: string;
@@ -19,7 +21,25 @@ export type NewsType = {
 
 export const NewsPage = () => {
   const [news, setNews] = useState<NewsType[]>([]);
-  const [admin, setAdmin] = useState(true);
+  const [userConnected, setUserConnected] = useState<User>(robin);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const id = localStorage.getItem("userId");
+        const response = await fetch(`http://localhost:8080/user/${id}`);
+        const data = await response.json();
+        setUserConnected(data);
+      } catch (error) {
+        console.error(
+          "Erreur lors de la récupération de l'utilisateur :",
+          error
+        );
+      }
+    };
+
+    fetchData();
+  }, [userConnected]);
 
   useEffect(() => {
     // Appel API pour récupérer toutes les infos
@@ -82,11 +102,11 @@ export const NewsPage = () => {
         })}
 
         <div className="flex justify-center p-4 mr-4 text-lg">
-          {admin ? (
+          {(userConnected.role == "admin" || userConnected.role == "Résponsable soirée") && (
             <Link to="/creerNews" className="mr-4">
               <AddIcon className="border text-[#3379FF] rounded-2xl border-[#3379FF] hover:text-white hover:bg-[#3379FF]" />
             </Link>
-          ) : null}
+          )}
         </div>
       </div>
     </div>

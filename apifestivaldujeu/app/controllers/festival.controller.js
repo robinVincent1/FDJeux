@@ -126,5 +126,27 @@ exports.ModifRoleUser = async (req, res) => {
     }
   };
   
+// Mettre à jour un festival en cours ou non
+exports.updateFestiEnCours = (req, res) => {
+    const { idFestival } = req.params;
+    const { enCours } = req.body;
+  
+    Festival.findByPk(idFestival)
+      .then((festi) => {
+        if (!festi) {
+          return res.status(404).json({ message: 'Festival non trouvé' });
+        }
+  
+        festi.enCours = !enCours;
+  
+        return festi.save();
+      })
+      .then((updatedFesti) => {
+        res.status(200).json(updatedFesti);
+      })
+      .catch((err) => {
+        res.status(500).json({ message: err.message });
+      });
+  };
 
 
