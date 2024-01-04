@@ -99,7 +99,7 @@ const PlanningGeneral = () => {
     setInputValueHoraire_Fin(value);
   }
   
-  async function createcreneau(jourid: number, horaireid: number, LigneId: number, titre: string) {
+  async function createcreneau(jourid: number, horaireid: number, LigneId: number, titre: string,heure_debut:string,heure_fin:string) {
     try {
       const response = await fetch('http://localhost:8080/creneau', {
         method: 'POST',
@@ -113,9 +113,11 @@ const PlanningGeneral = () => {
           HoraireId: horaireid,
           ouvert: false,
           titre: titre,
+          heure_debut,
+          heure_fin,
           nb_max: 10,
           nb_inscrit: 0,
-          referent: "test",
+          ReferentId: -1
         }),
       });
   
@@ -168,7 +170,7 @@ const PlanningGeneral = () => {
         for(let k=0; k < list_jours[j].list_horaire.length; k++){
           const creneauData = await getcreneaubyId(list_jours[j].id, list_jours[j].list_horaire[k].id, list_ligne[i].idPlanningGeneralLigne);
           if (creneauData == undefined ) {
-            await createcreneau(list_jours[j].id,list_jours[j].list_horaire[k].id,list_ligne[i].idPlanningGeneralLigne,list_ligne[i].titre);
+            await createcreneau(list_jours[j].id,list_jours[j].list_horaire[k].id,list_ligne[i].idPlanningGeneralLigne,list_ligne[i].titre,list_jours[j].list_horaire[k].heure_debut,list_jours[j].list_horaire[k].heure_fin);
           }
           if (creneauData) {
             newlistligne[i].list_creneaux.push(creneauData)
@@ -297,8 +299,6 @@ const PlanningGeneral = () => {
  // ...
 
 useEffect(() => {
-  setLoading(true);
-  console.log(loading)
   const fetchData = async () => {
     setNbColonne(0);
     try {
@@ -341,6 +341,9 @@ useEffect(() => {
     addcreneautolistligne();
     setHasAddedCreneaux(true);
     setLoading(false);
+  }
+  else{
+    setLoading(false)
   }
 }, [list_ligne, hasAddedCreneaux,list_jours]);
 

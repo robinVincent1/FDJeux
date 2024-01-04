@@ -4,6 +4,9 @@ const Horaire = require('./horaire.model')(sequelize, Sequelize);
 
 module.exports = (sequelize, Sequelize) => {
     const Jour = sequelize.define('jour', {
+        idPlanning:{
+            type: Sequelize.INTEGER,
+        },
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,

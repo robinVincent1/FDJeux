@@ -157,7 +157,30 @@ const deleteById = async (req, res) => {
                 res.status(400).send({errors: error.message});
             }
         }
+
+        const deleteLigne = async(req, res) => {
+            try {
+                const id = req.params.idligne;
+                const deleteligne = await Creneaux.destroy({
+                    where: { LigneId: id }
+                });
         
+                if (deleteligne) {
+                    res.status(200).json({
+                        message: "Creneau deleted successfully",
+                    });
+                } else {
+                    res.status(404).json({
+                        message: "Creneau not found",
+                    });
+                }
+            } catch (error) {
+                res.status(500).json({
+                    message: "Error deleting creneau",
+                    error: error.message
+                });
+            }
+        }
     
 
     module.exports = {
@@ -169,5 +192,6 @@ const deleteById = async (req, res) => {
         getbyId,
         addnbinscrit,
         subtractnbinscrit,
-        getCreneauById
+        getCreneauById,
+        deleteLigne
     }

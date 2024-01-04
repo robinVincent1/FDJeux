@@ -22,6 +22,9 @@ module.exports = (sequelize, Sequelize) => {
     HoraireId: {
       type: Sequelize.INTEGER,
     },
+    idPlanning:{
+      type: Sequelize.INTEGER,
+    },
     ouvert: {
       type: Sequelize.BOOLEAN,
     },
