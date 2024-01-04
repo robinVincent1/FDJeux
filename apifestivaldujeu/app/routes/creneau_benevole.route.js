@@ -6,7 +6,6 @@ module.exports = app => {
 
     router.post('/', isLoggedIn, controller.inscription)
 
-    router.post('/:UserId', isLoggedIn, controller.inscriptionbyid)
 
     router.get('/:CreneauId', isLoggedIn, controller.getbenevoles)
 
