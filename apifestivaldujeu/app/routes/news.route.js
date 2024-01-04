@@ -5,15 +5,15 @@ const { isLoggedIn, isAdmin } = require('../middleware/auth');
 
 module.exports = app => {
 
-  router.get('/', newsController.getAllNews);
+  router.get('/', isLoggedIn, newsController.getAllNews);
 
-  router.get('/fav', newsController.getFavoriteNews)
+  router.get('/fav', isLoggedIn, newsController.getFavoriteNews)
 
-  router.post('/',  newsController.createNews);
+  router.post('/',  isLoggedIn, newsController.createNews);
 
-  router.put('/:id', newsController.updateNews);
+  router.put('/:id', isLoggedIn, newsController.updateNews);
 
-  router.delete('/:id', newsController.deleteNews);
+  router.delete('/:id', isLoggedIn, newsController.deleteNews);
 
   app.use('/news', router);
 };

@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { User } from "../admin/AdminPage";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import { Avatar, Button, Chip, TextField } from "@mui/material";
+import { Button, Chip, TextField } from "@mui/material";
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
 
 export const robin: User = {
@@ -62,7 +59,13 @@ export const ProfilPage = () => {
     const fetchData = async () => {
       try {
         const id = localStorage.getItem("userId");
-        const response = await fetch(`http://localhost:8080/user/${id}`);
+        const response = await fetch(`http://localhost:8080/user/${id}`, {
+          method: 'GET', // Remplacez 'GET' par la méthode que vous souhaitez utiliser
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          }
+        });
         const user = await response.json();
 
         setUser(user);
@@ -95,6 +98,7 @@ export const ProfilPage = () => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({
           idUser: id,

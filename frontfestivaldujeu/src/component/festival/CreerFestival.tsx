@@ -1,7 +1,6 @@
 import { Button, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Festival } from "./PageFestival";
 
 export const CreerFestival = () => {
   const [nom, setNom] = useState("");
@@ -33,6 +32,7 @@ export const CreerFestival = () => {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
             body: JSON.stringify(nouveauFestival),
           });

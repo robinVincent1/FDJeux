@@ -1,7 +1,7 @@
 import { Button, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Infos } from "./PageInfos";
+
 
 
 export const CreerInfosPage = () => {
@@ -12,6 +12,7 @@ export const CreerInfosPage = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
           // Ajoutez d'autres en-têtes nécessaires ici
         },
         body: JSON.stringify({

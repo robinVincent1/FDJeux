@@ -4,7 +4,10 @@ const { isLoggedIn, isAdmin } = require('../middleware/auth');
 module.exports = app => {
     const router = require('express').Router();
     
-    router.post('/', controller.createCreneau);
+    router.post('/', isLoggedIn, controller.createCreneau);
+
+
+    router.get('/:JourId/:HoraireId/:LigneId', isLoggedIn, controller.getbyId);
 
     router.put('/addnbinscrit/:idCreneau',controller.addnbinscrit)
 
@@ -16,7 +19,6 @@ module.exports = app => {
 
     router.put('/modifyouvert/:idCreneau',controller.modifyOuvert)
 
-    router.get('/:JourId/:HoraireId/:LigneId', controller.getbyId);
     
     app.use('/creneau', router);
     }

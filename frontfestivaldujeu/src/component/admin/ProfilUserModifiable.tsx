@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent } from "react";
 import { User } from "./AdminPage";
 import "../output.css";
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
@@ -34,6 +34,7 @@ export const ProfilUserModifiable = ({
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
           body: JSON.stringify({
             role: nouveauRole,
@@ -61,6 +62,7 @@ export const ProfilUserModifiable = ({
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
           body: JSON.stringify({
             nouveauRole: nouveauRole,

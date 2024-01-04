@@ -2,11 +2,8 @@ import React, {useEffect, ChangeEvent, useState } from 'react'
 import LignePlanning from './LignePlanning'
 import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
-import ModalClose from '@mui/joy/ModalClose';
 import Button from '@mui/joy/Button';
-import Typography from '@mui/material/Typography';
 import Input from '@mui/material/Input';
-import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -110,6 +107,7 @@ const PlanningGeneral : React.FC<PlanningProps> = ({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({
           LigneId: LigneId,
@@ -142,6 +140,7 @@ const PlanningGeneral : React.FC<PlanningProps> = ({
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
   
@@ -193,6 +192,7 @@ const PlanningGeneral : React.FC<PlanningProps> = ({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({
           titre: inputValue,
@@ -211,6 +211,7 @@ const PlanningGeneral : React.FC<PlanningProps> = ({
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     })
       const ligneData: Ligne[] = await response.json();
@@ -228,6 +229,7 @@ const PlanningGeneral : React.FC<PlanningProps> = ({
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     })
       const horaireData: Horaire[] = await response.json();
@@ -244,6 +246,7 @@ const PlanningGeneral : React.FC<PlanningProps> = ({
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
       body: JSON.stringify({
         heure_debut: parseInt(inputValueHoraire_Debut),
@@ -265,6 +268,7 @@ const PlanningGeneral : React.FC<PlanningProps> = ({
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
       body: JSON.stringify({
         nom: selectedValue
@@ -304,6 +308,7 @@ useEffect(() => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
 

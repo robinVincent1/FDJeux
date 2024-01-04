@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import Tableau from "./tableau";
@@ -34,7 +34,13 @@ export const PageFestival = () => {
 
   useEffect(() => {
     // Appel API pour récupérer tous les festivals
-    fetch("http://localhost:8080/festival")
+    fetch("http://localhost:8080/festival", {
+      method: 'GET', // Remplacez 'GET' par la méthode HTTP que vous souhaitez utiliser
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
       .then((response) => response.json())
       .then((data) => setListe(data))
       .then((data) => console.log(data))

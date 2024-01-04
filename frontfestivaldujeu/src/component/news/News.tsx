@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import StarIcon from '@mui/icons-material/Star';
 import { NewsType } from "./NewsPage";
@@ -26,7 +26,7 @@ export const News = ({ titre, description, createur, favori, id, onDelete, onUpd
                   method: "DELETE",
                   headers: {
                     "Content-Type": "application/json",
-                    // Ajoutez les en-têtes nécessaires, par exemple un token d'authentification si requis
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
                   },
                 });
           
