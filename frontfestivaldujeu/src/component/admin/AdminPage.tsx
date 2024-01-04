@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { ProfilUserModifiable } from "./ProfilUserModifiable";
 import { Festival, test } from "../festival/PageFestival";
+import { useNavigate } from 'react-router-dom';
 
 export type User = {
     idUser: string;
@@ -33,23 +34,41 @@ export const AdminPage = () => {
     const [listeBenevole, setListeBenevole] = useState<User[]>([]);
     const [festi, setFesti] = useState<Festival>(test);
     const [roleUpdated, setRoleUpdated] = useState<boolean>(false);
+    const navigate = useNavigate()
 
     useEffect(() => {
+      const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/login');
+            return;
+        }
       // Appel API pour récupérer le festival
-      fetch("http://localhost:8080/festival/enCours")
+      fetch("http://localhost:8080/festival/enCours", {
+        method: 'GET', // Remplacez 'GET' par la méthode HTTP que vous souhaitez utiliser
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        }
+      })
         .then((response) => response.json())
         .then((data) => setFesti(data))
         .catch((error) =>
           console.error("Erreur lors de la récupération du festival :", error)
         );
-    }, []);
+    }, [navigate]);
 
 
     useEffect(() => {
       const fetchData = async () => {
         try {
           console.log(festi.idFestival)
-          const response = await fetch(`http://localhost:8080/user/referent/${festi.idFestival}`);
+          const response = await fetch(`http://localhost:8080/user/referent/${festi.idFestival}`, {
+            method: 'GET', // Remplacez 'GET' par la méthode que vous souhaitez utiliser
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            }
+          });
           const data = await response.json();
           setListeReferent(data)
         } catch (error) {
@@ -67,7 +86,13 @@ export const AdminPage = () => {
       const fetchData = async () => {
         try {
           console.log(festi.idFestival)
-          const response = await fetch(`http://localhost:8080/user/benevole/${festi.idFestival}`);
+          const response = await fetch(`http://localhost:8080/user/benevole/${festi.idFestival}`, {
+            method: 'GET', // Remplacez 'GET' par la méthode que vous souhaitez utiliser
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            }
+          });
           const data = await response.json();
           setListeBenevole(data)
         } catch (error) {
@@ -85,7 +110,13 @@ export const AdminPage = () => {
       const fetchData = async () => {
         try {
           console.log(festi.idFestival)
-          const response = await fetch(`http://localhost:8080/user/respoSoiree/${festi.idFestival}`);
+          const response = await fetch(`http://localhost:8080/user/respoSoiree/${festi.idFestival}`, {
+            method: 'GET', // Remplacez 'GET' par la méthode que vous souhaitez utiliser
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            }
+          });
           const data = await response.json();
           setListeRespoSoiree(data)
         } catch (error) {
@@ -103,7 +134,13 @@ export const AdminPage = () => {
       const fetchData = async () => {
         try {
           console.log(festi.idFestival)
-          const response = await fetch(`http://localhost:8080/user/accueilBenevole/${festi.idFestival}`);
+          const response = await fetch(`http://localhost:8080/user/accueilBenevole/${festi.idFestival}`, {
+            method: 'GET', // Remplacez 'GET' par la méthode que vous souhaitez utiliser
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            }
+          });
           const data = await response.json();
           setListeAccueilBenevole(data)
         } catch (error) {

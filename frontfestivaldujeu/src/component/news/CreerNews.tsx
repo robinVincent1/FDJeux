@@ -21,7 +21,7 @@ export const CreerNews = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // Ajoutez d'autres en-têtes nécessaires ici
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({
           createur: createur,

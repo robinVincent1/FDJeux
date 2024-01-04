@@ -30,7 +30,7 @@ export const PageForum = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        // Ajoutez d'autres en-têtes nécessaires ici
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     })
       .then((response) => response.json())

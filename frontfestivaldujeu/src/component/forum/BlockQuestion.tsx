@@ -61,6 +61,7 @@ export const BlockQuestion = ({ quest, deleteQuestion }: Props) => {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
             body: JSON.stringify(newCom),
           }
@@ -99,6 +100,7 @@ export const BlockQuestion = ({ quest, deleteQuestion }: Props) => {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         }
       );

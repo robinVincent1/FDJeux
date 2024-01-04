@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { User } from "../admin/AdminPage";
+import { useEffect, useState } from "react";
 import { HebergementDeroulement } from "./HebergementDeroulement";
 import { Heber } from "./TypeHebergement";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +14,7 @@ export const PageHebergement = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     })
       .then((response) => response.json())
@@ -43,6 +43,7 @@ export const PageHebergement = () => {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         }
       );

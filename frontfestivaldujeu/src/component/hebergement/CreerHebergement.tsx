@@ -1,7 +1,6 @@
 import { Button, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { User } from "../admin/AdminPage";
 
 
 
@@ -40,6 +39,7 @@ export const CreerHebergement = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({
           createur: createur,

@@ -67,7 +67,8 @@ interface CreneauProps {
             const reponse = fetch(`http://localhost:8080/api/creneau_benevole/${idUser}/${idCreneau}`, {
               method: 'POST',
               headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
               },
             })
           }

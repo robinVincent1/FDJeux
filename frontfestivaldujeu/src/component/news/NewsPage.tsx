@@ -1,10 +1,7 @@
-import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import "../output.css";
-import Navbar from "../layout/Navbar";
 import { News } from "../news/News";
-import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 
@@ -23,7 +20,13 @@ export const NewsPage = () => {
 
   useEffect(() => {
     // Appel API pour récupérer toutes les infos
-    fetch("http://localhost:8080/news")
+    fetch("http://localhost:8080/news", {
+      method: 'GET', // Remplacez 'GET' par la méthode HTTP que vous souhaitez utiliser
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
       .then((response) => response.json())
       .then((data) => setNews(data))
       .then((data) => console.log(data))
@@ -42,6 +45,7 @@ export const NewsPage = () => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify(updatedNews),
       });

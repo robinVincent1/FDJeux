@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "../output.css";
 import { Infos } from "../infosPratiques/PageInfos";
 import { InfosDeroulement } from "../infosPratiques/InfosDeroulement";
@@ -19,22 +19,40 @@ export const PageAccueil = () => {
   const [userConnected, setUserConnected] = useState<User>(robin);
   const [admin, setAdmin] = useState(false);
   const [isInscrit, setIsInscrit] = useState(false);
-
+  const navigate = useNavigate();
+  
   useEffect(() => {
+    const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/login');
+            return;
+        }
     // Appel API pour récupérer le festival
-    fetch("http://localhost:8080/festival/enCours")
+    fetch("http://localhost:8080/festival/enCours", {
+      method: 'GET', // Remplacez 'GET' par la méthode HTTP que vous souhaitez utiliser
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
       .then((response) => response.json())
       .then((data) => setFesti(data))
       .catch((error) =>
         console.error("Erreur lors de la récupération du festival :", error)
       );
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const id = localStorage.getItem("userId");
-        const response = await fetch(`http://localhost:8080/user/${id}`);
+        const response = await fetch(`http://localhost:8080/user/${id}`, {
+          method: 'GET', // Remplacez 'GET' par la méthode que vous souhaitez utiliser
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          }
+        });
         const data = await response.json();
         setUserConnected(data);
         setAdmin(data.role === "admin");
@@ -60,7 +78,13 @@ export const PageAccueil = () => {
 
   useEffect(() => {
     // Appel API pour récupérer toutes les news
-    fetch("http://localhost:8080/news/fav")
+    fetch("http://localhost:8080/news/fav", {
+      method: 'GET', // Remplacez 'GET' par la méthode HTTP que vous souhaitez utiliser
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
       .then((response) => response.json())
       .then((data) => setListeNewsFav(data))
       .catch((error) =>
@@ -70,7 +94,13 @@ export const PageAccueil = () => {
 
   useEffect(() => {
     // Appel API pour récupérer toutes les infos
-    fetch("http://localhost:8080/infos")
+    fetch("http://localhost:8080/infos", {
+      method: 'GET', // Remplacez 'GET' par la méthode HTTP que vous souhaitez utiliser
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
       .then((response) => response.json())
       .then((data) => setListeInfos(data))
       .catch((error) =>
@@ -82,6 +112,10 @@ export const PageAccueil = () => {
     try {
       await fetch(`http://localhost:8080/infos/${id}`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
       });
 
       setListeInfos((infos) => infos.filter((info) => info.idInfos !== id));
@@ -98,6 +132,7 @@ export const PageAccueil = () => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          
         },
         body: JSON.stringify({
           userId: id,
@@ -125,6 +160,7 @@ export const PageAccueil = () => {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
           body: JSON.stringify({
             role: userConnected.role,
