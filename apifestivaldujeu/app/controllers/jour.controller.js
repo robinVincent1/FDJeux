@@ -20,6 +20,26 @@ const getAllJour = async (req, res) => {
   }
 };
 
+const getJourById = async(req,res) => {
+  try {
+    const jour = await Jour.findOne({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    if (!jour) {
+      res.status(404).json({ message: 'Jour non trouvé' });
+      return;
+    }
+
+    res.status(200).json(jour);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Erreur lors de la récupération du jour', errors: error.errors });
+  }
+}
+
 const deleteById = async (req, res) => {
   try {
     const jour = await Jour.findOne({
@@ -45,4 +65,5 @@ module.exports = {
   deleteById,
   create,
   getAllJour,
+  getJourById,
 };

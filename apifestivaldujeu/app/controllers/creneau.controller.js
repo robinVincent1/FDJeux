@@ -2,9 +2,9 @@ const {Creneaux} = require('../models');
 
 const createCreneau = async (req, res) => {
     try {
-        const { referent, nb_max,nb_inscrit, ouvert, HoraireId, JourId,LigneId,heure_debut,heure_fin,titre } = req.body;
+        const { ReferentId, nb_max,nb_inscrit, ouvert, HoraireId, JourId,LigneId,heure_debut,heure_fin,titre } = req.body;
         const creneau = await Creneaux.create({
-            referent: referent,
+            ReferentId: ReferentId,
             nb_max: nb_max,
             ouvert: ouvert,
             HoraireId: HoraireId,
@@ -21,6 +21,23 @@ const createCreneau = async (req, res) => {
         res.status(400).send({ errors: error.message });
     }
 };
+
+const modifyReferent = async (req, res) => {
+    try {
+        const creneau = await Creneaux.findOne({
+        where: {
+            idCreneau: req.params.idCreneau,
+        },
+        });
+        if (!creneau) throw new Error('Creneau not found');
+        await creneau.update({ReferentId:req.body.ReferentId});
+        res.send(creneau);
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({ errors: error.message });
+    }
+    }
+
 
 const getbyId = async (req, res) => {
     try {
@@ -56,27 +73,13 @@ const deleteById = async (req, res) => {
     }
     }
 
-    const modifyReferent = async (req, res) => {
-        try {
-            const creneau = await Creneaux.findOne({
-            where: {
-                idCreneau: req.params.id,
-            },
-            });
-            if (!creneau) throw new Error('Creneau not found');
-            await creneau.update({referent:req.body.referent});
-            res.send(creneau);
-        } catch (error) {
-            console.log(error);
-            res.status(400).send({ errors: error.message });
-        }
-        }
+
     
     const modifyNbMax = async (req, res) => {
         try {
             const creneau = await Creneaux.findOne({
             where: {
-                idCreneau: req.params.id,
+                idCreneau: req.params.idCreneau,
             },
             });
             if (!creneau) throw new Error('Creneau not found');
@@ -92,7 +95,7 @@ const deleteById = async (req, res) => {
         try {
             const creneau = await Creneaux.findOne({
             where: {
-                idCreneau: req.params.id,
+                idCreneau: req.params.idCreneau,
             },
             });
             if (!creneau) throw new Error('Creneau not found');
@@ -104,6 +107,41 @@ const deleteById = async (req, res) => {
         }
         }
 
+
+        const addnbinscrit = async (req,res) => {
+            try{
+                const creneau = await Creneaux.findOne({
+                    where: {
+                        idCreneau: req.params.idCreneau,
+                    },
+                    });
+                    if (!creneau) throw new Error('Creneau not found');
+                    await creneau.update({nb_inscrit:req.body.nb_inscrit});
+                res.send(creneau);
+            }
+            catch(error){
+                console.log(error);
+                res.status(400).send({errors: error.message});
+            }
+        }
+
+        const subtractnbinscrit = async (req,res) => {
+            try{
+                const creneau = await Creneaux.findOne({
+                    where: {
+                        idCreneau: req.params.idCreneau,
+                    },
+                    });
+                    if (!creneau) throw new Error('Creneau not found');
+                    await creneau.update({nb_inscrit:req.body.nb_inscrit});
+                res.send(creneau);
+            }
+            catch(error){
+                console.log(error);
+                res.status(400).send({errors: error.message});
+            }
+        }
+        
     
 
     module.exports = {
@@ -112,5 +150,7 @@ const deleteById = async (req, res) => {
         modifyNbMax,
         modifyOuvert,
         createCreneau,
-        getbyId
+        getbyId,
+        addnbinscrit,
+        subtractnbinscrit
     }

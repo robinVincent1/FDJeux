@@ -6,7 +6,19 @@ module.exports = app => {
     
     router.post('/', isLoggedIn, controller.createCreneau);
 
+
     router.get('/:JourId/:HoraireId/:LigneId', isLoggedIn, controller.getbyId);
+
+    router.put('/addnbinscrit/:idCreneau',controller.addnbinscrit)
+
+    router.put('/modifyreferent/:idCreneau',controller.modifyReferent)
+
+    router.put('/subnbinscrit/:idCreneau',controller.subtractnbinscrit)
+
+    router.put('/modifynbmax/:idCreneau',controller.modifyNbMax)
+
+    router.put('/modifyouvert/:idCreneau',controller.modifyOuvert)
+
     
     app.use('/creneau', router);
     }

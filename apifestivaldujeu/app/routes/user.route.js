@@ -10,6 +10,8 @@ module.exports = app => {
 
   router.get('/benevole/:idFestival', isLoggedIn, controller.getBenevoleByFestival);
 
+  router.get('/flexible/:idFestival', controller.getFlexibleFestival);
+
   router.get('/accueilBenevole/:idFestival', isLoggedIn, controller.getAccueilBenevoleByFestival);
 
   router.get('/referent/:idFestival', isLoggedIn, controller.getReferentsByFestival);

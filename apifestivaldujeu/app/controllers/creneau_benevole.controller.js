@@ -2,10 +2,27 @@ const {CreneauBenevole} = require('../models');
 
 const inscription = async (req,res) => {
     try{
-        const{UserId,CreneauId} = req.body;
+        const {idCreneau,idUser} = req.body;
         const creneau_benevole = await CreneauBenevole.create({
-            UserId: UserId,
-            CreneauId: CreneauId
+            idUser: idUser,
+            idCreneau: idCreneau
+        });
+        res.send(creneau_benevole);
+    }
+    catch(error){
+        console.log(error);
+        res.status(400).send({errors: error.message});
+    }
+}
+
+const desinscription = async (req,res) => {
+    try{
+        const {idCreneau,idUser} = req.body;
+        const creneau_benevole = await CreneauBenevole.destroy({
+            where: {
+                idUser: idUser,
+                idCreneau: idCreneau
+            }
         });
         res.send(creneau_benevole);
     }
@@ -20,7 +37,7 @@ const getbenevoles = async (req,res) => {
     try{
         const creneau_benevole = await CreneauBenevole.findAll({
             where: {
-                CreneauId: req.params.CreneauId
+                idCreneau: req.params.idCreneau
             }
         });
         res.send(creneau_benevole);
@@ -46,8 +63,12 @@ const getcreneaux = async (req,res) => {
     }
 }
 
+
+
+
 module.exports = {
     inscription,
     getbenevoles,
-    getcreneaux
+    getcreneaux,
+    desinscription
 }

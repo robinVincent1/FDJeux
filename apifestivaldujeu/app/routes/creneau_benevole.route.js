@@ -10,7 +10,10 @@ module.exports = app => {
 
     router.get('/:CreneauId', isLoggedIn, controller.getbenevoles)
 
+    router.delete('/', controller.desinscription)
+
+
     router.get('/:UserId', isLoggedIn, controller.getcreneaux)
 
     app.use('/creneau_benevole', router);
-}
+}   

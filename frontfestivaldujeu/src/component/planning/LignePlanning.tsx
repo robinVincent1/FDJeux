@@ -9,29 +9,51 @@ import Typography from '@mui/material/Typography';
 import Input from '@mui/material/Input';
 
 interface LigneProps {
+    idPlanningGeneraLigne:number;
     titre:string;
     nb_creneaux:number;
     list_creneaux: Creneau[];
   }
 
+  interface User{
+    idUser:number,
+    email:string,
+    active:boolean,
+    role: string,
+    firstName:string,
+    lastName: string,
+    pseudo:string,
+    postalAdress:string,
+    propo:string,
+    association:string,
+    telephone:string,
+    flexible:boolean
+  }
+  
+
   interface Creneau {
     idCreneau:number;
+    JourId : number; 
     ouvert: boolean;
-    heure_debut:number;
+    heure_debut:string;
+    heure_fin:string;
     titre: string;
     nb_max: number;
     nb_inscrit: number;
-    referent? : string;
+    ReferentId : number | -1;
   }
 
 const LignePlanning: React.FC<LigneProps> = ({
     titre: initialTitre,
+    idPlanningGeneraLigne,
     nb_creneaux,
-    list_creneaux
+    list_creneaux,
 }) => {
     const [titre, setTitre] = useState<string>(initialTitre);
     const [inputValue, setInputValue] = useState<string>('');
     const [open, setOpen] = React.useState(false);
+    const [idligne,setidligne] = React.useState<number>(idPlanningGeneraLigne);
+    const [titreligne,settitreligne] = React.useState<string>(titre);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
@@ -39,25 +61,47 @@ const LignePlanning: React.FC<LigneProps> = ({
         setInputValue(titre);
       }, [titre]);
 
-    const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
+    const handletitreligne = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
-        setInputValue(value);
+        settitreligne(value);
       }
 
-      function modificationtitre(){
-        setTitre(inputValue);
-      }
 
       function onclose(){
         handleClose();
       }
+
+      async function deleteligne(){
+        const response = await fetch(`http://localhost:8080/planning_general_ligne/${idligne}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const data = await response.json();
+        console.log(data);
+      }
+
+      async function modifylignetitre(){
+        const response = await fetch(`http://localhost:8080/planning_general_ligne/modifytitre/${idligne}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ titre: titreligne }),
+        });
+        const data = await response.json();
+        console.log(data);
+      }
+
+
       const generateCreneaux = () => {
       const creneaux : any  = [];
       //console.log("list_creneaux 1 " , list_creneaux);
       {Array.isArray(list_creneaux) && list_creneaux.map((creneau) => (
         creneaux.push(
           <td key={creneau.idCreneau}  className="px-6 py-4 bg-blue-500">
-            <Creneau idCreneau={creneau.idCreneau} ouvert={true} horaire={3} jour="test" titre={creneau.titre} nb_max={creneau.nb_max} nb_inscrit={creneau.nb_inscrit} list_benevole={[]} />
+            <Creneau idCreneau={creneau.idCreneau} ouvert={creneau.ouvert} heure_debut={creneau.heure_debut.split(':')[2]} heure_fin={creneau.heure_fin.split(':')[2]} JourId={creneau.JourId} titre={titreligne} nb_max={creneau.nb_max} nb_inscrit={creneau.nb_inscrit} ReferentId={creneau.ReferentId}  />
           </td>
         )
       ))}
@@ -81,15 +125,18 @@ const LignePlanning: React.FC<LigneProps> = ({
                 <ModalClose />
                 <Typography id="modal-modal-title" variant="h6" component="h2">{titre}</Typography>
               
-              <Input type="text" placeholder="Modifier le nom de la ligne"  value={inputValue} onChange={handleInput} />
-                <Button className="bg-red-600 shadow-lg shadow-indigo-500/20" onClick={onclose}>
+              <Input type="text" placeholder="Modifier le nom de la ligne"  value={titreligne} onChange={handletitreligne} />
+                <Button className="bg-red-600 shadow-lg shadow-indigo-500/20" onClick={() => {
+                  deleteligne();
+                  onclose();
+                }}>
                   Supprimé
                 </Button>
                 <Button variant="outlined" color="danger"  onClick={onclose}>
                   Fermé
                 </Button>
                 <Button className="bg-[#6f4ef2] shadow-lg shadow-indigo-500/20" onClick={ () => {
-                  modificationtitre();
+                  modifylignetitre();
                   onclose();
                   }}>
                   Modifié

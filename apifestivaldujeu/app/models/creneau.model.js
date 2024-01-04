@@ -26,10 +26,10 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.BOOLEAN,
     },
     heure_debut: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
     },
     heure_fin: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
     },
     titre: {
       type: Sequelize.STRING,
@@ -40,8 +40,8 @@ module.exports = (sequelize, Sequelize) => {
     nb_inscrit: {
       type: Sequelize.INTEGER
     },
-    referent: {
-      type: Sequelize.STRING,
+    ReferentId: {
+      type: Sequelize.INTEGER,
     },
   }, {timestamps: false});
 
