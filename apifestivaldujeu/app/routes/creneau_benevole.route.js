@@ -4,13 +4,13 @@ const { isLoggedIn, isAdmin } = require('../middleware/auth');
 module.exports = app => {
     const router = require('express').Router();
 
-    router.post('/', controller.inscription)
+    router.post('/', isLoggedIn, controller.inscription)
 
-    router.post('/:UserId', controller.inscriptionbyid)
+    router.post('/:UserId', isLoggedIn, controller.inscriptionbyid)
 
-    router.get('/:CreneauId',controller.getbenevoles)
+    router.get('/:CreneauId', isLoggedIn, controller.getbenevoles)
 
-    router.get('/:UserId',controller.getcreneaux)
+    router.get('/:UserId', isLoggedIn, controller.getcreneaux)
 
     app.use('/creneau_benevole', router);
 }

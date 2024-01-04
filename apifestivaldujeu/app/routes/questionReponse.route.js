@@ -5,19 +5,19 @@ const { isLoggedIn, isAdmin } = require('../middleware/auth');
 
 module.exports = app => {
   // Route pour créer une question
-  router.post('/', qrController.createQuestion);
+  router.post('/', isLoggedIn, qrController.createQuestion);
 
   // Route pour ajouter des réponses à une question existante
-  router.post('/:id', qrController.addReponsesToQuestion);
+  router.post('/:id', isLoggedIn, qrController.addReponsesToQuestion);
 
   // Route pour supprimer une question et ses réponses associées
-  router.delete('/:id', qrController.deleteQuestionWithReponses);
+  router.delete('/:id', isLoggedIn, qrController.deleteQuestionWithReponses);
 
   // Route pour supprimer uniquement une réponse
-  router.delete('/reponse/:id', qrController.deleteReponse);
+  router.delete('/reponse/:id', isLoggedIn, qrController.deleteReponse);
 
   // Route pour récupérer toutes les questions avec réponses associées
-  router.get('/', qrController.getAllQuestionsWithReponses);
+  router.get('/', isLoggedIn, qrController.getAllQuestionsWithReponses);
 
   app.use('/qr', router);
 };

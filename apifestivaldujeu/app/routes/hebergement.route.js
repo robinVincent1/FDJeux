@@ -4,15 +4,15 @@ const hebergementController = require('../controllers/hebergement.controller');
 const { isLoggedIn, isAdmin } = require('../middleware/auth');
 
 module.exports = app => {
-  router.post('/',  hebergementController.createHebergement);
+  router.post('/', isLoggedIn,hebergementController.createHebergement);
   
-  router.get('/',  hebergementController.getAllHebergements);
+  router.get('/', isLoggedIn,hebergementController.getAllHebergements);
 
   router.get('/:id', isLoggedIn, hebergementController.getHebergementById);
 
   router.put('/:id', isLoggedIn, isAdmin, hebergementController.updateHebergement);
 
-  router.delete('/:id', hebergementController.deleteHebergement);
+  router.delete('/:id', isLoggedIn,hebergementController.deleteHebergement);
 
   app.use('/hebergement', router);
 };

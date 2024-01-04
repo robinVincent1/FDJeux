@@ -5,11 +5,11 @@ const { isLoggedIn, isAdmin } = require('../middleware/auth');
 module.exports = app => {
     const router = require('express').Router();
 
-    router.get('/',controller.getAllJour);
+    router.get('/', isLoggedIn, controller.getAllJour);
     
-    router.post('/', controller.create);
+    router.post('/', isLoggedIn, controller.create);
 
-    router.delete('/:id', controller.deleteById);
+    router.delete('/:id', isLoggedIn, controller.deleteById);
     
     app.use('/jours', router);
     }

@@ -4,13 +4,13 @@ const { isLoggedIn, isAdmin } = require('../middleware/auth');
 module.exports = app => {
     const router = require('express').Router();
     
-    router.get('/', controller.getAllFestivals);
+    router.get('/', isLoggedIn, controller.getAllFestivals);
 
-    router.get('/enCours', controller.getFestivalByEnCours);
+    router.get('/enCours', isLoggedIn, controller.getFestivalByEnCours);
     
-    router.post('/',  controller.createFestival);
+    router.post('/', isLoggedIn, controller.createFestival);
     
-    router.put('/:id',  controller.incrementer);
+    router.put('/:id', isLoggedIn, controller.incrementer);
 
     router.put('/modifRoleUser/:idFestival',  controller.ModifRoleUser);
     
