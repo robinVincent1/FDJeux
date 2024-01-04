@@ -255,7 +255,7 @@ interface CreneauProps {
 
         async function getbenevole(idCreneau:number){
           try{
-            const response = await fetch(`http://localhost:8080/creneau_benevole/${idCreneau}`,{
+            const response = await fetch(`http://localhost:8080/creneau_benevole/getbenevoles/${idCreneau}`,{
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
