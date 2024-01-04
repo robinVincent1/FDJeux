@@ -4,17 +4,17 @@ const { isLoggedIn, isAdmin } = require('../middleware/auth');
 module.exports = app => {
     const router = require('express').Router();
     
-    router.get('/',  controller.getAllHoraire);
+    router.get('/',isLoggedIn,controller.getAllHoraire);
     
-    router.get('/:id', controller.getbyJourId);
+    router.get('/:id', isLoggedIn,controller.getbyJourId);
 
-    router.post('/', controller.create);
+    router.post('/', isLoggedIn,controller.create);
     
-    router.put('/heuredebut', controller.modifyHeureDebut);
+    router.put('/heuredebut', isLoggedIn,controller.modifyHeureDebut);
 
-    router.put('/heurefin', controller.modifyHeureFin);
+    router.put('/heurefin', isLoggedIn, controller.modifyHeureFin);
     
-    router.delete('/:id', controller.deleteById);
+    router.delete('/:id', isLoggedIn, controller.deleteById);
     
     app.use('/horaire', router);
     }

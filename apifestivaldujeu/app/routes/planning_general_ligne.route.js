@@ -4,11 +4,12 @@ const { isLoggedIn, isAdmin } = require("../middleware/auth");
 module.exports = app => {
     const router = require("express").Router();
 
-    router.get("/", controller.getAllLigne);
+    router.get("/", isLoggedIn, controller.getAllLigne);
 
-    router.post("/",  controller.createLigne);
+    router.post("/", isLoggedIn, controller.createLigne);
 
     router.put("/modifytitre/:id", controller.modifytitre);
+
     
     router.delete("/:id", controller.deleteById);
     

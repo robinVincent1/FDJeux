@@ -20,7 +20,7 @@ interface InfosDeroulementProps {
                   method: "DELETE",
                   headers: {
                     "Content-Type": "application/json",
-                    // Ajoutez les en-têtes nécessaires, par exemple un token d'authentification si requis
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
                   },
                 });
           

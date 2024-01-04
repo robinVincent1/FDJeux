@@ -4,7 +4,11 @@ const { isLoggedIn, isAdmin } = require('../middleware/auth');
 module.exports = app => {
     const router = require('express').Router();
 
-    router.post('/', controller.inscription)
+    router.post('/', isLoggedIn, controller.inscription)
+
+    router.post('/:UserId', isLoggedIn, controller.inscriptionbyid)
+
+    router.get('/:CreneauId', isLoggedIn, controller.getbenevoles)
 
     router.delete('/', controller.desinscription)
 
