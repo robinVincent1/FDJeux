@@ -21,7 +21,7 @@ const pages = [
   { title: "News", href: "/news" },
   { title: "Planning Personel", href: "/planning_perso" },
   { title: "Forum", href: "/forum" },
-  { title: "Infos", href: "/creerinfos" },
+  { title: "Infos", href: "/admin/creerinfos" },
   { title: "Hebergement", href: "/hebergement" },
   { title: "Repas", href: "/repas" },
 ];
@@ -29,7 +29,7 @@ const pages = [
 const settings = [
   { title: "Mon profil", href: "/profil" },
   { title: "Se déconnecter", href: "/deconnexion" },
-  { title: "Admin", href: "/admin" },
+  { title: "Admin", href: "/admin/admin" },
 ];
 
 function Navbar() {

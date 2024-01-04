@@ -91,7 +91,7 @@ export const PageFestival = () => {
         <div className="flex justify-center p-8">
           <Button
             onClick={() => {
-              nav("/CreerFestival");
+              nav("/admin/CreerFestival");
             }}
             type="submit"
             fullWidth

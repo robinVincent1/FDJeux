@@ -107,7 +107,7 @@ export const NewsPage = () => {
 
         <div className="flex justify-center p-4 mr-4 text-lg">
           {(userConnected.role == "admin" || userConnected.role == "Résponsable soirée") && (
-            <Link to="/creerNews" className="mr-4">
+            <Link to="/respoSoiree/creerNews" className="mr-4">
               <AddIcon className="border text-[#3379FF] rounded-2xl border-[#3379FF] hover:text-white hover:bg-[#3379FF]" />
             </Link>
           )}

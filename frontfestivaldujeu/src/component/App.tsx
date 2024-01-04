@@ -79,7 +79,7 @@ function App() {
               path="admin/*"
               element={
                 <AuthWrapper allowedRoles={["admin"]}>
-                  <Route path="/" element={<AdminPage />} />
+                  <Route path="/admin" element={<AdminPage />} />
                   <Route path="/creerinfos" element={<CreerInfosPage />} />
                   <Route path="/Creerfestival" element={<CreerFestival />} />
                   <Route path="/creerNews" element={<CreerNewsPage />} />
