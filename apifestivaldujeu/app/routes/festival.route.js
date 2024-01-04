@@ -13,6 +13,8 @@ module.exports = app => {
     router.put('/:id', isLoggedIn, controller.incrementer);
 
     router.put('/modifRoleUser/:idFestival',  controller.ModifRoleUser);
+
+    router.put('/modifEnCours/:idFestival',  controller.updateFestiEnCours);
     
     
     app.use('/festival', router);

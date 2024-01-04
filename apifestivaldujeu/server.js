@@ -50,3 +50,5 @@ require('./app/routes/questionReponse.route')(app);
 require('./app/routes/hebergement.route')(app);
 require("./app/routes/festival.route")(app);
 require('./app/routes/creneau_benevole.route')(app)
+require('./app/routes/repas.route')(app);
+

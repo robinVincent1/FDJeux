@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { BlockQuestion } from "./BlockQuestion";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
+import { robin } from "../profil/ProfilPage";
+import { User } from "../admin/AdminPage";
 
 export type Reponse = {
   idReponse: string;
@@ -23,6 +25,25 @@ export const PageForum = () => {
   const [newq, setNewq] = useState("");
   const [newOb, setNewOb] = useState("");
   const [erreur, setErreur] = useState(false);
+  const [userConnected, setUserConnected] = useState<User>(robin)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const id = localStorage.getItem("userId");
+        const response = await fetch(`http://localhost:8080/user/${id}`);
+        const data = await response.json();
+        setUserConnected(data);
+      } catch (error) {
+        console.error(
+          "Erreur lors de la récupération de l'utilisateur :",
+          error
+        );
+      }
+    };
+
+    fetchData();
+  }, [userConnected]);
 
   useEffect(() => {
     // Appel API pour récupérer toutes les questions avec réponses
@@ -67,7 +88,7 @@ export const PageForum = () => {
     } else {
       const newQuestion = {
         objet: newOb,
-        createur: "robin",
+        createur: userConnected.firstName + " " + userConnected.lastName,
         question: newq,
         idReponse: [],
       };
@@ -186,6 +207,7 @@ export const PageForum = () => {
           <BlockQuestion
             quest={e}
             deleteQuestion={() => handleDeleteQuestion(e)}
+            u={userConnected}
           />
         ))}
     </div>

@@ -5,12 +5,12 @@ import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlin
 
 export const robin: User = {
   idUser: "",
-  firstName: "",
-  lastName: "",
+  firstName: "robin",
+  lastName: "vincent",
   email: "",
   password: "",
   pseudo: "",
-  telephone: "",
+  telephone: "0782161641",
   role: "",
   postalAdress: "",
   propo: "",
