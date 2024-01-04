@@ -9,8 +9,9 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        
+        idFestival:{
+            type: Sequelize.INTEGER,
+        },
     });
-    PlanningGeneral.hasMany(Jour, { as: 'jours' });
     return PlanningGeneral;
 };

@@ -79,6 +79,18 @@ const LignePlanning: React.FC<LigneProps> = ({
             Authorization: `Bearer ${localStorage.getItem('token')}`
           },
         });
+
+
+        const deletecreneaux = await fetch(`http://localhost:8080/creneau/deletebyligne/${idligne}`, {
+          method : 'DELETE',
+          headers : {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
+        })
+
+        const deletedcreneaux = await deletecreneaux.json()
+        console.log(deletedcreneaux)
         const data = await response.json();
         console.log(data);
       }

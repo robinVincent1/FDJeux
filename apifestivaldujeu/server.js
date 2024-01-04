@@ -51,4 +51,5 @@ require('./app/routes/hebergement.route')(app);
 require("./app/routes/festival.route")(app);
 require('./app/routes/creneau_benevole.route')(app)
 require('./app/routes/repas.route')(app);
+require('./app/routes/planning_general.route')(app)
 

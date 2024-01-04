@@ -1,12 +1,16 @@
 import { Button, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
+
 
 export const CreerFestival = () => {
   const [nom, setNom] = useState("");
   const handleTitreChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNom(e.target.value);
   };
+
+  const [PlanningId,setPlanningId] = React.useState(-1)
 
   const [date, setDate] = useState("");
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -15,7 +19,26 @@ export const CreerFestival = () => {
 
   const nav = useNavigate();
 
+  const creerPlanning = async() => {
+    try{
+      const response = await fetch('http://localhost:8080/planning_general',{
+        method:'POST',
+        headers:{
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        }
+    })
+    const planning = await response.json()
+    setPlanningId(planning.idPlanning)
+    return planning.idPlanning
+    }catch(error){
+
+    }
+
+  }
+
   const creerFestival = async () => {
+    await creerPlanning()
     if (date !== "" && nom !== "") {
         const nouveauFestival = {
             nom: nom,
@@ -25,7 +48,7 @@ export const CreerFestival = () => {
             nbAccueilBenevole: 0,
             nbBenevole: 0,
             enCours: true,
-            idPlanning: "",
+            idPlanning: PlanningId,
         }
         try {
           const response = await fetch('http://localhost:8080/festival', {
@@ -43,6 +66,15 @@ export const CreerFestival = () => {
       
           const data = await response.json();
           console.log('Festival créé avec succès:', data);
+          const idFestival = data.idFestival
+          const putIdFestival = await fetch(`http://localhost:8080/planning_general/${PlanningId}`,{
+            method:'PUT',
+            headers:{
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            body : JSON.stringify({idFestival : idFestival})
+          })
           return data;
         } catch (error: any) {
           console.error('Erreur lors de la création du festival:', error.message);

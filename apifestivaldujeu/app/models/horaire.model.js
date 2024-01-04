@@ -2,6 +2,9 @@
 
 module.exports = (sequelize, Sequelize) => {
     const Horaire = sequelize.define('horaire', {
+        idPlanning:{
+            type: Sequelize.INTEGER,
+        },
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,

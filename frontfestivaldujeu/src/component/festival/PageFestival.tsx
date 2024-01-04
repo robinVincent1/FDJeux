@@ -72,7 +72,7 @@ export const PageFestival = () => {
       .catch((error) =>
         console.error("Erreur lors de la récupération des festivals :", error)
       );
-  }, [maj]);
+  }, []);
 
   return (
     <div>

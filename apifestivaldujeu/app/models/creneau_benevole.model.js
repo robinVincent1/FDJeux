@@ -12,6 +12,9 @@ module.exports = (sequelize,Sequelize) => {
         idUser : {
             type : Sequelize.INTEGER
         },
+        idPlanning:{
+            type : Sequelize.INTEGER
+        },
         idCreneau : {
             type : Sequelize.INTEGER
         }

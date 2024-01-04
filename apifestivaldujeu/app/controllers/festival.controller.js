@@ -2,7 +2,7 @@ const { Festival } = require("../models");
 
 // Créer un festival
 exports.createFestival = (req, res) => {
-    const { nom, date, enCours } = req.body;
+    const { nom, date, enCours,idPlanning } = req.body;
   
     Festival.create({
       nom,
@@ -12,7 +12,7 @@ exports.createFestival = (req, res) => {
       nbAccueilBenevole: 0,
       nbBenevole: 0,
       enCours,
-      idPlanning: "",
+      idPlanning: idPlanning,
     })
       .then((festival) => {
         res.status(201).json(festival);
