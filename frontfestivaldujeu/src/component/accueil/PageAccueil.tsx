@@ -233,7 +233,7 @@ export const PageAccueil = () => {
         {admin ? (
           <Link
             to="/creerinfos"
-            className="text-[#3379FF] p-4 flex justify-center items-center"
+            className="text-white p-4 flex justify-center items-center"
           >
             <AddCircleRoundedIcon />
           </Link>
