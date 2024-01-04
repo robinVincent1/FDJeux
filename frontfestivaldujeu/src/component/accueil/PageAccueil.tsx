@@ -21,23 +21,12 @@ export const PageAccueil = () => {
   const [isInscrit, setIsInscrit] = useState(false);
 
   useEffect(() => {
-    // Appel API pour récupérer le festival
-    fetch("http://localhost:8080/festival/enCours")
-      .then((response) => response.json())
-      .then((data) => setFesti(data))
-      .catch((error) =>
-        console.error("Erreur lors de la récupération du festival :", error)
-      );
-  }, []);
-
-  useEffect(() => {
     const fetchData = async () => {
       try {
         const id = localStorage.getItem("userId");
         const response = await fetch(`http://localhost:8080/user/${id}`);
         const data = await response.json();
         setUserConnected(data);
-        setAdmin(data.role === "admin");
       } catch (error) {
         console.error(
           "Erreur lors de la récupération de l'utilisateur :",
@@ -48,6 +37,17 @@ export const PageAccueil = () => {
 
     fetchData();
   }, [userConnected]);
+
+  useEffect(() => {
+    // Appel API pour récupérer le festival
+    fetch("http://localhost:8080/festival/enCours")
+      .then((response) => response.json())
+      .then((data) => setFesti(data))
+      .catch((error) =>
+        console.error("Erreur lors de la récupération du festival :", error)
+      );
+  }, []);
+
 
   useEffect(() => {
     // Cet effet s'exécutera chaque fois que userConnected ou festi sera mis à jour
@@ -197,7 +197,7 @@ export const PageAccueil = () => {
         {admin ? (
           <Link
             to="/creerinfos"
-            className="text-[#3379FF] p-4 flex justify-center items-center"
+            className="text-white p-4 flex justify-center items-center"
           >
             <AddCircleRoundedIcon />
           </Link>
