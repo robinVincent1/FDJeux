@@ -12,8 +12,9 @@ module.exports = app => {
 
     router.delete('/', controller.desinscription)
 
+    router.get('/getbenevoles/:idCreneau',controller.getbenevoles)
 
-    router.get('/:UserId', isLoggedIn, controller.getcreneaux)
+    router.get('/getcreneaux/:UserId',controller.getcreneaux)
 
     app.use('/creneau_benevole', router);
 }   

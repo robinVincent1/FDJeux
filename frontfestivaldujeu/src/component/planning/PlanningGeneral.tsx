@@ -45,15 +45,13 @@ interface Ligne {
 }
 
 
-interface PlanningProps {
-}
+
 
 
 let week =["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"]
 let planningweek=["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"]
 
-const PlanningGeneral : React.FC<PlanningProps> = ({
-})  => {
+const PlanningGeneral = () => {
 
   const [inputValue, setInputValue] = useState<string>('');
   const [selectedValue, setSelectedValue] = useState<string>('');

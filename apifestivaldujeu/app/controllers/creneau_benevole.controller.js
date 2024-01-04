@@ -52,7 +52,7 @@ const getcreneaux = async (req,res) => {
     try{
         const creneau_benevole = await CreneauBenevole.findAll({
             where: {
-                UserId: req.params.UserId
+                idUser: req.params.UserId
             }
         });
         res.send(creneau_benevole);

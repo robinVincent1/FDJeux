@@ -19,6 +19,9 @@ module.exports = app => {
 
     router.put('/modifyouvert/:idCreneau',controller.modifyOuvert)
 
+    router.get('/getbyid/:idCreneau',controller.getCreneauById)
+
+    router.get('/:JourId/:HoraireId/:LigneId', controller.getbyId);
     
     app.use('/creneau', router);
     }

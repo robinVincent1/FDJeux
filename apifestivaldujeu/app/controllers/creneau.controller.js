@@ -22,6 +22,22 @@ const createCreneau = async (req, res) => {
     }
 };
 
+const getCreneauById = async (req, res) => {
+    try {
+        const creneau = await Creneaux.findOne({
+            where: {
+                idCreneau: req.params.idCreneau,
+            },
+        });
+        if (!creneau) throw new Error('Creneau not found');
+        res.send(creneau);
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({ errors: error.message });
+    }
+};
+
+
 const modifyReferent = async (req, res) => {
     try {
         const creneau = await Creneaux.findOne({
@@ -152,5 +168,6 @@ const deleteById = async (req, res) => {
         createCreneau,
         getbyId,
         addnbinscrit,
-        subtractnbinscrit
+        subtractnbinscrit,
+        getCreneauById
     }
