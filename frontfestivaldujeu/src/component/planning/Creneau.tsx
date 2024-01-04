@@ -96,6 +96,7 @@ interface CreneauProps {
                 method : 'GET',
                 headers: {
                   'Content-Type': 'application/json',
+                  Authorization: `Bearer ${localStorage.getItem('token')}`
                 },
               })
 
@@ -112,6 +113,7 @@ interface CreneauProps {
                 method : 'GET',
                 headers: {
                   'Content-Type': 'application/json',
+                  Authorization: `Bearer ${localStorage.getItem('token')}`
                 },
               })
 
@@ -129,6 +131,7 @@ interface CreneauProps {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`
               },
             });
         
@@ -157,7 +160,8 @@ interface CreneauProps {
       const response = await fetch(`http://localhost:8080/user/${thereferentid}`,{
       method : 'GET',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
       },
     })
     const referent : User = await response.json();
@@ -192,7 +196,8 @@ interface CreneauProps {
             const reponse = await fetch(`http://localhost:8080/creneau/modifyreferent/${currentIdCreneau}`, {
               method: 'PUT',
               headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`
               },
               body: JSON.stringify({
                 ReferentId : thereferentid
@@ -209,6 +214,7 @@ interface CreneauProps {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`
               },
             })
             if (!response.ok) {
@@ -229,7 +235,8 @@ interface CreneauProps {
             const reponse = await fetch(`http://localhost:8080/creneau/addnbinscrit/${currentIdCreneau}`, {
               method: 'PUT',
               headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`
               },
               body: JSON.stringify({
                 nb_inscrit : nb_inscrit+1
@@ -259,6 +266,7 @@ interface CreneauProps {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`
               },
             })
             if (!response.ok) {
@@ -284,6 +292,7 @@ interface CreneauProps {
                 method: 'GET',
                 headers: {
                   'Content-Type': 'application/json',
+                  Authorization: `Bearer ${localStorage.getItem('token')}`
                 },
               })
               if (!response.ok) {
@@ -305,7 +314,8 @@ interface CreneauProps {
           const reponse = await fetch(`http://localhost:8080/creneau_benevole/`, {
             method: 'DELETE',
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('token')}`
             },
             body: JSON.stringify({
               idUser : idUser,
@@ -325,7 +335,8 @@ interface CreneauProps {
           const reponse = await fetch(`http://localhost:8080/creneau/subnbinscrit/${currentIdCreneau}`, {
             method: 'PUT',
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('token')}`
             },
             body: JSON.stringify({
               nb_inscrit : nb_inscrit-1
@@ -341,7 +352,8 @@ interface CreneauProps {
           const reponse = await fetch(`http://localhost:8080/creneau/modifyouvert/${currentIdCreneau}`, {
             method: 'PUT',
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('token')}`
             },
             body: JSON.stringify({
               ouvert : ouvertModifier
@@ -357,7 +369,8 @@ interface CreneauProps {
           const reponse = await fetch(`http://localhost:8080/creneau/modifynbmax/${currentIdCreneau}`, {
             method: 'PUT',
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('token')}`
             },
             body: JSON.stringify({
               nb_max : nbmaxmodifier

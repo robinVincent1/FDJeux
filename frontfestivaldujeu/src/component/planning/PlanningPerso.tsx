@@ -64,6 +64,7 @@ export const PlanningPerso : React.FC<PlanningProps> = ({
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
       },
     })
       const creneauData: Creneau = await response.json();
@@ -79,6 +80,7 @@ export const PlanningPerso : React.FC<PlanningProps> = ({
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
       },
     })
       const userData: User = await response.json();
@@ -113,6 +115,7 @@ export const PlanningPerso : React.FC<PlanningProps> = ({
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
       },
     })
       const horaireData: Horaire[] = await response.json();
@@ -128,6 +131,7 @@ export const PlanningPerso : React.FC<PlanningProps> = ({
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
       },
     })
       const creneauData:{idCreneauBenevole: number, idUser: number, idCreneau:number, }[] = await response.json();
@@ -145,6 +149,7 @@ export const PlanningPerso : React.FC<PlanningProps> = ({
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`
           },
         });
   

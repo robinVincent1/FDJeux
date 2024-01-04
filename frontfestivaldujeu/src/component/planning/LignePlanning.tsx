@@ -76,6 +76,7 @@ const LignePlanning: React.FC<LigneProps> = ({
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`
           },
         });
         const data = await response.json();
@@ -87,6 +88,7 @@ const LignePlanning: React.FC<LigneProps> = ({
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`
           },
           body: JSON.stringify({ titre: titreligne }),
         });
