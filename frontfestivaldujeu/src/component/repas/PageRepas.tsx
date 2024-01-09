@@ -26,11 +26,28 @@ const testR: Repas = {
 export const PageRepas = () => {
   const [userConnected, setUserConnected] = useState<User>(robin);
 
+  const createInitialRepas = (): Repas => {
+    return {
+      idRepas: "1",
+      idFestival: "1",
+      idUser: "",
+      repas: 0,
+      etat: 1,
+      User: robin,
+    };
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const id = localStorage.getItem("userId");
-        const response = await fetch(`http://localhost:8080/user/${id}`);
+        const response = await fetch(`http://localhost:8080/user/${id}`, {
+          method: 'GET', // Remplacez 'GET' par la méthode que vous souhaitez utiliser
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          }
+        });
         const data = await response.json();
         setUserConnected(data);
       } catch (error) {
@@ -40,14 +57,18 @@ export const PageRepas = () => {
         );
       }
     };
-
     fetchData();
-  }, [userConnected]);
+  }, []);
+  
 
-  const [repasSM, setRepasSM] = useState<Repas>(testR);
-  const [repasSS, setRepasSS] = useState<Repas>(testR);
-  const [repasDM, setRepasDM] = useState<Repas>(testR);
+  const [repasSM, setRepasSM] = useState<Repas>(createInitialRepas);
+  const [repasSS, setRepasSS] = useState<Repas>(createInitialRepas);
+  const [repasDM, setRepasDM] = useState<Repas>(createInitialRepas);
   const [maj, setMaj] = useState(false);
+
+  const updateMaj = () => {
+    setMaj(prevMaj => !prevMaj);
+  };
 
   const changeSM = (etat: number) => {
     setRepasSM({ ...repasSM, etat: etat });
@@ -66,8 +87,15 @@ export const PageRepas = () => {
   const [festi, setFesti] = useState<Festival>(test);
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
     // Appel API pour récupérer le festival
-    fetch("http://localhost:8080/festival/enCours")
+    fetch("http://localhost:8080/festival/enCours", {
+      method: 'GET', // Remplacez 'GET' par la méthode HTTP que vous souhaitez utiliser
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
       .then((response) => response.json())
       .then((data) => setFesti(data))
       .catch((error) =>
@@ -76,9 +104,15 @@ export const PageRepas = () => {
   }, []);
 
   useEffect(() => {
-    const idUser = localStorage.getItem("userId");
-    // Appel API pour récupérer les repas SM
-    fetch(`http://localhost:8080/repas/${idUser}/${festi.idFestival}/${1}`)
+    const idUser = localStorage.getItem('userId');
+    // Appel API pour récupérer le repas
+    fetch(`http://localhost:8080/repas/${idUser}/${festi.idFestival}/${1}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
       .then((response) => response.json())
       .then((data) => setRepasSM(data))
       .catch((error) =>
@@ -87,9 +121,15 @@ export const PageRepas = () => {
   }, [maj]);
 
   useEffect(() => {
-    const idUser = localStorage.getItem("userId");
-    // Appel API pour récupérer les repas SS
-    fetch(`http://localhost:8080/repas/${idUser}/${festi.idFestival}/${2}`)
+    const idUser = localStorage.getItem('userId');
+    // Appel API pour récupérer le repas
+    fetch(`http://localhost:8080/repas/${idUser}/${festi.idFestival}/${2}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
       .then((response) => response.json())
       .then((data) => setRepasSS(data))
       .catch((error) =>
@@ -98,9 +138,15 @@ export const PageRepas = () => {
   }, [maj]);
 
   useEffect(() => {
-    const idUser = localStorage.getItem("userId");
-    // Appel API pour récupérer les repas DM
-    fetch(`http://localhost:8080/repas/${idUser}/${festi.idFestival}/${3}`)
+    const idUser = localStorage.getItem('userId');
+    // Appel API pour récupérer le repas
+    fetch(`http://localhost:8080/repas/${idUser}/${festi.idFestival}/${3}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
       .then((response) => response.json())
       .then((data) => setRepasDM(data))
       .catch((error) =>
@@ -109,8 +155,15 @@ export const PageRepas = () => {
   }, [maj]);
 
   useEffect(() => {
-    // Appel API pour récupérer les repas SM
-    fetch(`http://localhost:8080/repas/${1}`)
+    const idUser = localStorage.getItem('userId');
+    // Appel API pour récupérer le repas
+    fetch(`http://localhost:8080/repas/${1}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
       .then((response) => response.json())
       .then((data) => setListeRepasDemandeSM(data))
       .catch((error) =>
@@ -119,8 +172,15 @@ export const PageRepas = () => {
   }, [maj]);
 
   useEffect(() => {
-    // Appel API pour récupérer les repas SM
-    fetch(`http://localhost:8080/repas/${2}`)
+    const idUser = localStorage.getItem('userId');
+    // Appel API pour récupérer le repas
+    fetch(`http://localhost:8080/repas/${2}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
       .then((response) => response.json())
       .then((data) => setListeRepasDemandeSS(data))
       .catch((error) =>
@@ -129,8 +189,15 @@ export const PageRepas = () => {
   }, [maj]);
 
   useEffect(() => {
-    // Appel API pour récupérer les repas SM
-    fetch(`http://localhost:8080/repas/${3}`)
+    const idUser = localStorage.getItem('userId');
+    // Appel API pour récupérer le repas
+    fetch(`http://localhost:8080/repas/${3}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
       .then((response) => response.json())
       .then((data) => setListeRepasDemandeDM(data))
       .catch((error) =>
@@ -138,12 +205,14 @@ export const PageRepas = () => {
       );
   }, [maj]);
 
+
   const ModifEtat = async (etat: number, idRepas: string) => {
     try {
       const response = await fetch(`http://localhost:8080/repas/${idRepas}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
+        headers:{
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({
           etat: etat,
@@ -161,7 +230,7 @@ export const PageRepas = () => {
     } catch (error: any) {
       console.error("Erreur lors de la modification :", error.message);
     }
-    setMaj(!maj);
+    updateMaj();
   };
 
   return (

@@ -35,7 +35,7 @@ const AuthWrapper: React.FC<AuthWrapperProps> = ({ children, allowedRoles }) => 
     };
 
     fetchData();
-  }, [userConnected]);
+  }, []);
 
   useEffect(() => {
     if (!authToken) {

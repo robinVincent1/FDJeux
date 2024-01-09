@@ -65,7 +65,7 @@ export const PageAccueil = () => {
     };
 
     fetchData();
-  }, [userConnected]);
+  }, []);
 
   useEffect(() => {
     // Cet effet s'exécutera chaque fois que userConnected ou festi sera mis à jour
