@@ -198,24 +198,29 @@ export const PlanningPerso : React.FC<PlanningProps> = ({
       <th>
       </th>
   </tr>
-    <tr>
-    {list_jours.map((jour)=> (
-      <>
-        {jour.list_horaire && jour.list_horaire.map((horaire) => (
-          <th scope="col" className="px-6 py-3 bg-blue-500">
-          <div>{horaire.heure_debut.split(':')[2]}h-{horaire.heure_fin.split(':')[2]}h</div>
-          {list_creneaux.map((creneau) => (
-        creneau.HoraireId === horaire.id &&
-         <td>
-          {creneau.titre}  Référent :  {creneau.referent.pseudo} {creneau.referent.telephone}
-          </td>
-      ))}
+  <tr>
+  {list_jours.map((jour, jourIndex) => (
+    <React.Fragment key={jourIndex}>
+      {jour.list_horaire && jour.list_horaire.length > 0 ? (
+        jour.list_horaire.map((horaire, horaireIndex) => (
+          <th key={horaireIndex} scope="col" className="px-6 py-3 bg-blue-500">
+            <div>{horaire.heure_debut.split(':')[2]}h-{horaire.heure_fin.split(':')[2]}h</div>
+            {list_creneaux.map((creneau, creneauIndex) => (
+              creneau.HoraireId === horaire.id &&
+              <td key={creneauIndex}>
+                {creneau.titre}  Référent :  {creneau.referent.pseudo} {creneau.referent.telephone}
+              </td>
+            ))}
           </th>
-         ))}
-        
-        </>
-      ))}
-  </tr>
+        ))
+      ) : (
+        <th scope="col" className="px-6 py-3 bg-red-500">
+          <div>Pas d'horaire</div>
+        </th>
+      )}
+    </React.Fragment>
+  ))}
+</tr>
   </thead>
 </table>
     </div>
