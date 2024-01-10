@@ -204,7 +204,7 @@ export const PlanningPerso : React.FC<PlanningProps> = ({
       {jour.list_horaire && jour.list_horaire.length > 0 ? (
         jour.list_horaire.map((horaire, horaireIndex) => (
           <th key={horaireIndex} scope="col" className="px-6 py-3 bg-blue-500">
-            <div>{horaire.heure_debut.split(':')[2]}h-{horaire.heure_fin.split(':')[2]}h</div>
+            <div>{horaire.heure_debut}h-{horaire.heure_fin}h</div>
             {list_creneaux.map((creneau, creneauIndex) => (
               creneau.HoraireId === horaire.id &&
               <td key={creneauIndex}>
