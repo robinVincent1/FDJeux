@@ -50,7 +50,7 @@ interface CreneauProps {
     titre,
     nb_max,
     nb_inscrit,
-    ReferentId
+    ReferentId,
   }) => {
         const [open, setOpen] = React.useState(false);
         const [openModifier, setOpenModifier] = React.useState(false);
@@ -81,6 +81,7 @@ interface CreneauProps {
 
 
         useEffect(() => {
+          getidfestival().then(result => setidFestival(result as number))
           promisecheckinscrit().then(result => setInscrit(result));
           getNomJour(idJour).then(result => setnomjour(result as string));
           getreferentlist().then(result => setreferentlist(result as User[]));
@@ -91,7 +92,6 @@ interface CreneauProps {
 
         async function getflexiblebenevole(){
           try{
-            const idFestival = await getidfestival()
             const response = await fetch(`http://localhost:8080/user/flexible/${idFestival}`,{
                 method : 'GET',
                 headers: {
@@ -126,7 +126,6 @@ interface CreneauProps {
 
         async function getreferentlist(){
           try{
-            const idFestival = await getidfestival()
             const responseReferent = await fetch(`http://localhost:8080/user/referent/${idFestival}`,{
               method: 'GET',
               headers: {
@@ -200,7 +199,8 @@ interface CreneauProps {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
               },
               body: JSON.stringify({
-                ReferentId : thereferentid
+                ReferentId : thereferentid,
+                idFestival : idFestival
               })
             })
           }catch(error){
@@ -407,8 +407,8 @@ interface CreneauProps {
           }
       }
       
-      function ChoseColor(){
-        let chosedcolor = "default"
+      function ChoseColor(): any {
+        let chosedcolor = "inherit"
         const percentage = nb_inscrit/nb_max *100
         if (ouvert){
           if (percentage<34){
@@ -428,7 +428,7 @@ interface CreneauProps {
           <div >
             <>
         <Button onClick={() => {handleOpen(); fillListBenevole()}}>
-            <CircularProgress size="lg" color="danger" determinate value={(nb_inscrit/nb_max)*100}>
+            <CircularProgress size="lg" color={ChoseColor()} determinate value={(nb_inscrit/nb_max)*100}>
                 {nb_inscrit}/{nb_max}
             </CircularProgress>
         </Button>

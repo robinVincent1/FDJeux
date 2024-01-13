@@ -8,6 +8,7 @@ const create = async (req, res) => {
         heure_debut : req.body.heure_debut,
         heure_fin : req.body.heure_fin,
         jourId : req.body.jourId,
+        idPlanning : req.body.idPlanning
        });
 
         res.status(201).json(horaire);
@@ -22,6 +23,7 @@ const getbyJourId = async (req, res) => {
         const horaires = await Horaire.findAll({
             where: {
                 jourId: req.params.id,
+                idPlanning: req.params.idPlanning
             },
         });
         res.status(200).json(horaires);

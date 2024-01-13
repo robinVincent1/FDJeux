@@ -13,6 +13,7 @@ interface LigneProps {
     titre:string;
     nb_creneaux:number;
     list_creneaux: Creneau[];
+    idPlanning:number;
   }
 
   interface User{
@@ -48,6 +49,7 @@ const LignePlanning: React.FC<LigneProps> = ({
     idPlanningGeneraLigne,
     nb_creneaux,
     list_creneaux,
+    idPlanning
 }) => {
     const [titre, setTitre] = useState<string>(initialTitre);
     const [inputValue, setInputValue] = useState<string>('');
@@ -115,7 +117,7 @@ const LignePlanning: React.FC<LigneProps> = ({
       {Array.isArray(list_creneaux) && list_creneaux.map((creneau) => (
         creneaux.push(
           <td key={creneau.idCreneau}  className="px-6 py-4 bg-blue-500">
-            <Creneau idCreneau={creneau.idCreneau} ouvert={creneau.ouvert} heure_debut={creneau.heure_debut.split(':')[2]} heure_fin={creneau.heure_fin.split(':')[2]} JourId={creneau.JourId} titre={titreligne} nb_max={creneau.nb_max} nb_inscrit={creneau.nb_inscrit} ReferentId={creneau.ReferentId}  />
+            <Creneau idCreneau={creneau.idCreneau} ouvert={creneau.ouvert} heure_debut={creneau.heure_debut.split(':')[2]} heure_fin={creneau.heure_fin.split(':')[2]} JourId={creneau.JourId} titre={titreligne} nb_max={creneau.nb_max} nb_inscrit={creneau.nb_inscrit} ReferentId={creneau.ReferentId} />
           </td>
         )
       ))}

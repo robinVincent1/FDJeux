@@ -87,7 +87,7 @@ export const PageFestival = () => {
         )}
       </div>
 
-      {userConnected.role == "admin" && (
+      
         <div className="flex justify-center p-8">
           <Button
             onClick={() => {
@@ -101,7 +101,7 @@ export const PageFestival = () => {
             Créer un festival
           </Button>
         </div>
-      )}
+      
     </div>
   );
 };

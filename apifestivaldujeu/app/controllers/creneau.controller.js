@@ -2,7 +2,7 @@ const {Creneaux} = require('../models');
 
 const createCreneau = async (req, res) => {
     try {
-        const { ReferentId, nb_max,nb_inscrit, ouvert, HoraireId, JourId,LigneId,heure_debut,heure_fin,titre } = req.body;
+        const { ReferentId, nb_max,nb_inscrit, ouvert, HoraireId, JourId,LigneId,heure_debut,heure_fin,titre,idPlanning } = req.body;
         const creneau = await Creneaux.create({
             ReferentId: ReferentId,
             nb_max: nb_max,
@@ -13,7 +13,8 @@ const createCreneau = async (req, res) => {
             heure_debut: heure_debut,
             heure_fin: heure_fin,
             titre: titre,
-            nb_inscrit: nb_inscrit
+            nb_inscrit: nb_inscrit,
+            idPlanning: idPlanning
         });
         res.send(creneau);
     } catch (error) {

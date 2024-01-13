@@ -6,7 +6,7 @@ module.exports = app => {
     
     router.post('/', controller.createCreneau);
 
-    router.get('/:JourId/:HoraireId/:LigneId', isLoggedIn, controller.getbyId);
+    router.get('/:JourId/:HoraireId/:LigneId/:idPlanning', isLoggedIn, controller.getbyId);
 
     router.put('/addnbinscrit/:idCreneau',controller.addnbinscrit)
 

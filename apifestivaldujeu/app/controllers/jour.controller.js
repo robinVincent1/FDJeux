@@ -2,7 +2,10 @@ const { Jour, Horaire } = require('../models');
 
 const create = async (req, res) => {
   try {
-    const jour = await Jour.create(req.body);
+    const jour = await Jour.create({
+      nom :  req.body.nom,
+      idPlanning : req.body.idPlanning,
+    });
     res.status(201).json(jour);
   } catch (error) {
     console.error(error);
@@ -12,7 +15,13 @@ const create = async (req, res) => {
 
 const getAllJour = async (req, res) => {
   try {
-    const jours = await Jour.findAll();
+    const jours = await Jour.findAll(
+      {
+        where: {
+          idPlanning: req.params.idPlanning,
+        },
+      }
+    );
     res.status(200).json(jours);
   } catch (error) {
     console.error(error);

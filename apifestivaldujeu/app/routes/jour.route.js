@@ -6,10 +6,9 @@ module.exports = app => {
     const router = require('express').Router();
 
 
-    router.get('/', isLoggedIn, controller.getAllJour);
+    router.get('/:idPlanning', isLoggedIn, controller.getAllJour);
 
     router.get('/:id',controller.getJourById)
-
     
     router.post('/', isLoggedIn, controller.create);
 

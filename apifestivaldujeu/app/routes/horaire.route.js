@@ -6,7 +6,7 @@ module.exports = app => {
     
     router.get('/',isLoggedIn,controller.getAllHoraire);
     
-    router.get('/:id', isLoggedIn,controller.getbyJourId);
+    router.get('/:id/:idPlanning', isLoggedIn,controller.getbyJourId);
 
     router.post('/', isLoggedIn,controller.create);
     

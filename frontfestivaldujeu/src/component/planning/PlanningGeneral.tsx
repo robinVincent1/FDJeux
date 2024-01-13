@@ -44,6 +44,9 @@ interface Ligne {
   list_creneaux : Creneau[];
 }
 
+interface PlanningGeneralProps {
+  PlanningId: number;
+}
 
 
 
@@ -51,7 +54,9 @@ interface Ligne {
 let week =["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"]
 let planningweek=["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"]
 
-const PlanningGeneral = () => {
+const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
+  PlanningId
+}) => {
 
   const [inputValue, setInputValue] = useState<string>('');
   const [selectedValue, setSelectedValue] = useState<string>('');
@@ -111,6 +116,7 @@ const PlanningGeneral = () => {
           LigneId: LigneId,
           JourId: jourid,
           HoraireId: horaireid,
+          idPlanning : PlanningId,
           ouvert: false,
           titre: titre,
           heure_debut,
@@ -134,9 +140,9 @@ const PlanningGeneral = () => {
   }
   
 
-  async function getcreneaubyId(JourId: number, HoraireId: number, LigneId: number){
+  async function getcreneaubyId(JourId: number, HoraireId: number, LigneId: number,idPlanning:number){
     try {
-      const response = await fetch(`http://localhost:8080/creneau/${JourId}/${HoraireId}/${LigneId}`, {
+      const response = await fetch(`http://localhost:8080/creneau/${JourId}/${HoraireId}/${LigneId}/${idPlanning}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -168,7 +174,7 @@ const PlanningGeneral = () => {
     for(let i = 0; i < list_ligne.length; i++){
       for(let j=0; j < list_jours.length; j++){
         for(let k=0; k < list_jours[j].list_horaire.length; k++){
-          const creneauData = await getcreneaubyId(list_jours[j].id, list_jours[j].list_horaire[k].id, list_ligne[i].idPlanningGeneralLigne);
+          const creneauData = await getcreneaubyId(list_jours[j].id, list_jours[j].list_horaire[k].id, list_ligne[i].idPlanningGeneralLigne,PlanningId);
           if (creneauData == undefined ) {
             await createcreneau(list_jours[j].id,list_jours[j].list_horaire[k].id,list_ligne[i].idPlanningGeneralLigne,list_ligne[i].titre,list_jours[j].list_horaire[k].heure_debut,list_jours[j].list_horaire[k].heure_fin);
           }
@@ -196,7 +202,7 @@ const PlanningGeneral = () => {
         },
         body: JSON.stringify({
           titre: inputValue,
-          idPlanningGeneral: 1
+          idPlanningGeneral: PlanningId,
         }),
       });
       }
@@ -207,7 +213,8 @@ const PlanningGeneral = () => {
 
   async function getligne (){
     try{
-      const response = await fetch('http://localhost:8080/planning_general_ligne', {
+      console.log()
+      const response = await fetch(`http://localhost:8080/planning_general_ligne/${PlanningId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -223,9 +230,9 @@ const PlanningGeneral = () => {
 
   
 
-  async function gethorairebyId(jourid : number){
+  async function gethorairebyId(jourid : number,idPlanning : number){
     try{
-      const response = await fetch(`http://localhost:8080/horaire/${jourid}`, {
+      const response = await fetch(`http://localhost:8080/horaire/${jourid}/${idPlanning}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -252,6 +259,7 @@ const PlanningGeneral = () => {
         heure_debut: parseInt(inputValueHoraire_Debut),
         heure_fin: parseInt(inputValueHoraire_Fin),
         jourId : jourid,
+        idPlanning : PlanningId,
       }),
     });
     if (!response.ok) {
@@ -271,7 +279,8 @@ const PlanningGeneral = () => {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
       body: JSON.stringify({
-        nom: selectedValue
+        nom: selectedValue,
+        idPlanning: PlanningId,
       
       }),
     });
@@ -302,7 +311,7 @@ useEffect(() => {
   const fetchData = async () => {
     setNbColonne(0);
     try {
-      const response = await fetch('http://localhost:8080/jours', {
+      const response = await fetch(`http://localhost:8080/jours/${PlanningId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -316,7 +325,7 @@ useEffect(() => {
       for (let i = 0; i < joursData.length; i++) {
         const jour = joursData[i];
         try {
-          const list_horaire = await gethorairebyId(jour.id);
+          const list_horaire = await gethorairebyId(jour.id,PlanningId);
           newlistjour.push({ ...jour, list_horaire: list_horaire || [] });
         } catch (error) {
           console.error('Error while fetching and converting list_horaire:', error);
@@ -448,7 +457,7 @@ useEffect(() => {
   </thead>
   <tbody>
   {Array.isArray(list_ligne) && list_ligne.map((ligne)=> (
-    'titre' in ligne && <LignePlanning titre={ligne.titre} nb_creneaux={nbColonne} list_creneaux={ligne.list_creneaux as Creneau[]} idPlanningGeneraLigne={ligne.idPlanningGeneralLigne}/>
+    'titre' in ligne && <LignePlanning titre={ligne.titre} nb_creneaux={nbColonne} list_creneaux={ligne.list_creneaux as Creneau[]} idPlanningGeneraLigne={ligne.idPlanningGeneralLigne} idPlanning={PlanningId}/>
     ))}
           <Button onClick={handleOpenModal_Ligne} color="danger">Ajouter une ligne</Button>
       <Modal 

@@ -46,10 +46,12 @@ interface User{
 
 interface PlanningProps {
   userid: number;
+  idPlanning: number;
 }
 
 export const PlanningPerso : React.FC<PlanningProps> = ({
-  userid
+  userid,
+  idPlanning
 }) => {
 
   const [list_jours, setListJours] = useState<Jour[]>([]);
@@ -91,7 +93,6 @@ export const PlanningPerso : React.FC<PlanningProps> = ({
   }
 
   async function fillListCreneaux(){
-    console.log("list_idcreneaux",list_idcreneaux)
     const newlistcreneaux: Creneau[] = [];
     for (let i = 0; i < list_idcreneaux.length; i++) {
       const idcreneau = list_idcreneaux[i].idCreneau;
@@ -111,7 +112,7 @@ export const PlanningPerso : React.FC<PlanningProps> = ({
 
   async function gethorairebyId(jourid : number){
     try{
-      const response = await fetch(`http://localhost:8080/horaire/${jourid}`, {
+      const response = await fetch(`http://localhost:8080/horaire/${jourid}/${idPlanning}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -145,7 +146,7 @@ export const PlanningPerso : React.FC<PlanningProps> = ({
     const fetchData = async () => {
       setNbColonne(0);
       try {
-        const response = await fetch('http://localhost:8080/jours', {
+        const response = await fetch(`http://localhost:8080/jours/${idPlanning}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

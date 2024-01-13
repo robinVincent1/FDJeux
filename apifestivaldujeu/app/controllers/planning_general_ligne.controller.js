@@ -16,7 +16,13 @@ const createLigne = async function (req, res) {
 
 const getAllLigne = async function (req, res) {
     try {
-        const planningGeneralLigne = await PlanningGeneralLigne.findAll();
+        const planningGeneralLigne = await PlanningGeneralLigne.findAll(
+            {
+                where: {
+                    idPlanningGeneral: req.params.idPlanning,
+                },
+            }
+        );
         res.send(planningGeneralLigne);
     } catch (error) {
         console.log(error);

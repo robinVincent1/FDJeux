@@ -17,6 +17,11 @@ export const CreerFestival = () => {
     setDate(e.target.value);
   };
 
+
+  useEffect(() => {
+    creerFestival()
+  }, [PlanningId])
+
   const nav = useNavigate();
 
   const creerPlanning = async() => {
@@ -37,8 +42,9 @@ export const CreerFestival = () => {
 
   }
 
+
+
   const creerFestival = async () => {
-    await creerPlanning()
     if (date !== "" && nom !== "") {
         const nouveauFestival = {
             nom: nom,
@@ -120,7 +126,7 @@ export const CreerFestival = () => {
 
       <div className="p-4 flex justify-center">
         <Button
-          onClick={() => (creerFestival())}
+          onClick={() => (creerPlanning())}
           type="submit"
           fullWidth
           variant="contained"

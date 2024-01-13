@@ -4,7 +4,7 @@ const { isLoggedIn, isAdmin } = require("../middleware/auth");
 module.exports = app => {
     const router = require("express").Router();
 
-    router.get("/", isLoggedIn, controller.getAllLigne);
+    router.get("/:idPlanning", isLoggedIn, controller.getAllLigne);
 
     router.post("/", isLoggedIn, controller.createLigne);
 

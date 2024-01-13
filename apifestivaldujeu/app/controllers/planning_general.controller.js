@@ -31,12 +31,13 @@ const AddIdFestival = async(req,res) => {
     try{
         const addidfestival = await PlanningGeneral.findOne({
             where : {
-                idPlanning : req.params
+                idPlanning : req.params.PlanningId
             }
         });
         await addidfestival.update({idFestival:req.body.idFestival})
     }catch(error){
-
+        console.log(error);
+        res.status(400).send({errors: error.message});
     }
 }
 
