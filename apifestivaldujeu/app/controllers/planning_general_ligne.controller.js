@@ -2,10 +2,11 @@ const { PlanningGeneralLigne } = require('../models');
 
 const createLigne = async function (req, res) {
     try {
-        const { titre, idPlanningGeneral } = req.body;
+        const { titre, idPlanningGeneral, zone } = req.body;
         const planningGeneralLigne = await PlanningGeneralLigne.create({
             titre: titre,
             idPlanningGeneral: idPlanningGeneral,
+            zone: zone
         });
         res.send(planningGeneralLigne);
     } catch (error) {

@@ -12,6 +12,9 @@ module.exports = (sequelize, Sequelize) => {
     },
     titre: {
       type: Sequelize.STRING,
+    },
+    zone: {
+      type: Sequelize.STRING
     }
   });
 
