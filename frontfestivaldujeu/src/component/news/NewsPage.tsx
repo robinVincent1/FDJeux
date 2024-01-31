@@ -24,7 +24,13 @@ export const NewsPage = () => {
     const fetchData = async () => {
       try {
         const id = localStorage.getItem("userId");
-        const response = await fetch(`http://localhost:8080/user/${id}`);
+        const response = await fetch(`http://localhost:8080/user/${id}`, {
+          method: 'GET', // Remplacez 'GET' par la méthode que vous souhaitez utiliser
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          }
+        });
         const data = await response.json();
         setUserConnected(data);
       } catch (error) {
@@ -36,7 +42,7 @@ export const NewsPage = () => {
     };
 
     fetchData();
-  }, [userConnected]);
+  }, []);
 
   useEffect(() => {
     // Appel API pour récupérer toutes les infos

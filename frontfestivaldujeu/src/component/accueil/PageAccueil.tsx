@@ -20,6 +20,11 @@ export const PageAccueil = () => {
   const [admin, setAdmin] = useState(false);
   const [isInscrit, setIsInscrit] = useState(false);
   const navigate = useNavigate();
+  const[maj, setMaj] = useState(false);
+
+  const setMajToggle = () => {
+    setMaj(!maj);
+  }
   
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -40,7 +45,7 @@ export const PageAccueil = () => {
       .catch((error) =>
         console.error("Erreur lors de la récupération du festival :", error)
       );
-  }, [navigate]);
+  }, [navigate, maj]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,7 +79,7 @@ export const PageAccueil = () => {
     };
 
     checkInscriptionStatus();
-  }, [userConnected, festi]);
+  }, [userConnected]);
 
   useEffect(() => {
     // Appel API pour récupérer toutes les news
@@ -184,6 +189,7 @@ export const PageAccueil = () => {
     createRepas(2)
     createRepas(3)
     setIsInscrit(true);
+    setMajToggle();
   };
 
   const createRepas = async (repas: number) => {
@@ -194,6 +200,7 @@ export const PageAccueil = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({
           idUser: idUser,
@@ -232,7 +239,7 @@ export const PageAccueil = () => {
         ))}
         {admin ? (
           <Link
-            to="/creerinfos"
+            to="/admin/creerinfos"
             className="text-white p-4 flex justify-center items-center"
           >
             <AddCircleRoundedIcon />

@@ -29,7 +29,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     role: {
       type: Sequelize.DataTypes.ENUM('user', 'admin', 'référent', 'résponsable soirée', 'accueil bénévole', 'bénévole'),
-      defaultValue: 'user',
+      defaultValue: 'bénévole',
     },
     firstName: {
       type: Sequelize.STRING,

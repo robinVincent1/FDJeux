@@ -9,7 +9,6 @@ export const PageHebergement = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Appel API pour récupérer toutes les questions avec réponses
     fetch("http://localhost:8080/hebergement", {
       method: "GET",
       headers: {

@@ -31,7 +31,13 @@ export const PageForum = () => {
     const fetchData = async () => {
       try {
         const id = localStorage.getItem("userId");
-        const response = await fetch(`http://localhost:8080/user/${id}`);
+        const response = await fetch(`http://localhost:8080/user/${id}`, {
+          method: 'GET', // Remplacez 'GET' par la méthode que vous souhaitez utiliser
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          }
+        });
         const data = await response.json();
         setUserConnected(data);
       } catch (error) {
@@ -43,7 +49,7 @@ export const PageForum = () => {
     };
 
     fetchData();
-  }, [userConnected]);
+  }, []);
 
   useEffect(() => {
     // Appel API pour récupérer toutes les questions avec réponses
@@ -97,6 +103,7 @@ export const PageForum = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
           body: JSON.stringify(newQuestion),
         });
@@ -132,6 +139,7 @@ export const PageForum = () => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
       if (response.status === 200) {

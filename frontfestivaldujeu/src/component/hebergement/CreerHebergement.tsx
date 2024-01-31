@@ -1,6 +1,8 @@
 import { Button, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { User } from "../admin/AdminPage";
+import { robin } from "../profil/ProfilPage";
 
 
 
@@ -9,6 +11,7 @@ export const CreerHebergement = () => {
   const [adresse, setAdresse] = useState("");
   const [description, setDescription] = useState("");
   const [communication, setCommunication] = useState("");
+  const [userConnected, setUserConnected] = useState<User>(robin);
 
   const handleComChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCommunication(event.target.value);
@@ -28,10 +31,33 @@ export const CreerHebergement = () => {
     setDescription(event.target.value);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const id = localStorage.getItem("userId");
+        const response = await fetch(`http://localhost:8080/user/${id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          }
+        });
+        const data = await response.json();
+        setUserConnected(data);
+      } catch (error) {
+        console.error(
+          "Erreur lors de la récupération de l'utilisateur :",
+          error
+        );
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const createHeber = async (
     titre: string,
     description: string,
-    createur: string,
     adresse: string
   ) => {
     try {
@@ -42,7 +68,7 @@ export const CreerHebergement = () => {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({
-          createur: createur,
+          createur: userConnected.firstName,
           titre: titre,
           description: description,
           adresse: adresse,
@@ -64,11 +90,11 @@ export const CreerHebergement = () => {
         error.message
       );
     }
+    naviguate("/hebergement");
   };
 
   const handleAjouterClick = () => {
-    createHeber(titre, description, "robin", adresse);
-    naviguate("/hebergement");
+    createHeber(titre, description, adresse);
   };
   const naviguate = useNavigate();
 

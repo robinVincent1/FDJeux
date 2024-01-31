@@ -15,7 +15,13 @@ import "../styles/styles.css";
 import "../output.css";
 import { useNavigate } from "react-router-dom";
 import Autocomplete from "@mui/material/Autocomplete";
-import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from "@mui/material";
 
 function Copyright(props: any) {
   return (
@@ -162,7 +168,7 @@ export default function SignUp() {
 
       console.log(`Tout va bien tu es là avec le token ${data}`);
       localStorage.setItem("token", data.accessToken);
-      localStorage.setItem("userId", data.id)
+      localStorage.setItem("userId", data.id);
       setLogin(true);
       setError("");
       navigate("/accueil");
@@ -371,7 +377,7 @@ export default function SignUp() {
                   defaultValue=""
                 />
               </Grid>
-              <div className=" p-4">
+              <Grid item xs={12}>
                 <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-label">
                     Hebergement
@@ -388,7 +394,8 @@ export default function SignUp() {
                     <MenuItem value="Ri">Rien</MenuItem>
                   </Select>
                 </FormControl>
-              </div>
+              </Grid>
+
               {proposition && (
                 <Grid item xs={12}>
                   <TextField

@@ -36,6 +36,7 @@ export const CreerInfosPage = () => {
       console.error('Erreur lors de la création de l\'information:', error.message);
       // Gérer l'erreur, par exemple, afficher un message à l'utilisateur.
     }
+    navigate("/accueil");
   };
   
 
@@ -54,7 +55,6 @@ export const CreerInfosPage = () => {
 
   const send = () => {
     createInfo(newTitre ,newDes)
-    navigate("/accueil");
   };
 
   return (
