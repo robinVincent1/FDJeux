@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Question, Reponse } from "./PageForum";
 import DeleteIcon from "@mui/icons-material/Delete";
 import TextField from "@mui/material/TextField";
-import { IconButton } from "@mui/material";
+import { Avatar, IconButton } from "@mui/material";
 import MessageIcon from "@mui/icons-material/Message";
 import { User } from "../admin/AdminPage";
 
@@ -63,7 +63,7 @@ export const BlockQuestion = ({ quest, deleteQuestion, u }: Props) => {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             body: JSON.stringify(newCom),
           }
@@ -102,7 +102,7 @@ export const BlockQuestion = ({ quest, deleteQuestion, u }: Props) => {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
@@ -141,35 +141,39 @@ export const BlockQuestion = ({ quest, deleteQuestion, u }: Props) => {
 
   return (
     <div className=" p-2">
-      <div className="border-black border rounded p-2 ml-8 mr-8">
+      <div className=" p-2 ml-8 mr-8 hover:shadow-xl shadow rounded-lg border"             
+          onClick={() => {
+              setisShow(!isShow);
+            }}>
         <p className="font-bold ml-4 text-[#0A5483]">{quest.objet}</p>
         <p className="ml-4">{quest.question}</p>
         <p className="italic ml-4">{quest.createur}</p>
-        <div className="flex justify-center">
-          {(u.role == "admin" || quest.createur == u.firstName + " " + u.lastName) && (
+        <div className="flex justify-between">
+          {(u.role == "admin" ||
+            quest.createur == u.firstName + " " + u.lastName) && (
             <div className="flex justify-end ">
               <IconButton aria-label="delete" onClick={() => deleteQuestion()}>
                 <DeleteIcon />
               </IconButton>
             </div>
           )}
-          <button
-            className="flex ml-4 text-[#0E8DDF]"
-            onClick={() => {
-              setisShow(!isShow);
-            }}
-          >
-            <MessageIcon />
-          </button>
         </div>
       </div>
-      <div className="p-"></div>
       {isShow ? (
-        <div className="p-2 ml-16  mr-16  ">
+        <div className=" ml-16  mr-16  pt-4">
           {comments.map((rep, index) => (
-            <div key={index} className="pt-2">
-              <p className="shadow-lg p-2 rounded-lg ">
-                {(u.role == "admin" || quest.createur == u.firstName + " " + u.lastName) && (
+            <div key={index} className="flex justify-between">
+              <p className="flex ">
+                <Avatar
+                  sx={{ bgcolor: "#0E8DDF", width: "30px", height: "30px" }}
+                >
+                  <div className="uppercase text-sm">{rep.createur[0]}</div>
+                </Avatar>
+                <p className="pl-4">{rep.reponse}</p>
+              </p>
+              <p>
+                {(u.role == "admin" ||
+                  quest.createur == u.firstName + " " + u.lastName) && (
                   <IconButton
                     aria-label="delete"
                     onClick={() => handleDeleteResponse(rep)}
@@ -177,10 +181,10 @@ export const BlockQuestion = ({ quest, deleteQuestion, u }: Props) => {
                     <DeleteIcon />
                   </IconButton>
                 )}
-                <strong className="ml-2 ">{rep.createur} :</strong> {rep.reponse}
               </p>
             </div>
           ))}
+
           <div className="ml-2">
             <TextField
               style={{ width: "90%", margin: "auto" }}

@@ -25,18 +25,18 @@ export const PageForum = () => {
   const [newq, setNewq] = useState("");
   const [newOb, setNewOb] = useState("");
   const [erreur, setErreur] = useState(false);
-  const [userConnected, setUserConnected] = useState<User>(robin)
+  const [userConnected, setUserConnected] = useState<User>(robin);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const id = localStorage.getItem("userId");
         const response = await fetch(`http://localhost:8080/user/${id}`, {
-          method: 'GET', // Remplacez 'GET' par la méthode que vous souhaitez utiliser
+          method: "GET", // Remplacez 'GET' par la méthode que vous souhaitez utiliser
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          }
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         });
         const data = await response.json();
         setUserConnected(data);
@@ -57,7 +57,7 @@ export const PageForum = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
       .then((response) => response.json())
@@ -103,7 +103,7 @@ export const PageForum = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify(newQuestion),
         });
@@ -139,7 +139,7 @@ export const PageForum = () => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       if (response.status === 200) {
@@ -177,38 +177,10 @@ export const PageForum = () => {
 
   return (
     <div>
-      <h1 className="flex justify-center p-4 font-bold text-2xl text-[#0A5483]"> FORUM</h1>
-      <div className="pt-8 ml-16 mr-16 flex">
-        <TextField
-          onChange={handleq}
-          fullWidth
-          label="Posez votre question ici !"
-          id="fullWidth"
-          size="medium"
-        />
-      </div>
-      <div className="pt-2 ml-16 pb-8 mr-16 flex justify-center">
-        <TextField
-          onChange={handlob}
-          fullWidth
-          label="Quel est l'objet de votre question ?"
-          id="fullWidth"
-          size="medium"
-          style={{ width: "50%" }}
-        />
-        <div className="ml-4 flex items-center">
-        <Button
-          onClick={handleCreerQuestion}
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{ width: "100%" }}
-        >
-          Envoyer
-        </Button>
-        </div>
-
-      </div>
+      <h1 className="flex justify-center p-4 font-bold text-2xl text-[#0A5483]">
+        {" "}
+        FORUM
+      </h1>
 
       {liste &&
         liste.map((e) => (
@@ -218,6 +190,37 @@ export const PageForum = () => {
             u={userConnected}
           />
         ))}
+
+      <div className="pt-8 ml-16 mr-16 flex">
+        <TextField
+          onChange={handleq}
+          fullWidth
+          label="Posez votre question ici !"
+          id="fullWidth"
+          size="medium"
+        />
+      </div>
+      <div className="pt-4 ml-16 pb-2 mr-16">
+        <TextField
+          onChange={handlob}
+          fullWidth
+          label="Quel est l'objet de votre question ?"
+          id="fullWidth"
+          size="medium"
+          style={{ width: "50%" }}
+        />
+        </div>
+        <div className="ml-4 flex justify-center">
+          <Button
+            onClick={handleCreerQuestion}
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ width: "20%" }}
+          >
+            Envoyer
+          </Button>
+      </div>
     </div>
   );
 };
