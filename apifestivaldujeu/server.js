@@ -4,6 +4,7 @@ const { db } = require('./app/models');
 const cors = require('cors');
 const app = express();
 const sequelize = require('./db/conn');
+const bodyParser = require('body-parser');
 
 const init = require('./init');
 
@@ -14,7 +15,13 @@ const allowedOrigins = [
 app.use(cors({
   origin: allowedOrigins
 }));
-app.use(express.json());
+app.use(express.json({ limit: '10mb' })); // Utiliser express.json() avec la limite de taille
+app.use(express.urlencoded({ extended: true, limit: '10mb' })); // Utiliser express.urlencoded() avec la limite de taille
+
+// Augmenter la limite de taille du corps à 10 Mo
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
+
 
 // Ensure sequelize is properly initialized
 sequelize

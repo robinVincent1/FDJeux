@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { User } = require('../models');
 
+
 const getMe = (req, res) => {
   res.send({ ...req.user.toJSON(), role: req.user.role });
 };

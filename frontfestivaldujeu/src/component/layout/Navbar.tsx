@@ -13,6 +13,40 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { Link } from "react-router-dom";
+import { User } from "../admin/AdminPage";
+import { robin } from "../profil/ProfilPage";
+import { styled } from "@mui/material/styles";
+import Badge from "@mui/material/Badge";
+import { Festival, test } from "../festival/PageFestival";
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    backgroundColor: "#44b700",
+    color: "#44b700",
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    "&::after": {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      borderRadius: "50%",
+      animation: "ripple 1.2s infinite ease-in-out",
+      border: "1px solid currentColor",
+      content: '""',
+    },
+  },
+  "@keyframes ripple": {
+    "0%": {
+      transform: "scale(.8)",
+      opacity: 1,
+    },
+    "100%": {
+      transform: "scale(2.4)",
+      opacity: 0,
+    },
+  },
+}));
 
 const pages = [
   { title: "Accueil", href: "/accueil" },
@@ -54,6 +88,107 @@ function Navbar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const [userConnected, setUserConnected] = React.useState<User>(robin);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const id = localStorage.getItem("userId");
+        const response = await fetch(`http://localhost:8080/user/${id}`, {
+          method: "GET", // Remplacez 'GET' par la méthode que vous souhaitez utiliser
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        const data = await response.json();
+        setUserConnected(data);
+      } catch (error) {
+        console.error(
+          "Erreur lors de la récupération de l'utilisateur :",
+          error
+        );
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const [festi, setFesti] = React.useState<Festival>(test);
+
+  React.useEffect(() => {
+    const token = localStorage.getItem('token');
+    // Appel API pour récupérer le festival
+    fetch("http://localhost:8080/festival/enCours", {
+      method: 'GET', // Remplacez 'GET' par la méthode HTTP que vous souhaitez utiliser
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
+      .then((response) => response.json())
+      .then((data) => setFesti(data))
+      .catch((error) =>
+        console.error("Erreur lors de la récupération du festival :", error)
+      );
+  }, []);
+
+  const [repasIsReady, setRepasIsReady] = React.useState(false);
+  const [repasSM, setRepasSM] = React.useState(0);
+  const [repasSS, setRepasSS] = React.useState(0);
+  const [repasDM, setRepasDM] = React.useState(0);
+
+  React.useEffect(() => {
+    const idUser = localStorage.getItem("userId");
+    // Appel API pour récupérer le repas
+    fetch(`http://localhost:8080/repas/${idUser}/${festi.idFestival}/${1}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => setRepasSM(data.etat))
+      .catch((error) =>
+        console.error("Erreur lors de la récupération des repas :", error)
+      );
+  }, []);
+
+  React.useEffect(() => {
+    const idUser = localStorage.getItem("userId");
+    // Appel API pour récupérer le repas
+    fetch(`http://localhost:8080/repas/${idUser}/${festi.idFestival}/${2}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => setRepasSS(data.etat))
+      .catch((error) =>
+        console.error("Erreur lors de la récupération des repas :", error)
+      );
+  }, []);
+
+  React.useEffect(() => {
+    const idUser = localStorage.getItem("userId");
+    // Appel API pour récupérer le repas
+    fetch(`http://localhost:8080/repas/${idUser}/${festi.idFestival}/${3}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => setRepasDM(data.etat))
+      .catch((error) =>
+        console.error("Erreur lors de la récupération des repas :", error)
+      );
+  }, []);
 
   return (
     <AppBar position="static">
@@ -123,7 +258,19 @@ function Navbar() {
                 to={page.href}
                 style={{ textDecoration: "none" }}
               >
-                <Button color="inherit">{page.title}</Button>
+                {page.title == "Repas" ? (
+                  <div>
+                    {repasSM == 2 || repasSS == 2 || repasDM == 2 ? (
+                      <Badge color="error" variant="dot">
+                        <Button color="inherit">{page.title}</Button>
+                      </Badge>
+                    ) : (
+                      <Button color="inherit">{page.title}</Button>
+                    )}
+                  </div>
+                ) : (
+                  <Button color="inherit">{page.title}</Button>
+                )}
               </Link>
             ))}
           </Box>
@@ -131,7 +278,18 @@ function Navbar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar src="/profil-picture.jpg" />
+                <StyledBadge
+                  overlap="circular"
+                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                  variant="dot"
+                >
+                  <Avatar
+                    sx={{ bgcolor: "red", width: "50px", height: "50px" }}
+                  >
+                    {userConnected.firstName[0]}
+                    {userConnected.lastName[0]}
+                  </Avatar>
+                </StyledBadge>
               </IconButton>
             </Tooltip>
             <Menu

@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { User } from "../admin/AdminPage";
 import { Button, Chip, TextField } from "@mui/material";
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
+import Avatar from "@mui/material/Avatar";
+import { styled } from "@mui/material/styles";
+import Badge from "@mui/material/Badge";
 
 export const robin: User = {
   idUser: "",
@@ -20,6 +23,35 @@ export const robin: User = {
   photoProfil: "",
   flexible: false,
 };
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    backgroundColor: "#44b700",
+    color: "#44b700",
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    "&::after": {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      borderRadius: "50%",
+      animation: "ripple 1.2s infinite ease-in-out",
+      border: "1px solid currentColor",
+      content: '""',
+    },
+  },
+  "@keyframes ripple": {
+    "0%": {
+      transform: "scale(.8)",
+      opacity: 1,
+    },
+    "100%": {
+      transform: "scale(2.4)",
+      opacity: 0,
+    },
+  },
+}));
 
 export const ProfilPage = () => {
   const [user, setUser] = useState<User>(robin);
@@ -54,17 +86,16 @@ export const ProfilPage = () => {
     setTel(event.target.value);
   };
 
-  
   useEffect(() => {
     const fetchData = async () => {
       try {
         const id = localStorage.getItem("userId");
         const response = await fetch(`http://localhost:8080/user/${id}`, {
-          method: 'GET', // Remplacez 'GET' par la méthode que vous souhaitez utiliser
+          method: "GET", // Remplacez 'GET' par la méthode que vous souhaitez utiliser
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          }
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         });
         const user = await response.json();
 
@@ -98,7 +129,7 @@ export const ProfilPage = () => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({
           idUser: id,
@@ -125,9 +156,19 @@ export const ProfilPage = () => {
 
   return (
     <div className="">
-      <div className="flex justify-center p-4">
-        <img className="w-32 h-32" src="/profil-picture.jpg" />
+      <div className="flex justify-center p-4 pt-16">
+        <StyledBadge
+          overlap="circular"
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          variant="dot"
+        >
+          <Avatar sx={{ bgcolor: "red", width: "70px", height: "70px" }}>
+            {user.firstName[0]}
+            {user.lastName[0]}
+          </Avatar>
+        </StyledBadge>
       </div>
+
       <div className="flex justify-center">
         <div className=" justify-center p-4">
           <p className="p-4">Prénom Nom </p>
