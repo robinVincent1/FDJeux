@@ -4,6 +4,7 @@ import { User } from "../admin/AdminPage";
 import { robin } from "../profil/ProfilPage";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import { Festival, test } from "../festival/PageFestival";
+import Navbar from "../layout/Navbar";
 
 export type Repas = {
   idRepas: string;
@@ -235,7 +236,8 @@ export const PageRepas = () => {
 
   return (
     <div>
-      <h1 className="flex justify-center p-16 font-bold text-2xl text-[#0A5483]">
+      <Navbar/>
+      <h1 className="flex justify-center p-16 font-bold text-2xl text-[#0A5483] font-serif">
         {" "}
         REPAS
       </h1>

@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { User } from "../admin/AdminPage";
+import { robin } from "../profil/ProfilPage";
 
 export const CreerNews = () => {
   const [titre, setTitre] = useState("");
@@ -14,6 +16,32 @@ export const CreerNews = () => {
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDescription(e.target.value);
   };
+
+  const [userConnected, setUserConnected] = useState<User>(robin);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const id = localStorage.getItem("userId");
+        const response = await fetch(`http://localhost:8080/user/${id}`, {
+          method: 'GET', // Remplacez 'GET' par la méthode que vous souhaitez utiliser
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          }
+        });
+        const data = await response.json();
+        setUserConnected(data);
+      } catch (error) {
+        console.error(
+          "Erreur lors de la récupération de l'utilisateur :",
+          error
+        );
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const createNews = async (titre: string, description: string, createur: string) => {
     try {
@@ -48,7 +76,7 @@ export const CreerNews = () => {
   
 
   const handleAjouterClick = () => {
-    createNews(titre, description, "robin")
+    createNews(titre, description, userConnected.firstName)
   };
 
   return (

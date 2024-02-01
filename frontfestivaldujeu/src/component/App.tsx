@@ -26,9 +26,6 @@ function App() {
   return (
     <div>
       <Router>
-        <header>
-          <Navbar />
-        </header>
         <main>
           <Routes>
             {/* Route accessible sans authentification */}

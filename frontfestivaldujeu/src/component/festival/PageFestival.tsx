@@ -4,6 +4,7 @@ import { Button } from "@mui/material";
 import Tableau from "./tableau";
 import { User } from "../admin/AdminPage";
 import { robin } from "../profil/ProfilPage";
+import Navbar from "../layout/Navbar";
 
 export type Festival = {
   idFestival: string;
@@ -82,10 +83,12 @@ export const PageFestival = () => {
 
   return (
     <div>
+      <Navbar/>
+      <h1 className="flex justify-center p-16 font-bold text-2xl text-[#0A5483] font-serif">
+        {" "}
+        FESTIVALS
+      </h1>
       <div className="pt-16 p-4">
-        <p className="p-8 font-bold flex justify-center text-[#0A5483] text-lg">
-          Voici la liste des festivals :
-        </p>
         {liste.length > 0 ? (
           <Tableau listeFesti={liste} maj={MAJ} u={userConnected} />
         ) : (

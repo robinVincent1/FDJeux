@@ -11,6 +11,7 @@ import TableauAcc from "./TableauAcc";
 import { Button } from "@mui/material";
 import { User } from "../admin/AdminPage";
 import { robin } from "../profil/ProfilPage";
+import Navbar from "../layout/Navbar";
 
 export const PageAccueil = () => {
   const [listeInfos, setListeInfos] = useState<Infos[]>([]);
@@ -226,7 +227,8 @@ export const PageAccueil = () => {
 
   return (
     <div className="bg-grey min-h-screen">
-      <h1 className="p-16 text-xl font-bold flex justify-center ">
+      <Navbar />
+      <h1 className="p-16 text-xl font-bold flex justify-center font-serif">
         <p className="  text-[#0A5483]">Bienvenue sur le site du Festival du Jeu de Montpellier !</p>
       </h1>
       <div className=" flex justify-center break-words p-4 bg-[#0E8DDF]">
@@ -246,15 +248,37 @@ export const PageAccueil = () => {
           </Link>
         ) : null}
       </div>
-      <div className="p-8">
+      <div className="p-8 fondAccueil">
+          <h1 className="flex justify-center font-bold p-4 text-xl font-mono">
+            {festi.nom}
+          </h1>
+
+          <div>
+            <p className="flex justify-center text-lg">
+              Début
+            </p>
+            <p className="font-bold flex justify-center font-mono">
+              {festi.date}
+            </p>
+          </div>
+
+          <div>
+            <p className="p-4">
+              Liste de jeux 
+            </p>
+          </div>
+
+          <div>
+            <p className="flex justify-center">
+              Nos membres
+            </p>
+          </div>
+
+
         <TableauAcc Festi={festi} />
       </div>
       <div className="p-2 flex justify-center">
-        {isInscrit ? (
-          <p className=" p-2 bg-[#62B862] text-white rounded-lg">
-            Vous êtes inscrit à ce festival !
-          </p>
-        ) : (
+        {isInscrit ? null : (
           <div className="flex">
             <div className="p-2 flex justify-center">
               <Button

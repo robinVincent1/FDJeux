@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { robin } from "../profil/ProfilPage";
 import { User } from "../admin/AdminPage";
+import Navbar from "../layout/Navbar";
 
 export type Reponse = {
   idReponse: string;
@@ -177,7 +178,8 @@ export const PageForum = () => {
 
   return (
     <div>
-      <h1 className="flex justify-center p-4 font-bold text-2xl text-[#0A5483]">
+      <Navbar/>
+      <h1 className="flex justify-center p-4 font-bold text-2xl text-[#0A5483] font-serif">
         {" "}
         FORUM
       </h1>

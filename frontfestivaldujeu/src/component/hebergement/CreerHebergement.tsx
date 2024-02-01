@@ -1,10 +1,8 @@
 import { Button, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { User } from "../admin/AdminPage";
 import { robin } from "../profil/ProfilPage";
-
-
 
 export const CreerHebergement = () => {
   const [titre, setTitre] = useState("");
@@ -15,7 +13,7 @@ export const CreerHebergement = () => {
 
   const handleComChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCommunication(event.target.value);
-  }
+  };
 
   const handleTitreChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitre(event.target.value);
@@ -36,11 +34,11 @@ export const CreerHebergement = () => {
       try {
         const id = localStorage.getItem("userId");
         const response = await fetch(`http://localhost:8080/user/${id}`, {
-          method: 'GET',
+          method: "GET",
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          }
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         });
         const data = await response.json();
         setUserConnected(data);
@@ -65,7 +63,7 @@ export const CreerHebergement = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({
           createur: userConnected.firstName,
@@ -100,6 +98,14 @@ export const CreerHebergement = () => {
 
   return (
     <div>
+      <div className="p-8">
+      <Link
+        to="/hebergement"
+        className="border text-[#3379FF] rounded p-2 border-[#3379FF] hover:text-white hover:bg-[#3379FF]"
+      >
+        Retour
+      </Link>
+      </div>
       <h1 className="flex p-8 justify-center font-bold text-xl">
         Nouvelle Proposotion :
       </h1>

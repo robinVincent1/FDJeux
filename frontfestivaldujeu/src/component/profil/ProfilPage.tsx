@@ -5,6 +5,7 @@ import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlin
 import Avatar from "@mui/material/Avatar";
 import { styled } from "@mui/material/styles";
 import Badge from "@mui/material/Badge";
+import Navbar from "../layout/Navbar";
 
 export const robin: User = {
   idUser: "",
@@ -156,13 +157,18 @@ export const ProfilPage = () => {
 
   return (
     <div className="">
+      <Navbar/>
+      <h1 className="flex justify-center pt-16 font-bold text-2xl text-[#0A5483] font-serif">
+        {" "}
+        PROFIL
+      </h1>
       <div className="flex justify-center p-4 pt-16">
         <StyledBadge
           overlap="circular"
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           variant="dot"
         >
-          <Avatar sx={{ bgcolor: "red", width: "70px", height: "70px" }}>
+          <Avatar sx={{ bgcolor: "", width: "70px", height: "70px" }}>
             {user.firstName[0]}
             {user.lastName[0]}
           </Avatar>
@@ -171,24 +177,21 @@ export const ProfilPage = () => {
 
       <div className="flex justify-center">
         <div className=" justify-center p-4">
-          <p className="p-4">Prénom Nom </p>
-          <p className="border-2 rounded p-4">
+          <p className="font-bold font-serif p-4">
             {user.firstName} {user.lastName}
           </p>
         </div>
         <div className=" justify-center p-4">
-          <p className="p-4">Role </p>
-          <p className="border-2  rounded p-4">{user.role}</p>
+          <p className="font-bold font-serif p-4">{user.role}</p>
         </div>
         <div className=" justify-center p-4">
-          <p className="p-4">Edition </p>
-          <p className="border-2  rounded p-4">{user.nbEdition}</p>
+          <p className="font-bold font-serif p-4">{user.nbEdition} participations</p>
         </div>
       </div>
 
       <div className=" flex justify-center">
         <div className="  justify-center">
-          <p className="p-4 mr-4 text-align">Pseudo </p>
+          <p className="p-4 mr-4 text-align font-mono">Pseudo </p>
           <div className="flex items-center">
             <TextField
               autoComplete="given-name"
@@ -208,7 +211,7 @@ export const ProfilPage = () => {
           </div>
         </div>
         <div className=" justify-center ml-4">
-          <p className="p-4 mr-4 text-align">Adresse Email </p>
+          <p className="p-4 mr-4 text-align font-mono">Adresse Email </p>
           <div className="flex items-center">
             <TextField
               autoComplete="given-name"
@@ -219,7 +222,7 @@ export const ProfilPage = () => {
               autoFocus
               style={{ width: "100%", margin: "auto" }}
             />
-            <div className="ml-2 ">
+            <div className="ml-2">
               <Chip
                 label={<CheckCircleOutlineRoundedIcon />}
                 onClick={() => setUserEmail(email)}
@@ -231,7 +234,7 @@ export const ProfilPage = () => {
 
       <div className=" pt-4 flex justify-center">
         <div className=" justify-center">
-          <p className="p-4 mr-4 text-align">Adresse Postale </p>
+          <p className="p-4 mr-4 text-align font-mono">Adresse Postale </p>
           <div className="flex items-center">
             <TextField
               autoComplete="given-name"
@@ -251,7 +254,7 @@ export const ProfilPage = () => {
           </div>
         </div>
         <div className="  justify-center ml-4">
-          <p className="p-4 mr-4 text-align">Association </p>
+          <p className="p-4 mr-4 text-align font-mono">Association </p>
           <div className="flex items-center">
             <TextField
               autoComplete="given-name"

@@ -3,6 +3,7 @@ import { HebergementDeroulement } from "./HebergementDeroulement";
 import { Heber } from "./TypeHebergement";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
+import Navbar from "../layout/Navbar";
 
 export const PageHebergement = () => {
   const [listeHeber, setListeHeber] = useState<Heber[]>([]);
@@ -77,7 +78,8 @@ export const PageHebergement = () => {
 
   return (
     <div>
-      <h1 className="flex justify-center p-4 font-bold text-2xl text-[#0A5483]"> Hébérgement</h1>
+      <Navbar/>
+      <h1 className="flex justify-center p-4 font-bold text-2xl text-[#0A5483] font-serif"> HEBERGEMENT</h1>
       <div className="flex justify-center p-8">
         <Button
           onClick={handleEnvoyerClick}

@@ -21,8 +21,6 @@ export default function TableauAcc({Festi}: Props) {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell align="right">Nom</TableCell>
-            <TableCell align="right">Date</TableCell>
             <TableCell align="right">Nombre Référent</TableCell>
             <TableCell align="right">Nombre Réspo Soirée</TableCell>
             <TableCell align="right">Nombre Bénévole Accueil</TableCell>
@@ -35,8 +33,6 @@ export default function TableauAcc({Festi}: Props) {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
 
-              <TableCell align="right">{Festi.nom}</TableCell>
-              <TableCell align="right">{Festi.date}</TableCell>
               <TableCell align="center">{Festi.nbReferent}</TableCell>
               <TableCell align="center">{Festi.nbRespoSoiree}</TableCell>
               <TableCell align="center">{Festi.nbAccueilBenevole}</TableCell>

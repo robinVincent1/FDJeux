@@ -6,6 +6,7 @@ import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { User } from "../admin/AdminPage";
 import { robin } from "../profil/ProfilPage";
+import Navbar from "../layout/Navbar";
 
 export type NewsType = {
   idNews: string;
@@ -94,6 +95,8 @@ export const NewsPage = () => {
 
   return (
     <div>
+      <Navbar/>
+      <h1 className="flex justify-center p-4 font-bold text-2xl text-[#0A5483] font-serif"> NEWS</h1>
       <div className=" justify-center ml-8">
         {news.map((e) => {
           return (

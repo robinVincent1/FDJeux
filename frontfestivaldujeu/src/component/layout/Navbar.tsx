@@ -50,12 +50,11 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 const pages = [
   { title: "Accueil", href: "/accueil" },
-  { title: "festival", href: "/festival" },
+  { title: "Festival", href: "/festival" },
   { title: "Planning General ", href: "/planning_general" },
   { title: "News", href: "/news" },
   { title: "Planning Personel", href: "/planning_perso" },
   { title: "Forum", href: "/forum" },
-  { title: "Infos", href: "/admin/creerinfos" },
   { title: "Hebergement", href: "/hebergement" },
   { title: "Repas", href: "/repas" },
 ];
@@ -284,10 +283,10 @@ function Navbar() {
                   variant="dot"
                 >
                   <Avatar
-                    sx={{ bgcolor: "red", width: "50px", height: "50px" }}
+                    sx={{ bgcolor: "#0A5483", width: "50px", height: "50px" }}
                   >
-                    {userConnected.firstName[0]}
-                    {userConnected.lastName[0]}
+                   
+
                   </Avatar>
                 </StyledBadge>
               </IconButton>

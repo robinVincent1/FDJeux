@@ -9,7 +9,7 @@ export const CreerNewsPage = () => {
                 <Link to="/news" className="border text-[#3379FF] rounded p-2 border-[#3379FF] hover:text-white hover:bg-[#3379FF]">
                     Retour
                 </Link>
-            <h1 className="flex justify-center font-bold text-xl">
+            <h1 className="flex justify-center font-bold text-xl text-[#0A5483]">
                 Création d'une News :
             </h1>
             </div>
