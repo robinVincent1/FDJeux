@@ -26,7 +26,8 @@ interface User{
   propo:string,
   association:string,
   telephone:string,
-  flexible:boolean
+  flexible:boolean,
+  isPresent:number,
 }
 
 interface CreneauProps {
@@ -274,7 +275,7 @@ interface CreneauProps {
               console.error('Erreur lors de la récupération des id des users. Statut:', response.status);
             }
         
-            const UserIds :{idCreneauBenevole: number, idUser: number, idCreneau:number, }[] = await response.json();
+            const UserIds :{idCreneauBenevole: number, idUser: number, idCreneau:number,isPresent:number }[] = await response.json();
             return UserIds
           }
           catch(error){
@@ -283,7 +284,7 @@ interface CreneauProps {
         }
 
         async function fillListBenevole(){
-          const benevoleList: { idCreneauBenevole: number, idUser: number, idCreneau:number }[] | undefined = await getbenevole(currentIdCreneau);
+          const benevoleList: { idCreneauBenevole: number, idUser: number, idCreneau:number, isPresent:number }[] | undefined = await getbenevole(currentIdCreneau);
           const userlist : User[] = []
           if (benevoleList) {
             for (let i = 0; i < benevoleList.length; i++){
@@ -299,6 +300,7 @@ interface CreneauProps {
                 console.error('Erreur lors de la récupération de l user. Statut:', response.status);
               }
               const user : User  = await response.json()
+              user.isPresent = benevoleList[i].isPresent 
               userlist.push(user)
             }
           }
@@ -450,9 +452,9 @@ interface CreneauProps {
                 <Typography>
                 <IconButton aria-label="delete" disabled color="primary">
                   {list_benevole.map((benevole) => (
-                    <Typography>{benevole.pseudo}</Typography>
+                    <Typography style={{ color: benevole.isPresent ? 'green' : 'red' }}>{benevole.pseudo}</Typography>
                   ))}
-                  
+                    
               </IconButton>
               </Typography>
                 

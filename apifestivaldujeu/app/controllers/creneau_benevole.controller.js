@@ -5,7 +5,8 @@ const inscription = async (req,res) => {
         const {idCreneau,idUser} = req.body;
         const creneau_benevole = await CreneauBenevole.create({
             idUser: idUser,
-            idCreneau: idCreneau
+            idCreneau: idCreneau,
+            isPresent: 0
         });
         res.send(creneau_benevole);
     }

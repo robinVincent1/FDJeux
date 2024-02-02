@@ -14,6 +14,9 @@ module.exports = (sequelize,Sequelize) => {
         },
         idCreneau : {
             type : Sequelize.INTEGER
+        },
+        isPresent:{
+            type: Sequelize.INTEGER
         }
     })
 

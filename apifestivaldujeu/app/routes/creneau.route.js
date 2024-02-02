@@ -8,6 +8,8 @@ module.exports = app => {
 
     router.get('/:JourId/:HoraireId/:LigneId/:idPlanning', isLoggedIn, controller.getbyId);
 
+    router.get('/:JourId/:PlanningId', isLoggedIn, controller.getbyJour);
+
     router.put('/addnbinscrit/:idCreneau',controller.addnbinscrit)
 
     router.put('/modifyreferent/:idCreneau',controller.modifyReferent)

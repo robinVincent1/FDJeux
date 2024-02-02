@@ -63,6 +63,7 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
   const [inputValueHoraire_Debut, setInputValueHoraire_Debut] = useState<string>('');
   const [inputValueHoraire_Fin, setInputValueHoraire_Fin] = useState<string>('');
   const [openModals, setOpenModals] = useState<{ [key: number]: boolean }>({});
+  const [openModals_Presence, setOpenModals_Presence] = useState<{ [key: number]: boolean }>({});
   const [nbColonne, setNbColonne] = useState<number>(0);
   const [openModal_Ligne, setOpenModal_Ligne] = React.useState(false);
   const [openModal_Jour, setOpenModal_Jour] = React.useState(false);
@@ -81,12 +82,21 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
   const handleOpenModal_Ligne = () => setOpenModal_Ligne(true);
   const handleCloseModal_Ligne = () => setOpenModal_Ligne(false);
 
+  const handleOpenModal_Presence = (jourId: number) => {
+    setOpenModals_Presence((prevOpenModals) => ({ ...prevOpenModals, [jourId]: true }));
+    getcreneaubyJourId(jourId);
+  }
+
+  const handleCloseModal_Presence = (jourId: number) => {
+    setOpenModals_Presence((prevOpenModals) => ({ ...prevOpenModals, [jourId]: false }));
+  }
+
   const handleOpenModal_Horaire = (jourId: number) => {
-    setOpenModals((prevOpenModals) => ({ ...prevOpenModals, [jourId]: true }));
+    setOpenModals_Presence((prevOpenModals) => ({ ...prevOpenModals, [jourId]: true }));
   };
 
   const handleCloseModal_Horaire = (jourId: number) => {
-    setOpenModals((prevOpenModals) => ({ ...prevOpenModals, [jourId]: false }));
+    setOpenModals_Presence((prevOpenModals) => ({ ...prevOpenModals, [jourId]: false }));
   };
 
   const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
@@ -102,6 +112,32 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
   const handleInputHoraire_Fin = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setInputValueHoraire_Fin(value);
+  }
+
+  async function getcreneaubyJourId(jourId: number){
+    try {
+      const response = await fetch(`http://localhost:8080/creneau/${jourId}/${PlanningId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+  
+      if (!response.ok) {
+        // Si la réponse n'est pas OK, renvoyer une valeur appropriée
+        console.error('Erreur lors de la récupération des creneaux. Statut:', response.status);
+        return undefined;
+      }
+  
+      const creneauData : Creneau[] = await response.json();
+      console.log('creneauData',creneauData)
+      return creneauData;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des creneaux', error);
+      // Gérer l'erreur ici, si nécessaire
+      return undefined;
+    }
   }
   
   async function createcreneau(jourid: number, horaireid: number, LigneId: number, titre: string,heure_debut:string,heure_fin:string) {
@@ -375,6 +411,29 @@ useEffect(() => {
     {list_jours.map((jour)=> (
             <th colSpan={Array.isArray(jour.list_horaire) ? jour.list_horaire.length : 0} scope="colgroup" className="px-6 py-3 bg-blue-500">
               {jour.nom}
+              <div>
+              <Button onClick={() => handleOpenModal_Presence(jour.id)} color="danger">Présence</Button>
+              <Modal
+                open={openModals_Presence[jour.id] || false}
+                onClose={() => handleCloseModal_Presence(jour.id)}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <ModalDialog 
+                  color="neutral"
+                  variant="plain"
+                >
+                  Ajouter une présence
+                  <Button color="danger" onClick={() => handleCloseModal_Presence(jour.id)}>
+                    Fermé
+                  </Button>
+                  <Button className="bg-[#6f4ef2] shadow-lg shadow-indigo-500/20" onClick={() => addtolisthoraire(jour.id)}>
+                    Ajouter
+                  </Button>
+                </ModalDialog>
+              </Modal>
+              </div>
+              <div>
               <Button onClick={() => handleOpenModal_Horaire(jour.id)} color="danger">+</Button>
               <Modal 
                 open={openModals[jour.id] || false}
@@ -397,6 +456,7 @@ useEffect(() => {
                   </Button>
                 </ModalDialog>
               </Modal>
+              </div>
 
             </th>
       ))}
