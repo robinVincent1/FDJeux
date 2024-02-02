@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PlanningGeneral from './PlanningGeneral'
+import Navbar from '../layout/Navbar';
 
 
 export const PlanningGeneralPage = () => {
@@ -43,7 +44,10 @@ export const PlanningGeneralPage = () => {
     {loading ? (
       <p>Chargement en cours...</p>
     ) : (
+      <div>
+        <div><Navbar/></div>
     <div><PlanningGeneral PlanningId={idPlanning} /></div>
+    </div>
     )
     }
     </div>

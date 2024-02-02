@@ -1,5 +1,6 @@
 import {PlanningPerso} from './PlanningPerso'
 import React, { useState, useEffect } from 'react';
+import Navbar from '../layout/Navbar';
 
 export const PlanningPersoPage = () => {
   const [idPlanning,setIdPlanning] = useState<number>(-1)
@@ -39,7 +40,10 @@ export const PlanningPersoPage = () => {
     {loading ? (
       <p>Chargement en cours...</p>
     ) : (
+      <div>
+      <div><Navbar/></div>
     <div><PlanningPerso userid={parseInt(localStorage.getItem('userId') ?? '') || 0} idPlanning={idPlanning} /></div>
+    </div>
   )
     }
     </div>
