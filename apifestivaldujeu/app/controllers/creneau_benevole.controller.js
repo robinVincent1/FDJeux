@@ -16,6 +16,25 @@ const inscription = async (req,res) => {
     }
 }
 
+const changeisPresent = async (req,res) => {
+    try{
+        const {idCreneau,idUser,isPresent} = req.body;
+        const creneau_benevole = await CreneauBenevole.update({
+            isPresent: isPresent
+        },{
+            where: {
+                idUser: idUser,
+                idCreneau: idCreneau
+            }
+        });
+        res.send(creneau_benevole);
+    }
+    catch(error){
+        console.log(error);
+        res.status(400).send({errors: error.message});
+    }
+}
+
 const desinscription = async (req,res) => {
     try{
         const {idCreneau,idUser} = req.body;
@@ -71,5 +90,6 @@ module.exports = {
     inscription,
     getbenevoles,
     getcreneaux,
-    desinscription
+    desinscription,
+    changeisPresent
 }

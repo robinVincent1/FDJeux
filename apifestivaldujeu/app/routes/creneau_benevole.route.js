@@ -6,6 +6,7 @@ module.exports = app => {
 
     router.post('/', isLoggedIn, controller.inscription)
 
+    router.put('/isPresent', controller.changeisPresent)
 
     router.get('/:CreneauId', isLoggedIn, controller.getbenevoles)
 

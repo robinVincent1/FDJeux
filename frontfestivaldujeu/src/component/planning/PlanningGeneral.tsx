@@ -8,6 +8,10 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Switch from '@mui/material/Switch';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import { Form } from 'react-router-dom';
 
 interface Horaire {
   id: number;
@@ -48,11 +52,25 @@ interface PlanningGeneralProps {
   PlanningId: number;
 }
 
+interface User{
+  idUser:number,
+  email:string,
+  active:boolean,
+  role: string,
+  firstName:string,
+  lastName: string,
+  pseudo:string,
+  postalAdress:string,
+  propo:string,
+  association:string,
+  telephone:string,
+  flexible:boolean,
+  isPresent:number,
+}
 
 
 
 let week =["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"]
-let planningweek=["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"]
 
 const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
   PlanningId
@@ -70,6 +88,7 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
   const [list_jours, setListJours] = useState<Jour[]>([]);
   const [list_ligne, setListLigne] = useState<Ligne[]>([]);
   const [loading, setLoading] = useState(true);
+  const [listUserPresent,setListUserPresent] = useState<User[]>([]);
 
 
 
@@ -82,9 +101,10 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
   const handleOpenModal_Ligne = () => setOpenModal_Ligne(true);
   const handleCloseModal_Ligne = () => setOpenModal_Ligne(false);
 
-  const handleOpenModal_Presence = (jourId: number) => {
+  async function handleOpenModal_Presence (jourId: number){
+    setListUserPresent([]);
+    await getListPresence(jourId);
     setOpenModals_Presence((prevOpenModals) => ({ ...prevOpenModals, [jourId]: true }));
-    getcreneaubyJourId(jourId);
   }
 
   const handleCloseModal_Presence = (jourId: number) => {
@@ -92,11 +112,11 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
   }
 
   const handleOpenModal_Horaire = (jourId: number) => {
-    setOpenModals_Presence((prevOpenModals) => ({ ...prevOpenModals, [jourId]: true }));
+    setOpenModals((prevOpenModals) => ({ ...prevOpenModals, [jourId]: true }));
   };
 
   const handleCloseModal_Horaire = (jourId: number) => {
-    setOpenModals_Presence((prevOpenModals) => ({ ...prevOpenModals, [jourId]: false }));
+    setOpenModals((prevOpenModals) => ({ ...prevOpenModals, [jourId]: false }));
   };
 
   const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
@@ -112,6 +132,93 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
   const handleInputHoraire_Fin = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setInputValueHoraire_Fin(value);
+  }
+  async function getListPresence(jourId: number) {
+    const listcreneau = await getcreneaubyJourId(jourId);
+    listcreneau?.forEach(async creneau => {
+      const listUserId = await getUserIdByCreneauId(creneau.idCreneau);
+      listUserId?.forEach(async user => {
+        const userPresent = await getUserById(user.idUser);
+        if (userPresent) {
+          userPresent.isPresent = user.isPresent;
+          setListUserPresent((prevListUserPresent) => [...prevListUserPresent, userPresent]);
+        }
+      });
+    });
+  }
+
+  async function ChangePresence(jour: Jour, user: User,isPresent:number){
+   const list_creneaux = await getcreneaubyJourId(jour.id)
+   list_creneaux?.forEach(async creneau => {
+    try{
+      const response = await fetch('http://localhost:8080/creneau_benevole/isPresent', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify({
+        idCreneau: creneau.idCreneau,
+        idUser: user.idUser,
+        isPresent: isPresent,
+      }),
+    }
+      )
+  }
+  catch (error) {
+    console.error('Erreur lors de l\'ajout de la ligne', error);
+  }
+  }
+   )
+  }
+
+
+  async function getUserById(idUser: number){
+    try {
+      const response = await fetch(`http://localhost:8080/user/${idUser}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      if (!response.ok) {
+        // Si la réponse n'est pas OK, renvoyer une valeur appropriée
+        console.error('Erreur lors de la récupération des creneaux. Statut:', response.status);
+        return undefined;
+      }
+  
+      const user : User = await response.json();
+      return user;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des creneaux', error);
+      // Gérer l'erreur ici, si nécessaire
+      return undefined;
+    }
+  }
+
+  async function getUserIdByCreneauId(idCreneau: number){
+    try {
+      const response = await fetch(`http://localhost:8080/creneau_benevole/getbenevoles/${idCreneau}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      if (!response.ok) {
+        // Si la réponse n'est pas OK, renvoyer une valeur appropriée
+        console.error('Erreur lors de la récupération des creneaux. Statut:', response.status);
+        return undefined;
+      }
+  
+      const ListUserId : User[] = await response.json();
+      return ListUserId;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des creneaux', error);
+      // Gérer l'erreur ici, si nécessaire
+      return undefined;
+    }
   }
 
   async function getcreneaubyJourId(jourId: number){
@@ -331,9 +438,19 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
  
 
 
-
+ function changeisPresent(isPresent: number) {
+  if (isPresent === 0) {
+    return 1;
+  }
+  return 0;
+}
     
-
+function presentornot(isPresent: number) {
+  if (isPresent === 0) {
+    return false;
+  }
+  return true;
+}
 
   const handleChange = (event: SelectChangeEvent) => {
     setSelectedValue(event.target.value as string);
@@ -410,7 +527,7 @@ useEffect(() => {
   <td rowSpan={list_jours.length+1}></td>
     {list_jours.map((jour)=> (
             <th colSpan={Array.isArray(jour.list_horaire) ? jour.list_horaire.length : 0} scope="colgroup" className="px-6 py-3 bg-blue-500">
-              {jour.nom}
+              <Button>{jour.nom}</Button>
               <div>
               <Button onClick={() => handleOpenModal_Presence(jour.id)} color="danger">Présence</Button>
               <Modal
@@ -424,11 +541,17 @@ useEffect(() => {
                   variant="plain"
                 >
                   Ajouter une présence
+                  {listUserPresent.map((user) => (
+                    <div>
+                      <div style={{ color: user.isPresent ? 'green' : 'red' }} key={user.idUser}>{user.pseudo}</div>
+                      <FormGroup>
+                        <FormControlLabel control={<Switch color="success" checked={presentornot(user.isPresent)} onChange={() =>  {ChangePresence(jour,user,changeisPresent(user.isPresent))
+                        user.isPresent = changeisPresent(user.isPresent); setListUserPresent([...listUserPresent])}} />} label="Présent"/>
+                      </FormGroup>
+                    </div>
+                  ))}
                   <Button color="danger" onClick={() => handleCloseModal_Presence(jour.id)}>
                     Fermé
-                  </Button>
-                  <Button className="bg-[#6f4ef2] shadow-lg shadow-indigo-500/20" onClick={() => addtolisthoraire(jour.id)}>
-                    Ajouter
                   </Button>
                 </ModalDialog>
               </Modal>
@@ -507,7 +630,7 @@ useEffect(() => {
       <>
         {jour.list_horaire && jour.list_horaire.map((horaire) => (
           <th scope="col" className="px-6 py-3 bg-blue-500">
-          <div>{horaire.heure_debut}h-{horaire.heure_fin}h</div>
+          <Button>{horaire.heure_debut}h-{horaire.heure_fin}h</Button>
           </th>
          ))}
         
