@@ -9,6 +9,8 @@ module.exports = app => {
     router.get('/:idPlanning', isLoggedIn, controller.getAllJour);
 
     router.get('/:id',controller.getJourById)
+
+    router.put('/:id', isLoggedIn, controller.modifyJour);  
     
     router.post('/', isLoggedIn, controller.create);
 

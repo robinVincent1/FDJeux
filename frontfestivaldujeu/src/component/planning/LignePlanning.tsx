@@ -1,5 +1,5 @@
 'use client'
-import React, { ChangeEvent, useState,useEffect } from 'react'
+import React, { ChangeEvent, useState,useEffect,useCallback } from 'react'
 import Creneau from './Creneau'
 import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
@@ -49,13 +49,14 @@ const LignePlanning: React.FC<LigneProps> = ({
     idPlanningGeneraLigne,
     nb_creneaux,
     list_creneaux,
-    idPlanning
+    idPlanning,
 }) => {
     const [titre, setTitre] = useState<string>(initialTitre);
     const [inputValue, setInputValue] = useState<string>('');
     const [open, setOpen] = React.useState(false);
     const [idligne,setidligne] = React.useState<number>(idPlanningGeneraLigne);
     const [titreligne,settitreligne] = React.useState<string>(titre);
+    const [maj,setmaj] = React.useState<number>(0);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
@@ -95,21 +96,21 @@ const LignePlanning: React.FC<LigneProps> = ({
         console.log(deletedcreneaux)
         const data = await response.json();
         console.log(data);
+        setmaj(3)
       }
 
-      async function modifylignetitre(){
-        const response = await fetch(`http://localhost:8080/planning_general_ligne/modifytitre/${idligne}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          },
-          body: JSON.stringify({ titre: titreligne }),
-        });
-        const data = await response.json();
-        console.log(data);
-      }
-
+const modifylignetitre = async () => {
+  const response = await fetch(`http://localhost:8080/planning_general_ligne/modifytitre/${idligne}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify({ titre: titreligne }),
+  });
+  const data = await response.json();
+  console.log(data);
+};
 
       const generateCreneaux = () => {
       const creneaux : any  = [];

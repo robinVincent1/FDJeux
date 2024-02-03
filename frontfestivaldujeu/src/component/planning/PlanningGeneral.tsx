@@ -78,10 +78,15 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
 
   const [inputValue, setInputValue] = useState<string>('');
   const [selectedValue, setSelectedValue] = useState<string>('');
+  const [selectedValue_ModifyJour, setSelectedValue_ModifyJour] = useState<string>('');
   const [inputValueHoraire_Debut, setInputValueHoraire_Debut] = useState<string>('');
   const [inputValueHoraire_Fin, setInputValueHoraire_Fin] = useState<string>('');
+  const [inputValueModifyHoraire_Debut, setInputValueModifyHoraire_Debut] = useState<string>('');
+  const [inputValueModifyHoraire_Fin, setInputValueModifyHoraire_Fin] = useState<string>('');
   const [openModals, setOpenModals] = useState<{ [key: number]: boolean }>({});
   const [openModals_Presence, setOpenModals_Presence] = useState<{ [key: number]: boolean }>({});
+  const [openModals_ModifyJour, setOpenModals_ModifyJour] = useState<{ [key: number]: boolean }>({});
+  const [openModals_ModifyHoraire, setOpenModals_ModifyHoraire] = useState<{ [key: number]: boolean }>({});
   const [nbColonne, setNbColonne] = useState<number>(0);
   const [openModal_Ligne, setOpenModal_Ligne] = React.useState(false);
   const [openModal_Jour, setOpenModal_Jour] = React.useState(false);
@@ -89,10 +94,17 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
   const [list_ligne, setListLigne] = useState<Ligne[]>([]);
   const [loading, setLoading] = useState(true);
   const [listUserPresent,setListUserPresent] = useState<User[]>([]);
+  const [maj,setmaj] = useState<number>(0);
 
 
 
 
+
+
+
+  const handleChange_ModifyJour = (event: SelectChangeEvent) => {
+    setSelectedValue_ModifyJour(event.target.value as string);
+  };
 
 
   const handleOpenModal_Jour = () => setOpenModal_Jour(true);
@@ -111,6 +123,23 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
     setOpenModals_Presence((prevOpenModals) => ({ ...prevOpenModals, [jourId]: false }));
   }
 
+  const handleOpenModal_ModifyHoraire = (horaireId: number) => {
+    setOpenModals_ModifyHoraire((prevOpenModals) => ({ ...prevOpenModals, [horaireId]: true }));
+  };
+
+  const handleCloseModal_ModifyHoraire = (horaireId: number) => {
+    setOpenModals_ModifyHoraire((prevOpenModals) => ({ ...prevOpenModals, [horaireId]: false }));
+    setmaj(5)
+  };
+
+  const handleOpenModal_ModifyJour = (jourId: number) => {
+    setOpenModals_ModifyJour((prevOpenModals) => ({ ...prevOpenModals, [jourId]: true }));
+  };
+
+  const handleCloseModal_ModifyJour = (jourId: number) => {
+    setOpenModals_ModifyJour((prevOpenModals) => ({ ...prevOpenModals, [jourId]: false }));
+  };
+
   const handleOpenModal_Horaire = (jourId: number) => {
     setOpenModals((prevOpenModals) => ({ ...prevOpenModals, [jourId]: true }));
   };
@@ -118,6 +147,16 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
   const handleCloseModal_Horaire = (jourId: number) => {
     setOpenModals((prevOpenModals) => ({ ...prevOpenModals, [jourId]: false }));
   };
+
+  const handleInputModifyHoraire_Debut = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setInputValueModifyHoraire_Debut(value);
+  }
+
+  const handleInputModifyHoraire_Fin = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setInputValueModifyHoraire_Fin(value);
+  }
 
   const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -172,6 +211,117 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
    )
   }
 
+  async function modifyjour(jourId: number){
+    try{
+      const response = await fetch(`http://localhost:8080/jours/${jourId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify({
+        nom: selectedValue_ModifyJour,
+      }),
+    }
+      )
+  }
+  catch (error) {
+    console.error('Erreur lors de l\'ajout de la ligne', error);
+  }
+  setmaj(3)
+  }
+
+  async function deletejour(jourId: number){
+    try{
+      const response = await fetch(`http://localhost:8080/jours/${jourId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      },
+    }
+      )
+      const response2 = await fetch(`http://localhost:8080/horaire/deletebyjour/${jourId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        },
+      }
+        )
+      const response3 = await fetch(`http://localhost:8080/creneau/deletebyjour/${jourId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        },
+      }
+        )
+  }
+  catch (error) {
+    console.error('Erreur lors de l\'ajout de la ligne', error);
+  }
+  setmaj(4)
+  }
+
+  async function deletehoraire(horaireId: number){
+    try{
+      const response = await fetch(`http://localhost:8080/horaire/${horaireId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      },
+    }
+      )
+      const response2 = await fetch(`http://localhost:8080/creneau/deletebyhoraire/${horaireId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        },
+      }
+        )
+  }
+  catch (error) {
+    console.error('Erreur lors de l\'ajout de la ligne', error);
+  }
+  setmaj(6)
+  }
+
+  async function modifyhoraire(horaireId: number){
+    try{
+      const response = await fetch(`http://localhost:8080/horaire/${horaireId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify({
+        heure_debut: inputValueModifyHoraire_Debut,
+        heure_fin: inputValueModifyHoraire_Fin,
+      }),
+    }
+      )
+      const reponse2 = await fetch(`http://localhost:8080/creneau/modifyhoraire/${horaireId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({
+          heure_debut: inputValueModifyHoraire_Debut,
+          heure_fin: inputValueModifyHoraire_Fin,
+        }),
+      }
+        )
+  }
+  catch (error) {
+    console.error('Erreur lors de l\'ajout de la ligne', error);
+  }
+  handleCloseModal_ModifyHoraire(horaireId);
+  setmaj(2)
+  }
 
   async function getUserById(idUser: number){
     try {
@@ -320,6 +470,7 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
           const creneauData = await getcreneaubyId(list_jours[j].id, list_jours[j].list_horaire[k].id, list_ligne[i].idPlanningGeneralLigne,PlanningId);
           if (creneauData == undefined ) {
             await createcreneau(list_jours[j].id,list_jours[j].list_horaire[k].id,list_ligne[i].idPlanningGeneralLigne,list_ligne[i].titre,list_jours[j].list_horaire[k].heure_debut,list_jours[j].list_horaire[k].heure_fin);
+
           }
           if (creneauData) {
             newlistligne[i].list_creneaux.push(creneauData)
@@ -328,7 +479,6 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
     }
   }
   setListLigne(newlistligne)
-
 }
 
 
@@ -352,6 +502,7 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
       catch (error) {
     console.error('Erreur lors de l\'ajout de la ligne', error);
     }
+    setmaj(3)
   }
 
   async function getligne (){
@@ -411,6 +562,11 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
     }catch (error) {
   console.error('Erreur lors de l\'ajout de l\'horaire', error);
   }
+  setInputValueHoraire_Debut('');
+  setInputValueHoraire_Fin('');
+  handleCloseModal_Horaire(jourid);
+  setmaj(2)
+
   }
 
   async function addtolistjour (){
@@ -434,6 +590,7 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
     }catch (error) {
   console.error('Erreur lors de l\'ajout du jour', error);
   }
+  setmaj(1)
   }
  
 
@@ -494,7 +651,7 @@ useEffect(() => {
 
   fetchData();
   getligne();
-}, []);
+}, [maj]);
 
 const [hasAddedCreneaux, setHasAddedCreneaux] = useState(false);
 
@@ -527,7 +684,35 @@ useEffect(() => {
   <td rowSpan={list_jours.length+1}></td>
     {list_jours.map((jour)=> (
             <th colSpan={Array.isArray(jour.list_horaire) ? jour.list_horaire.length : 0} scope="colgroup" className="px-6 py-3 bg-blue-500">
-              <Button>{jour.nom}</Button>
+              <Button onClick={() => {setSelectedValue_ModifyJour(jour.nom);
+                handleOpenModal_ModifyJour(jour.id)}} >{jour.nom}</Button>
+              <Modal
+                open={openModals_ModifyJour[jour.id] || false}
+                onClose={() => handleCloseModal_ModifyJour(jour.id)}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <ModalDialog>
+                <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Jour</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={selectedValue_ModifyJour}
+                  label="Jour"
+                  onChange={handleChange_ModifyJour}
+                >
+              {week.map((jour,index)=> (
+                <MenuItem key={index} value={jour}>{jour}</MenuItem>
+              ))}
+
+            </Select>
+</FormControl>
+                  <Button onClick={() => {modifyjour(jour.id); handleCloseModal_ModifyJour(jour.id)}} color="danger">Modifier</Button>
+                  <Button onClick={() => {deletejour(jour.id); handleCloseModal_ModifyJour(jour.id)}} color="danger">Supprimer</Button>
+                  <Button onClick={() => handleCloseModal_ModifyJour(jour.id)} color="danger">Fermer</Button>
+                </ModalDialog>
+              </Modal>
               <div>
               <Button onClick={() => handleOpenModal_Presence(jour.id)} color="danger">Présence</Button>
               <Modal
@@ -608,9 +793,8 @@ useEffect(() => {
               {week.map((jour,index)=> (
                 <MenuItem key={index} value={jour}>{jour}</MenuItem>
               ))}
-
-            </Select>
-</FormControl>
+              </Select>
+            </FormControl>
               
                 <Button color="danger" onClick={handleCloseModal_Jour}>
                   Fermé
@@ -630,7 +814,24 @@ useEffect(() => {
       <>
         {jour.list_horaire && jour.list_horaire.map((horaire) => (
           <th scope="col" className="px-6 py-3 bg-blue-500">
-          <Button>{horaire.heure_debut}h-{horaire.heure_fin}h</Button>
+          <Button onClick={() => {setInputValueModifyHoraire_Debut(horaire.heure_debut);
+            setInputValueModifyHoraire_Fin(horaire.heure_fin);
+            handleOpenModal_ModifyHoraire(horaire.id)}} >{horaire.heure_debut}h-{horaire.heure_fin}h</Button>
+          <Modal
+            open={openModals_ModifyHoraire[horaire.id] || false}
+            onClose={() => handleCloseModal_ModifyHoraire(horaire.id)}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <ModalDialog>
+            Ajouter une horaire
+                  <Input className="w-1/2" type="text" placeholder="Heure de début" value={inputValueModifyHoraire_Debut}  onChange={handleInputModifyHoraire_Debut} />
+                  <Input className="w-1/2" type="text" placeholder="Heure de fin"  value={inputValueModifyHoraire_Fin} onChange={handleInputModifyHoraire_Fin} />
+              <Button color="danger" onClick={() => {modifyhoraire(horaire.id)} } >Modifier</Button>
+              <Button color="danger" onClick={() => {deletehoraire(horaire.id) ;handleCloseModal_Horaire(horaire.id)} } >Supprimer</Button>
+              <Button color="danger" onClick={() => {handleCloseModal_ModifyHoraire(horaire.id)} } >Fermer</Button>
+            </ModalDialog>
+          </Modal>
           </th>
          ))}
         

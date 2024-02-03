@@ -18,6 +18,22 @@ const create = async (req, res) => {
     }
 }
 
+const modifyHoraire = async (req, res) => {
+    try {
+        const horaire = await Horaire.findOne({
+        where: {
+            id: req.params.id,
+        },
+        });
+        if (!horaire) throw new Error('Horaire not found');
+        await horaire.update({heure_debut: req.body.heure_debut ,heure_fin : req.body.heure_fin});
+        res.send(horaire);
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({ errors: error.message });
+    }
+    }
+
 const getbyJourId = async (req, res) => {
     try {
         const horaires = await Horaire.findAll({
@@ -43,13 +59,32 @@ const getAllHoraire = async (req, res) => {
     }
 };
 
+const deleteByJourId = async (req, res) => {
+    try {
+        const horaire = await Horaire.findAll({
+        where: {
+            jourId: req.params.id,
+        },
+        });
+        if (!horaire) throw new Error('Horaire not found');
+        for (let hor of horaire) {
+            await hor.destroy();
+        }
+        res.send(horaire);
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({ errors: error.message });
+    }
+    }
+
+
 
 
 const deleteById = async (req, res) => {
     try {
         const horaire = await Horaire.findOne({
         where: {
-            idHoraire: req.params.id,
+            id: req.params.id,
         },
         });
         if (!horaire) throw new Error('Horaire not found');
@@ -100,4 +135,6 @@ const deleteById = async (req, res) => {
             modifyHeureFin,
             create,
             getAllHoraire,
+            modifyHoraire,
+            deleteByJourId
         }

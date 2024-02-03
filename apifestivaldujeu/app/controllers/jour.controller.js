@@ -28,6 +28,24 @@ const getAllJour = async (req, res) => {
     res.status(500).json({ message: 'Erreur lors de la récupération des jours', errors: error.errors });
   }
 };
+const modifyJour = async (req, res) => {
+  try {
+    const jour = await Jour.findOne({
+      where: {
+        id: req.params.id,
+      },
+    });
+    if (!jour) {
+      res.status(404).json({ message: 'Jour non trouvé' });
+      return;
+    }
+    await jour.update({ nom: req.body.nom });
+    res.status(200).json(jour);
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: 'Erreur lors de la modification du jour', errors: error.errors });
+  }
+}
 
 const getJourById = async(req,res) => {
   try {
@@ -75,4 +93,5 @@ module.exports = {
   create,
   getAllJour,
   getJourById,
+  modifyJour
 };

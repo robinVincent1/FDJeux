@@ -9,12 +9,16 @@ module.exports = app => {
     router.get('/:id/:idPlanning', isLoggedIn,controller.getbyJourId);
 
     router.post('/', isLoggedIn,controller.create);
+
+    router.put('/:id', isLoggedIn,controller.modifyHoraire);
     
     router.put('/heuredebut', isLoggedIn,controller.modifyHeureDebut);
 
     router.put('/heurefin', isLoggedIn, controller.modifyHeureFin);
     
     router.delete('/:id', isLoggedIn, controller.deleteById);
+    
+    router.delete('/deletebyjour/:id', isLoggedIn, controller.deleteByJourId);
     
     app.use('/horaire', router);
     }
