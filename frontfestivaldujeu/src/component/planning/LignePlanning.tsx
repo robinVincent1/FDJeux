@@ -14,6 +14,7 @@ interface LigneProps {
     nb_creneaux:number;
     list_creneaux: Creneau[];
     idPlanning:number;
+    onUpdated?: () => void;
   }
 
   interface User{
@@ -42,6 +43,7 @@ interface LigneProps {
     nb_max: number;
     nb_inscrit: number;
     ReferentId : number | -1;
+  
   }
 
 const LignePlanning: React.FC<LigneProps> = ({
@@ -50,6 +52,7 @@ const LignePlanning: React.FC<LigneProps> = ({
     nb_creneaux,
     list_creneaux,
     idPlanning,
+    onUpdated
 }) => {
     const [titre, setTitre] = useState<string>(initialTitre);
     const [inputValue, setInputValue] = useState<string>('');
@@ -74,7 +77,7 @@ const LignePlanning: React.FC<LigneProps> = ({
         handleClose();
       }
 
-      async function deleteligne(){
+      const deleteligne = useCallback(async () => {
         const response = await fetch(`http://localhost:8080/planning_general_ligne/${idligne}`, {
           method: 'DELETE',
           headers: {
@@ -82,8 +85,7 @@ const LignePlanning: React.FC<LigneProps> = ({
             Authorization: `Bearer ${localStorage.getItem('token')}`
           },
         });
-
-
+      
         const deletecreneaux = await fetch(`http://localhost:8080/creneau/deletebyligne/${idligne}`, {
           method : 'DELETE',
           headers : {
@@ -91,26 +93,37 @@ const LignePlanning: React.FC<LigneProps> = ({
             Authorization: `Bearer ${localStorage.getItem('token')}`
           },
         })
-
+      
         const deletedcreneaux = await deletecreneaux.json()
         console.log(deletedcreneaux)
         const data = await response.json();
         console.log(data);
         setmaj(3)
-      }
+      
+        // Call onUpdated after the deletion
+        if (onUpdated) {
+          onUpdated();
+        }
+      }, [idligne, onUpdated]);
 
-const modifylignetitre = async () => {
-  const response = await fetch(`http://localhost:8080/planning_general_ligne/modifytitre/${idligne}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`
-    },
-    body: JSON.stringify({ titre: titreligne }),
-  });
-  const data = await response.json();
-  console.log(data);
-};
+      const modifylignetitre = useCallback(async () => {
+        const response = await fetch(`http://localhost:8080/planning_general_ligne/modifytitre/${idligne}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
+          body: JSON.stringify({ titre: titreligne }),
+        });
+        const data = await response.json();
+        console.log(data);
+        setTitre(titreligne);
+      
+        // Call onUpdated after the modification
+        if (onUpdated) {
+          onUpdated();
+        }
+      }, [idligne, titreligne, onUpdated]);
 
       const generateCreneaux = () => {
       const creneaux : any  = [];
@@ -140,7 +153,7 @@ const modifylignetitre = async () => {
                 variant="plain"
                 >
                 <ModalClose />
-                <Typography id="modal-modal-title" variant="h6" component="h2">{titre}</Typography>
+                <Typography id="modal-modal-title" variant="h6" component="h2">{titreligne}</Typography>
               
               <Input type="text" placeholder="Modifier le nom de la ligne"  value={titreligne} onChange={handletitreligne} />
                 <Button className="bg-red-600 shadow-lg shadow-indigo-500/20" onClick={() => {

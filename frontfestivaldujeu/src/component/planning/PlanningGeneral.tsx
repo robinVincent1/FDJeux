@@ -95,11 +95,15 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
   const [loading, setLoading] = useState(true);
   const [listUserPresent,setListUserPresent] = useState<User[]>([]);
   const [maj,setmaj] = useState<number>(0);
+  const [lignePlanningUpdated, setLignePlanningUpdated] = useState(false);
 
 
 
-
-
+  const handleLignePlanningUpdate = () => {
+    setmaj(12);
+    console.log(maj , 'update ligne planning')
+    setLignePlanningUpdated(true);
+  };
 
 
   const handleChange_ModifyJour = (event: SelectChangeEvent) => {
@@ -653,6 +657,11 @@ useEffect(() => {
   getligne();
 }, [maj]);
 
+useEffect(() => {
+  console.log('la')
+  getligne();
+},[maj])
+
 const [hasAddedCreneaux, setHasAddedCreneaux] = useState(false);
 
 useEffect(() => {
@@ -664,7 +673,7 @@ useEffect(() => {
   else{
     setLoading(false)
   }
-}, [list_ligne, hasAddedCreneaux,list_jours]);
+}, [list_ligne, hasAddedCreneaux,list_jours,maj]);
 
 
 
@@ -841,7 +850,7 @@ useEffect(() => {
   </thead>
   <tbody>
   {Array.isArray(list_ligne) && list_ligne.map((ligne)=> (
-    'titre' in ligne && <LignePlanning titre={ligne.titre} nb_creneaux={nbColonne} list_creneaux={ligne.list_creneaux as Creneau[]} idPlanningGeneraLigne={ligne.idPlanningGeneralLigne} idPlanning={PlanningId}/>
+    'titre' in ligne && <LignePlanning onUpdated={handleLignePlanningUpdate} titre={ligne.titre} nb_creneaux={nbColonne} list_creneaux={ligne.list_creneaux as Creneau[]} idPlanningGeneraLigne={ligne.idPlanningGeneralLigne} idPlanning={PlanningId}/>
     ))}
           <Button onClick={handleOpenModal_Ligne} color="danger">Ajouter une ligne</Button>
       <Modal 
