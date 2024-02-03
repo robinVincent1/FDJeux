@@ -3,6 +3,7 @@ import { ProfilUserModifiable } from "./ProfilUserModifiable";
 import { Festival, test } from "../festival/PageFestival";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../layout/Navbar";
+import Loader from "../layout/Loader";
 
 export type User = {
   idUser: string;
@@ -150,6 +151,7 @@ export const AdminPage = () => {
         );
         const data = await response.json();
         setListeAccueilBenevole(data);
+        setLoad(0)
       } catch (error) {
         console.error(
           "Erreur lors de la récupération de l'utilisateur :",
@@ -166,77 +168,90 @@ export const AdminPage = () => {
     setRoleUpdated((prev) => !prev);
   };
 
+  const [loading, setLoading] = useState<boolean>(true);
+  const [load, setLoad] = useState(-1);
+
+  useEffect(() => {
+    if (load !== -1) {
+      setLoading(false);
+    }
+  }, [load]);
+
   return (
     <div>
-      <Navbar/>
-      <div className=" grid grid-cols-5">
-        <div className=" ">
-          <strong className="flex justify-center  text-[#0A5483]  p-2 font-bold">
-            Admin
-          </strong>
-          {listeAdmin.map((user) => (
-            <ProfilUserModifiable
-              key={user.idUser}
-              u={user}
-              idFestival={festi.idFestival}
-              onRoleUpdate={handleRoleUpdate}
-            />
-          ))}
+      {loading ? (
+        <div>
+          <div>
+            <Navbar />
+          </div>
+          <div>
+            <Loader />
+          </div>
         </div>
-        <div className="">
-          <strong className="flex justify-center text-[#0A5483]  p-2 font-bold">
-            Référent
-          </strong>
-          {listeReferent.map((user) => (
-            <ProfilUserModifiable
-              key={user.idUser}
-              u={user}
-              idFestival={festi.idFestival}
-              onRoleUpdate={handleRoleUpdate}
-            />
-          ))}
-        </div>
-        <div className="">
-          <strong className="flex justify-center text-[#0A5483]  p-2 font-bold">
-            Résponsable soirée{" "}
-          </strong>
+      ) : (
+        <div>
+          <Navbar />
+          <h1 className="flex justify-center p-16 font-bold text-2xl text-[#0A5483] font-serif">
+            {" "}
+            ROLE
+          </h1>
+          <div className=" grid grid-cols-4">
+            <div className="">
+              <strong className="flex justify-center text-white  p-4 font-bold font-serif bg-[#0E8DDF]">
+                Référent
+              </strong>
+              {listeReferent.map((user) => (
+                <ProfilUserModifiable
+                  key={user.idUser}
+                  u={user}
+                  idFestival={festi.idFestival}
+                  onRoleUpdate={handleRoleUpdate}
+                />
+              ))}
+            </div>
+            <div className="">
+              <strong className="flex justify-center text-white  p-4 font-bold font-serif bg-[#0E8DDF]">
+                Résponsable soirée{" "}
+              </strong>
 
-          {listeRespoSoiree.map((user) => (
-            <ProfilUserModifiable
-              key={user.idUser}
-              u={user}
-              idFestival={festi.idFestival}
-              onRoleUpdate={handleRoleUpdate}
-            />
-          ))}
+              {listeRespoSoiree.map((user) => (
+                <ProfilUserModifiable
+                  key={user.idUser}
+                  u={user}
+                  idFestival={festi.idFestival}
+                  onRoleUpdate={handleRoleUpdate}
+                />
+              ))}
+            </div>
+            <div className="">
+              <strong className="flex justify-center text-white  p-4 font-bold font-serif bg-[#0E8DDF]">
+                Bénévole Accueil
+              </strong>
+              {listeAccueilBenevole.map((user) => (
+                <ProfilUserModifiable
+                  key={user.idUser}
+                  u={user}
+                  idFestival={festi.idFestival}
+                  onRoleUpdate={handleRoleUpdate}
+                />
+              ))}
+            </div>
+            <div className="">
+              <strong className="flex justify-center text-white  p-4 font-bold font-serif bg-[#0E8DDF]">
+                Bénévole
+              </strong>
+              {listeBenevole.map((user) => (
+                <ProfilUserModifiable
+                  key={user.idUser}
+                  u={user}
+                  idFestival={festi.idFestival}
+                  onRoleUpdate={handleRoleUpdate}
+                />
+              ))}
+            </div>
+          </div>
         </div>
-        <div className="">
-          <strong className="flex justify-center text-[#0A5483]  p-2 font-bold">
-            Bénévole Accueil
-          </strong>
-          {listeAccueilBenevole.map((user) => (
-            <ProfilUserModifiable
-              key={user.idUser}
-              u={user}
-              idFestival={festi.idFestival}
-              onRoleUpdate={handleRoleUpdate}
-            />
-          ))}
-        </div>
-        <div className="">
-          <strong className="flex justify-center text-[#0A5483]  p-2 font-bold">
-            Bénévole
-          </strong>
-          {listeBenevole.map((user) => (
-            <ProfilUserModifiable
-              key={user.idUser}
-              u={user}
-              idFestival={festi.idFestival}
-              onRoleUpdate={handleRoleUpdate}
-            />
-          ))}
-        </div>
-      </div>
+      )}
     </div>
   );
 };

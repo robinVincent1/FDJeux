@@ -5,6 +5,7 @@ import { robin } from "../profil/ProfilPage";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import { Festival, test } from "../festival/PageFestival";
 import Navbar from "../layout/Navbar";
+import Loader from "../layout/Loader";
 
 export type Repas = {
   idRepas: string;
@@ -43,11 +44,11 @@ export const PageRepas = () => {
       try {
         const id = localStorage.getItem("userId");
         const response = await fetch(`http://localhost:8080/user/${id}`, {
-          method: 'GET', // Remplacez 'GET' par la méthode que vous souhaitez utiliser
+          method: "GET", // Remplacez 'GET' par la méthode que vous souhaitez utiliser
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          }
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         });
         const data = await response.json();
         setUserConnected(data);
@@ -60,7 +61,6 @@ export const PageRepas = () => {
     };
     fetchData();
   }, []);
-  
 
   const [repasSM, setRepasSM] = useState<Repas>(createInitialRepas);
   const [repasSS, setRepasSS] = useState<Repas>(createInitialRepas);
@@ -68,7 +68,7 @@ export const PageRepas = () => {
   const [maj, setMaj] = useState(false);
 
   const updateMaj = () => {
-    setMaj(prevMaj => !prevMaj);
+    setMaj((prevMaj) => !prevMaj);
   };
 
   const changeSM = (etat: number) => {
@@ -88,14 +88,14 @@ export const PageRepas = () => {
   const [festi, setFesti] = useState<Festival>(test);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     // Appel API pour récupérer le festival
     fetch("http://localhost:8080/festival/enCours", {
-      method: 'GET', // Remplacez 'GET' par la méthode HTTP que vous souhaitez utiliser
+      method: "GET", // Remplacez 'GET' par la méthode HTTP que vous souhaitez utiliser
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     })
       .then((response) => response.json())
       .then((data) => setFesti(data))
@@ -105,14 +105,14 @@ export const PageRepas = () => {
   }, []);
 
   useEffect(() => {
-    const idUser = localStorage.getItem('userId');
+    const idUser = localStorage.getItem("userId");
     // Appel API pour récupérer le repas
     fetch(`http://localhost:8080/repas/${idUser}/${festi.idFestival}/${1}`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     })
       .then((response) => response.json())
       .then((data) => setRepasSM(data))
@@ -122,14 +122,14 @@ export const PageRepas = () => {
   }, [maj]);
 
   useEffect(() => {
-    const idUser = localStorage.getItem('userId');
+    const idUser = localStorage.getItem("userId");
     // Appel API pour récupérer le repas
     fetch(`http://localhost:8080/repas/${idUser}/${festi.idFestival}/${2}`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     })
       .then((response) => response.json())
       .then((data) => setRepasSS(data))
@@ -139,14 +139,14 @@ export const PageRepas = () => {
   }, [maj]);
 
   useEffect(() => {
-    const idUser = localStorage.getItem('userId');
+    const idUser = localStorage.getItem("userId");
     // Appel API pour récupérer le repas
     fetch(`http://localhost:8080/repas/${idUser}/${festi.idFestival}/${3}`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     })
       .then((response) => response.json())
       .then((data) => setRepasDM(data))
@@ -156,14 +156,14 @@ export const PageRepas = () => {
   }, [maj]);
 
   useEffect(() => {
-    const idUser = localStorage.getItem('userId');
+    const idUser = localStorage.getItem("userId");
     // Appel API pour récupérer le repas
     fetch(`http://localhost:8080/repas/${1}`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     })
       .then((response) => response.json())
       .then((data) => setListeRepasDemandeSM(data))
@@ -173,14 +173,14 @@ export const PageRepas = () => {
   }, [maj]);
 
   useEffect(() => {
-    const idUser = localStorage.getItem('userId');
+    const idUser = localStorage.getItem("userId");
     // Appel API pour récupérer le repas
     fetch(`http://localhost:8080/repas/${2}`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     })
       .then((response) => response.json())
       .then((data) => setListeRepasDemandeSS(data))
@@ -190,30 +190,30 @@ export const PageRepas = () => {
   }, [maj]);
 
   useEffect(() => {
-    const idUser = localStorage.getItem('userId');
+    const idUser = localStorage.getItem("userId");
     // Appel API pour récupérer le repas
     fetch(`http://localhost:8080/repas/${3}`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     })
       .then((response) => response.json())
       .then((data) => setListeRepasDemandeDM(data))
+      .then(() => setLoad(0))
       .catch((error) =>
         console.error("Erreur lors de la récupération des repas :", error)
       );
   }, [maj]);
 
-
   const ModifEtat = async (etat: number, idRepas: string) => {
     try {
       const response = await fetch(`http://localhost:8080/repas/${idRepas}`, {
         method: "PUT",
-        headers:{
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({
           etat: etat,
@@ -234,338 +234,360 @@ export const PageRepas = () => {
     updateMaj();
   };
 
+  const [loading, setLoading] = useState<boolean>(true);
+  const [load, setLoad] = useState(-1);
+
+  useEffect(() => {
+    if (load !== -1) {
+      setLoading(false);
+    }
+  }, [load]);
+
   return (
     <div>
-      <Navbar/>
-      <h1 className="flex justify-center p-16 font-bold text-2xl text-[#0A5483] font-serif">
-        {" "}
-        REPAS
-      </h1>
-      <div className="flex justify-center bg-[#0E8DDF]">
-        <div className="p-8">
-          <h1 className="font-bold flex justify-center p-2 text-white">
-            Samedi Midi
+      {loading ? (
+        <div>
+          <div>
+            <Navbar />
+          </div>
+          <div>
+            <Loader />
+          </div>
+        </div>
+      ) : (
+        <div>
+          <Navbar />
+          <h1 className="flex justify-center p-16 font-bold text-2xl text-[#0A5483] font-serif">
+            {" "}
+            REPAS
           </h1>
-          {repasSM.etat == 1 ? (
-            <div className="flex justify-center">
-              <Button
-                onClick={() => {
-                  changeSM(0);
-                  ModifEtat(0, repasSM.idRepas);
-                }}
-                color="error"
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ width: "100%" }}
-              >
-                Annuler
-              </Button>
-            </div>
-          ) : (
-            <div>
-              {repasSM.etat == 0 ? (
+          <div className="flex justify-center bg-[#0E8DDF]">
+            <div className="p-8">
+              <h1 className="font-bold flex justify-center p-2 text-white">
+                Samedi Midi
+              </h1>
+              {repasSM.etat == 1 ? (
                 <div className="flex justify-center">
                   <Button
-                    color="success"
                     onClick={() => {
-                      changeSM(1);
-                      ModifEtat(1, repasSM.idRepas);
+                      changeSM(0);
+                      ModifEtat(0, repasSM.idRepas);
                     }}
+                    color="error"
                     type="submit"
                     fullWidth
                     variant="contained"
                     sx={{ width: "100%" }}
                   >
-                    Demander
+                    Annuler
                   </Button>
                 </div>
               ) : (
                 <div>
-                  {repasSM.etat == 2 ? (
-                    <div className="italic justify-center flex text-white">
-                      Votre repas est prêt !
-                      <strong className="ml-2 text-[red]">
-                        <NotificationsActiveIcon />
-                      </strong>
+                  {repasSM.etat == 0 ? (
+                    <div className="flex justify-center">
+                      <Button
+                        color="success"
+                        onClick={() => {
+                          changeSM(1);
+                          ModifEtat(1, repasSM.idRepas);
+                        }}
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ width: "100%" }}
+                      >
+                        Demander
+                      </Button>
                     </div>
                   ) : (
-                    <div className="italic justify-center flex text-white">
-                      Repas déjà pris !
+                    <div>
+                      {repasSM.etat == 2 ? (
+                        <div className="italic justify-center flex text-white">
+                          Votre repas est prêt !
+                          <strong className="ml-2 text-[red]">
+                            <NotificationsActiveIcon />
+                          </strong>
+                        </div>
+                      ) : (
+                        <div className="italic justify-center flex text-white">
+                          Repas déjà pris !
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
               )}
             </div>
-          )}
-        </div>
 
-        <div className="p-8">
-          <h1 className="font-bold flex justify-center p-2 text-white">
-            Samedi Soir
-          </h1>
-          {repasSS.etat == 1 ? (
-            <div className="flex justify-center">
-              <Button
-                onClick={() => {
-                  changeSS(0);
-                  ModifEtat(0, repasSS.idRepas);
-                }}
-                color="error"
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ width: "100%" }}
-              >
-                Annuler
-              </Button>
-            </div>
-          ) : (
-            <div>
-              {repasSS.etat == 0 ? (
+            <div className="p-8">
+              <h1 className="font-bold flex justify-center p-2 text-white">
+                Samedi Soir
+              </h1>
+              {repasSS.etat == 1 ? (
                 <div className="flex justify-center">
                   <Button
-                    color="success"
                     onClick={() => {
-                      changeSS(1);
-                      ModifEtat(1, repasSS.idRepas);
+                      changeSS(0);
+                      ModifEtat(0, repasSS.idRepas);
                     }}
+                    color="error"
                     type="submit"
                     fullWidth
                     variant="contained"
                     sx={{ width: "100%" }}
                   >
-                    Demander
+                    Annuler
                   </Button>
                 </div>
               ) : (
                 <div>
-                  {repasSS.etat == 2 ? (
-                    <div className="italic justify-center flex text-white">
-                      Votre repas est prêt !
-                      <strong className="ml-2 text-[red]">
-                        <NotificationsActiveIcon />
-                      </strong>
+                  {repasSS.etat == 0 ? (
+                    <div className="flex justify-center">
+                      <Button
+                        color="success"
+                        onClick={() => {
+                          changeSS(1);
+                          ModifEtat(1, repasSS.idRepas);
+                        }}
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ width: "100%" }}
+                      >
+                        Demander
+                      </Button>
                     </div>
                   ) : (
-                    <div className="italic justify-center flex text-white">
-                      Repas déjà pris !
+                    <div>
+                      {repasSS.etat == 2 ? (
+                        <div className="italic justify-center flex text-white">
+                          Votre repas est prêt !
+                          <strong className="ml-2 text-[red]">
+                            <NotificationsActiveIcon />
+                          </strong>
+                        </div>
+                      ) : (
+                        <div className="italic justify-center flex text-white">
+                          Repas déjà pris !
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
               )}
             </div>
-          )}
-        </div>
 
-        <div className="p-8">
-          <h1 className="font-bold flex justify-center p-2 text-white">
-            Dimanche Midi
-          </h1>
-          {repasDM.etat == 1 ? (
-            <div className="flex justify-center">
-              <Button
-                onClick={() => {
-                  changeDM(0);
-                  ModifEtat(0, repasDM.idRepas);
-                }}
-                color="error"
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ width: "100%" }}
-              >
-                Annuler
-              </Button>
-            </div>
-          ) : (
-            <div>
-              {repasDM.etat == 0 ? (
+            <div className="p-8">
+              <h1 className="font-bold flex justify-center p-2 text-white">
+                Dimanche Midi
+              </h1>
+              {repasDM.etat == 1 ? (
                 <div className="flex justify-center">
                   <Button
-                    color="success"
                     onClick={() => {
-                      changeDM(1);
-                      ModifEtat(1, repasDM.idRepas);
+                      changeDM(0);
+                      ModifEtat(0, repasDM.idRepas);
                     }}
+                    color="error"
                     type="submit"
                     fullWidth
                     variant="contained"
                     sx={{ width: "100%" }}
                   >
-                    Demander
+                    Annuler
                   </Button>
                 </div>
               ) : (
                 <div>
-                  {repasDM.etat == 2 ? (
-                    <div className="italic justify-center flex text-white">
-                      Votre repas est prêt !
-                      <strong className="ml-2 text-[red]">
-                        <NotificationsActiveIcon />
-                      </strong>
+                  {repasDM.etat == 0 ? (
+                    <div className="flex justify-center">
+                      <Button
+                        color="success"
+                        onClick={() => {
+                          changeDM(1);
+                          ModifEtat(1, repasDM.idRepas);
+                        }}
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ width: "100%" }}
+                      >
+                        Demander
+                      </Button>
                     </div>
                   ) : (
-                    <div className="italic justify-center flex text-white">
-                      Repas déjà pris !
+                    <div>
+                      {repasDM.etat == 2 ? (
+                        <div className="italic justify-center flex text-white">
+                          Votre repas est prêt !
+                          <strong className="ml-2 text-[red]">
+                            <NotificationsActiveIcon />
+                          </strong>
+                        </div>
+                      ) : (
+                        <div className="italic justify-center flex text-white">
+                          Repas déjà pris !
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
               )}
             </div>
+          </div>
+
+          {(userConnected.role == "admin" ||
+            userConnected.role == "Résponsable soirée") && (
+            <div className="grid grid-cols-3 pt-8">
+              <div>
+                <h2 className="font-bold flex justify-center text-lg">
+                  Repas Samedi Midi
+                </h2>
+                {listeRepasDemandeSM.length > 0 &&
+                  listeRepasDemandeSM.map((d) => (
+                    <div className="p-4  flex">
+                      <div>
+                        <p className="font-bold">
+                          {d.User.firstName} {d.User.lastName}
+                        </p>
+                        <p className="italic">{d.User.telephone}</p>
+                      </div>
+
+                      <div className="ml-4 flex justify-center">
+                        <Button
+                          color="success"
+                          onClick={() => {
+                            changeSM(3);
+                            ModifEtat(3, d.idRepas);
+                          }}
+                          type="submit"
+                          fullWidth
+                          variant="contained"
+                          sx={{ width: "100%" }}
+                        >
+                          Repas récupéré
+                        </Button>
+                      </div>
+
+                      <div className="ml-4 flex justify-center">
+                        <Button
+                          color="success"
+                          onClick={() => {
+                            changeSM(2);
+                            ModifEtat(2, d.idRepas);
+                          }}
+                          type="submit"
+                          fullWidth
+                          variant="contained"
+                          sx={{ width: "100%" }}
+                        >
+                          Repas Prêt
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+
+              <div>
+                <h2 className="font-bold flex justify-center text-lg">
+                  Repas Samedi Soir
+                </h2>
+                {listeRepasDemandeSS.length > 0 &&
+                  listeRepasDemandeSS.map((d) => (
+                    <div className="p-4  flex">
+                      <div>
+                        <p className="font-bold">
+                          {d.User.firstName} {d.User.lastName}
+                        </p>
+                        <p className="italic">{d.User.telephone}</p>
+                      </div>
+
+                      <div className="ml-4 flex justify-center">
+                        <Button
+                          color="success"
+                          onClick={() => {
+                            changeSS(3);
+                            ModifEtat(3, d.idRepas);
+                          }}
+                          type="submit"
+                          fullWidth
+                          variant="contained"
+                          sx={{ width: "100%" }}
+                        >
+                          Repas récupéré
+                        </Button>
+                      </div>
+
+                      <div className="ml-4 flex justify-center">
+                        <Button
+                          color="success"
+                          onClick={() => {
+                            changeSS(2);
+                            ModifEtat(2, d.idRepas);
+                          }}
+                          type="submit"
+                          fullWidth
+                          variant="contained"
+                          sx={{ width: "100%" }}
+                        >
+                          Repas Prêt
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+
+              <div>
+                <h2 className="font-bold flex justify-center text-lg">
+                  Repas Dimanche Midi
+                </h2>
+                {listeRepasDemandeDM.length > 0 &&
+                  listeRepasDemandeDM.map((d) => (
+                    <div className="p-4  flex">
+                      <div>
+                        <p className="font-bold">
+                          {d.User.firstName} {d.User.lastName}
+                        </p>
+                        <p className="italic">{d.User.telephone}</p>
+                      </div>
+
+                      <div className="ml-4 flex justify-center">
+                        <Button
+                          color="success"
+                          onClick={() => {
+                            changeDM(3);
+                            ModifEtat(3, d.idRepas);
+                          }}
+                          type="submit"
+                          fullWidth
+                          variant="contained"
+                          sx={{ width: "100%" }}
+                        >
+                          Repas récupéré
+                        </Button>
+                      </div>
+
+                      <div className="ml-4 flex justify-center">
+                        <Button
+                          color="success"
+                          onClick={() => {
+                            changeDM(2);
+                            ModifEtat(2, d.idRepas);
+                          }}
+                          type="submit"
+                          fullWidth
+                          variant="contained"
+                          sx={{ width: "100%" }}
+                        >
+                          Repas Prêt
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </div>
           )}
-        </div>
-      </div>
-
-      {(userConnected.role == "admin" ||
-        userConnected.role == "Résponsable soirée") && (
-        <div className="grid grid-cols-3 pt-8">
-          <div>
-            <h2 className="font-bold flex justify-center text-lg">
-              Repas Samedi Midi
-            </h2>
-            {listeRepasDemandeSM.length > 0 &&
-              listeRepasDemandeSM.map((d) => (
-                <div className="p-4  flex">
-                  <div>
-                    <p className="font-bold">
-                      {d.User.firstName} {d.User.lastName}
-                    </p>
-                    <p className="italic">{d.User.telephone}</p>
-                  </div>
-
-                  <div className="ml-4 flex justify-center">
-                    <Button
-                      color="success"
-                      onClick={() => {
-                        changeSM(3);
-                        ModifEtat(3, d.idRepas);
-                      }}
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      sx={{ width: "100%" }}
-                    >
-                      Repas récupéré
-                    </Button>
-                  </div>
-
-                  <div className="ml-4 flex justify-center">
-                    <Button
-                      color="success"
-                      onClick={() => {
-                        changeSM(2);
-                        ModifEtat(2, d.idRepas);
-                      }}
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      sx={{ width: "100%" }}
-                    >
-                      Repas Prêt
-                    </Button>
-                  </div>
-                </div>
-              ))}
-          </div>
-
-          <div>
-            <h2 className="font-bold flex justify-center text-lg">
-              Repas Samedi Soir
-            </h2>
-            {listeRepasDemandeSS.length > 0 &&
-              listeRepasDemandeSS.map((d) => (
-                <div className="p-4  flex">
-                  <div>
-                    <p className="font-bold">
-                      {d.User.firstName} {d.User.lastName}
-                    </p>
-                    <p className="italic">{d.User.telephone}</p>
-                  </div>
-
-                  <div className="ml-4 flex justify-center">
-                    <Button
-                      color="success"
-                      onClick={() => {
-                        changeSS(3);
-                        ModifEtat(3, d.idRepas);
-                      }}
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      sx={{ width: "100%" }}
-                    >
-                      Repas récupéré
-                    </Button>
-                  </div>
-
-                  <div className="ml-4 flex justify-center">
-                    <Button
-                      color="success"
-                      onClick={() => {
-                        changeSS(2);
-                        ModifEtat(2, d.idRepas);
-                      }}
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      sx={{ width: "100%" }}
-                    >
-                      Repas Prêt
-                    </Button>
-                  </div>
-                </div>
-              ))}
-          </div>
-
-          <div>
-            <h2 className="font-bold flex justify-center text-lg">
-              Repas Dimanche Midi
-            </h2>
-            {listeRepasDemandeDM.length > 0 &&
-              listeRepasDemandeDM.map((d) => (
-                <div className="p-4  flex">
-                  <div>
-                    <p className="font-bold">
-                      {d.User.firstName} {d.User.lastName}
-                    </p>
-                    <p className="italic">{d.User.telephone}</p>
-                  </div>
-
-                  <div className="ml-4 flex justify-center">
-                    <Button
-                      color="success"
-                      onClick={() => {
-                        changeDM(3);
-                        ModifEtat(3, d.idRepas);
-                      }}
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      sx={{ width: "100%" }}
-                    >
-                      Repas récupéré
-                    </Button>
-                  </div>
-
-                  <div className="ml-4 flex justify-center">
-                    <Button
-                      color="success"
-                      onClick={() => {
-                        changeDM(2);
-                        ModifEtat(2, d.idRepas);
-                      }}
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      sx={{ width: "100%" }}
-                    >
-                      Repas Prêt
-                    </Button>
-                  </div>
-                </div>
-              ))}
-          </div>
         </div>
       )}
     </div>

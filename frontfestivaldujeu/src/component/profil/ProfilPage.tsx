@@ -6,6 +6,7 @@ import Avatar from "@mui/material/Avatar";
 import { styled } from "@mui/material/styles";
 import Badge from "@mui/material/Badge";
 import Navbar from "../layout/Navbar";
+import Loader from "../layout/Loader";
 
 export const robin: User = {
   idUser: "",
@@ -111,6 +112,7 @@ export const ProfilPage = () => {
         setUserAssoc(user.association);
         setTel(user.telephone);
         setUserTel(user.telephone);
+        setLoad(0);
       } catch (error) {
         console.error(
           "Erreur lors de la récupération de l'utilisateur :",
@@ -155,139 +157,163 @@ export const ProfilPage = () => {
     }
   };
 
+  const [loading, setLoading] = useState<boolean>(true);
+  const [load, setLoad] = useState(-1);
+
+  useEffect(() => {
+    if (load !== -1) {
+      setLoading(false);
+    }
+  }, [load]);
+
   return (
-    <div className="">
-      <Navbar/>
-      <h1 className="flex justify-center pt-16 font-bold text-2xl text-[#0A5483] font-serif">
-        {" "}
-        PROFIL
-      </h1>
-      <div className="flex justify-center p-4 pt-16">
-        <StyledBadge
-          overlap="circular"
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          variant="dot"
-        >
-          <Avatar sx={{ bgcolor: "", width: "70px", height: "70px" }}>
-            {user.firstName[0]}
-            {user.lastName[0]}
-          </Avatar>
-        </StyledBadge>
-      </div>
-
-      <div className="flex justify-center">
-        <div className=" justify-center p-4">
-          <p className="font-bold font-serif p-4">
-            {user.firstName} {user.lastName}
-          </p>
-        </div>
-        <div className=" justify-center p-4">
-          <p className="font-bold font-serif p-4">{user.role}</p>
-        </div>
-        <div className=" justify-center p-4">
-          <p className="font-bold font-serif p-4">{user.nbEdition} participations</p>
-        </div>
-      </div>
-
-      <div className=" flex justify-center">
-        <div className="  justify-center">
-          <p className="p-4 mr-4 text-align font-mono">Pseudo </p>
-          <div className="flex items-center">
-            <TextField
-              autoComplete="given-name"
-              onChange={handlePseudoChange}
-              name="Pseudo"
-              id="Pseudo"
-              label={userPseudo}
-              autoFocus
-              style={{ width: "100%", margin: "auto" }}
-            />
-            <div className="ml-2 ">
-              <Chip
-                label={<CheckCircleOutlineRoundedIcon />}
-                onClick={() => setUserPseudo(pseudo)}
-              />
-            </div>
+    <div>
+      {loading ? (
+        <div>
+          <div>
+            <Navbar />
+          </div>
+          <div>
+            <Loader />
           </div>
         </div>
-        <div className=" justify-center ml-4">
-          <p className="p-4 mr-4 text-align font-mono">Adresse Email </p>
-          <div className="flex items-center">
-            <TextField
-              autoComplete="given-name"
-              onChange={handleEmailChange}
-              name="Email"
-              id="Email"
-              label={userEmail}
-              autoFocus
-              style={{ width: "100%", margin: "auto" }}
-            />
-            <div className="ml-2">
-              <Chip
-                label={<CheckCircleOutlineRoundedIcon />}
-                onClick={() => setUserEmail(email)}
-              />
-            </div>
+      ) : (
+        <div className="">
+          <Navbar />
+          <h1 className="flex justify-center pt-16 font-bold text-2xl text-[#0A5483] font-serif">
+            {" "}
+            PROFIL
+          </h1>
+          <div className="flex justify-center p-4 pt-16">
+            <StyledBadge
+              overlap="circular"
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              variant="dot"
+            >
+              <Avatar sx={{ bgcolor: "", width: "70px", height: "70px" }}>
+                {user.firstName[0]}
+                {user.lastName[0]}
+              </Avatar>
+            </StyledBadge>
           </div>
-        </div>
-      </div>
 
-      <div className=" pt-4 flex justify-center">
-        <div className=" justify-center">
-          <p className="p-4 mr-4 text-align font-mono">Adresse Postale </p>
-          <div className="flex items-center">
-            <TextField
-              autoComplete="given-name"
-              onChange={handleAPChange}
-              name="AP"
-              id="AP"
-              label={userAP}
-              autoFocus
-              style={{ width: "100%", margin: "auto" }}
-            />
-            <div className="ml-2 ">
-              <Chip
-                label={<CheckCircleOutlineRoundedIcon />}
-                onClick={() => setUserAP(AP)}
-              />
+          <div className="flex justify-center">
+            <div className=" justify-center p-4">
+              <p className="font-bold font-serif p-4">
+                {user.firstName} {user.lastName}
+              </p>
+            </div>
+            <div className=" justify-center p-4">
+              <p className="font-bold font-serif p-4">{user.role}</p>
+            </div>
+            <div className=" justify-center p-4">
+              <p className="font-bold font-serif p-4">
+                {user.nbEdition} participations
+              </p>
             </div>
           </div>
-        </div>
-        <div className="  justify-center ml-4">
-          <p className="p-4 mr-4 text-align font-mono">Association </p>
-          <div className="flex items-center">
-            <TextField
-              autoComplete="given-name"
-              onChange={handleAssocChange}
-              name="Assoc"
-              id="Assoc"
-              label={userAssoc}
-              autoFocus
-              style={{ width: "100%", margin: "auto" }}
-            />
-            <div className="ml-2 ">
-              <Chip
-                label={<CheckCircleOutlineRoundedIcon />}
-                onClick={() => setUserAssoc(assoc)}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div className=" pt-8 pb-16 flex justify-center ">
-        <Button
-          onClick={() => {
-            ModifProfil();
-          }}
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{ width: "10%" }}
-        >
-          Confirmer
-        </Button>
-      </div>
+          <div className=" flex justify-center">
+            <div className="  justify-center">
+              <p className="p-4 mr-4 text-align font-mono">Pseudo </p>
+              <div className="flex items-center">
+                <TextField
+                  autoComplete="given-name"
+                  onChange={handlePseudoChange}
+                  name="Pseudo"
+                  id="Pseudo"
+                  label={userPseudo}
+                  autoFocus
+                  style={{ width: "100%", margin: "auto" }}
+                />
+                <div className="ml-2 ">
+                  <Chip
+                    label={<CheckCircleOutlineRoundedIcon />}
+                    onClick={() => setUserPseudo(pseudo)}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className=" justify-center ml-4">
+              <p className="p-4 mr-4 text-align font-mono">Adresse Email </p>
+              <div className="flex items-center">
+                <TextField
+                  autoComplete="given-name"
+                  onChange={handleEmailChange}
+                  name="Email"
+                  id="Email"
+                  label={userEmail}
+                  autoFocus
+                  style={{ width: "100%", margin: "auto" }}
+                />
+                <div className="ml-2">
+                  <Chip
+                    label={<CheckCircleOutlineRoundedIcon />}
+                    onClick={() => setUserEmail(email)}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className=" pt-4 flex justify-center">
+            <div className=" justify-center">
+              <p className="p-4 mr-4 text-align font-mono">Adresse Postale </p>
+              <div className="flex items-center">
+                <TextField
+                  autoComplete="given-name"
+                  onChange={handleAPChange}
+                  name="AP"
+                  id="AP"
+                  label={userAP}
+                  autoFocus
+                  style={{ width: "100%", margin: "auto" }}
+                />
+                <div className="ml-2 ">
+                  <Chip
+                    label={<CheckCircleOutlineRoundedIcon />}
+                    onClick={() => setUserAP(AP)}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="  justify-center ml-4">
+              <p className="p-4 mr-4 text-align font-mono">Association </p>
+              <div className="flex items-center">
+                <TextField
+                  autoComplete="given-name"
+                  onChange={handleAssocChange}
+                  name="Assoc"
+                  id="Assoc"
+                  label={userAssoc}
+                  autoFocus
+                  style={{ width: "100%", margin: "auto" }}
+                />
+                <div className="ml-2 ">
+                  <Chip
+                    label={<CheckCircleOutlineRoundedIcon />}
+                    onClick={() => setUserAssoc(assoc)}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className=" pt-8 pb-16 flex justify-center ">
+            <Button
+              onClick={() => {
+                ModifProfil();
+              }}
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ width: "10%" }}
+            >
+              Confirmer
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

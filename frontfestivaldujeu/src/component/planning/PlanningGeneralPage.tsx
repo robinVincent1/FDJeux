@@ -12,6 +12,7 @@ export const PlanningGeneralPage = () => {
     getidPlanning().then(result => {setIdPlanning(result as number); })
   }, [])
 
+
   useEffect(() => {
     if (idPlanning !== -1) {
       setLoading(false);

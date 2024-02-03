@@ -5,6 +5,7 @@ import Tableau from "./tableau";
 import { User } from "../admin/AdminPage";
 import { robin } from "../profil/ProfilPage";
 import Navbar from "../layout/Navbar";
+import Loader from "../layout/Loader";
 
 export type Festival = {
   idFestival: string;
@@ -36,6 +37,7 @@ export const PageFestival = () => {
   const [maj, setMaj] = useState(false);
   const [userConnected, setUserConnected] = useState<User>(robin);
 
+
   const MAJ = () => {
     setMaj(!maj);
   };
@@ -45,11 +47,11 @@ export const PageFestival = () => {
       try {
         const id = localStorage.getItem("userId");
         const response = await fetch(`http://localhost:8080/user/${id}`, {
-          method: 'GET', // Remplacez 'GET' par la méthode que vous souhaitez utiliser
+          method: "GET", // Remplacez 'GET' par la méthode que vous souhaitez utiliser
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          }
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         });
         const data = await response.json();
         setUserConnected(data);
@@ -67,50 +69,71 @@ export const PageFestival = () => {
   useEffect(() => {
     // Appel API pour récupérer tous les festivals
     fetch("http://localhost:8080/festival", {
-      method: 'GET', // Remplacez 'GET' par la méthode HTTP que vous souhaitez utiliser
+      method: "GET", // Remplacez 'GET' par la méthode HTTP que vous souhaitez utiliser
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     })
       .then((response) => response.json())
       .then((data) => setListe(data))
       .then((data) => console.log(data))
+      .then(() => setLoad(0))
       .catch((error) =>
         console.error("Erreur lors de la récupération des festivals :", error)
       );
   }, [maj]);
 
+  const [loading, setLoading] = useState<boolean>(true);
+  const [load, setLoad] = useState(-1);
+
+  useEffect(() => {
+    if (load !== -1) {
+      setLoading(false);
+    }
+  }, [load]);
+
   return (
     <div>
-      <Navbar/>
-      <h1 className="flex justify-center p-16 font-bold text-2xl text-[#0A5483] font-serif">
-        {" "}
-        FESTIVALS
-      </h1>
-      <div className="pt-16 p-4">
-        {liste.length > 0 ? (
-          <Tableau listeFesti={liste} maj={MAJ} u={userConnected} />
-        ) : (
-          <p>Aucun festival disponible.</p>
-        )}
-      </div>
-
-      
-        <div className="flex justify-center p-8">
-          <Button
-            onClick={() => {
-              nav("/admin/CreerFestival");
-            }}
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ width: "20%" }}
-          >
-            Créer un festival
-          </Button>
+      {loading ? (
+        <div>
+          <div>
+            <Navbar />
+          </div>
+          <div>
+            <Loader />
+          </div>
         </div>
-      
+      ) : (
+        <div>
+          <Navbar />
+          <h1 className="flex justify-center p-16 font-bold text-2xl text-[#0A5483] font-serif">
+            {" "}
+            FESTIVALS
+          </h1>
+          <div className="pt-16 p-4">
+            {liste.length > 0 ? (
+              <Tableau listeFesti={liste} maj={MAJ} u={userConnected} />
+            ) : (
+              <p>Aucun festival disponible.</p>
+            )}
+          </div>
+
+          <div className="flex justify-center p-8">
+            <Button
+              onClick={() => {
+                nav("/admin/CreerFestival");
+              }}
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ width: "20%" }}
+            >
+              Créer un festival
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

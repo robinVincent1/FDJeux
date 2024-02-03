@@ -5,6 +5,7 @@ import { Button } from "@mui/material";
 import { robin } from "../profil/ProfilPage";
 import { User } from "../admin/AdminPage";
 import Navbar from "../layout/Navbar";
+import Loader from "../layout/Loader";
 
 export type Reponse = {
   idReponse: string;
@@ -66,6 +67,7 @@ export const PageForum = () => {
         setListe(data);
         console.log(data);
       })
+      .then(() => setLoad(0))
       .catch((error) =>
         console.error(
           "Erreur lors de la récupération des questions avec réponses :",
@@ -176,53 +178,75 @@ export const PageForum = () => {
     }
   };
 
+  const [loading, setLoading] = useState<boolean>(true);
+  const [load, setLoad] = useState(-1);
+
+  useEffect(() => {
+    if (load !== -1) {
+      setLoading(false);
+    }
+  }, [load]);
+
   return (
     <div>
-      <Navbar/>
-      <h1 className="flex justify-center p-4 font-bold text-2xl text-[#0A5483] font-serif">
-        {" "}
-        FORUM
-      </h1>
-
-      {liste &&
-        liste.map((e) => (
-          <BlockQuestion
-            quest={e}
-            deleteQuestion={() => handleDeleteQuestion(e)}
-            u={userConnected}
-          />
-        ))}
-
-      <div className="pt-8 ml-16 mr-16 flex">
-        <TextField
-          onChange={handleq}
-          fullWidth
-          label="Posez votre question ici !"
-          id="fullWidth"
-          size="medium"
-        />
-      </div>
-      <div className="pt-4 ml-16 pb-2 mr-16">
-        <TextField
-          onChange={handlob}
-          fullWidth
-          label="Quel est l'objet de votre question ?"
-          id="fullWidth"
-          size="medium"
-          style={{ width: "50%" }}
-        />
+      {loading ? (
+        <div>
+          <div>
+            <Navbar />
+          </div>
+          <div>
+            <Loader />
+          </div>
         </div>
-        <div className="ml-4 flex justify-center">
-          <Button
-            onClick={handleCreerQuestion}
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ width: "20%" }}
-          >
-            Envoyer
-          </Button>
-      </div>
+      ) : (
+        <div>
+          <Navbar />
+          <h1 className="flex justify-center p-4 font-bold text-2xl text-[#0A5483] font-serif">
+            {" "}
+            FORUM
+          </h1>
+
+          {liste &&
+            liste.map((e) => (
+              <BlockQuestion
+                quest={e}
+                deleteQuestion={() => handleDeleteQuestion(e)}
+                u={userConnected}
+              />
+            ))}
+
+          <div className="pt-8 ml-16 mr-16 flex">
+            <TextField
+              onChange={handleq}
+              fullWidth
+              label="Posez votre question ici !"
+              id="fullWidth"
+              size="medium"
+            />
+          </div>
+          <div className="pt-4 ml-16 pb-2 mr-16">
+            <TextField
+              onChange={handlob}
+              fullWidth
+              label="Quel est l'objet de votre question ?"
+              id="fullWidth"
+              size="medium"
+              style={{ width: "50%" }}
+            />
+          </div>
+          <div className="ml-4 flex justify-center">
+            <Button
+              onClick={handleCreerQuestion}
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ width: "20%" }}
+            >
+              Envoyer
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

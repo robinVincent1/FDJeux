@@ -4,6 +4,7 @@ import { Heber } from "./TypeHebergement";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import Navbar from "../layout/Navbar";
+import Loader from "../layout/Loader";
 
 export const PageHebergement = () => {
   const [listeHeber, setListeHeber] = useState<Heber[]>([]);
@@ -14,7 +15,7 @@ export const PageHebergement = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
       .then((response) => response.json())
@@ -22,6 +23,7 @@ export const PageHebergement = () => {
         setListeHeber(data);
         console.log(data);
       })
+      .then(() => setLoad(0))
       .catch((error) =>
         console.error(
           "Erreur lors de la récupération des hebergements :",
@@ -43,7 +45,7 @@ export const PageHebergement = () => {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
@@ -68,33 +70,65 @@ export const PageHebergement = () => {
       "Etes-vous sur de vouloir supprimer cette proposition ?"
     );
     if (confirmDelete) {
-      deleteHebergement(id)
-      .catch((error) => {
-        console.error('Erreur lors de la suppression de l hebergement :', error.message);
+      deleteHebergement(id).catch((error) => {
+        console.error(
+          "Erreur lors de la suppression de l hebergement :",
+          error.message
+        );
       });
-      setListeHeber((hebergements) => hebergements.filter((heber) => heber.idHebergement !== id))
+      setListeHeber((hebergements) =>
+        hebergements.filter((heber) => heber.idHebergement !== id)
+      );
     }
   };
 
+  const [loading, setLoading] = useState<boolean>(true);
+  const [load, setLoad] = useState(-1);
+
+  useEffect(() => {
+    if (load !== -1) {
+      setLoading(false);
+    }
+  }, [load]);
+
   return (
     <div>
-      <Navbar/>
-      <h1 className="flex justify-center p-4 font-bold text-2xl text-[#0A5483] font-serif"> HEBERGEMENT</h1>
-      <div className="flex justify-center p-8">
-        <Button
-          onClick={handleEnvoyerClick}
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{ width: "30%" }}
-        >
-          Ajouter une proposition
-        </Button>
-      </div>
-      <div className="flex justify-center"></div>
-      {listeHeber.map((e) => (
-        <HebergementDeroulement heber={e} deleteH={() => handleDeleteHebergement(e.idHebergement)}/>
-      ))}
+      {loading ? (
+        <div>
+          <div>
+            <Navbar />
+          </div>
+          <div>
+            <Loader />
+          </div>
+        </div>
+      ) : (
+        <div>
+          <Navbar />
+          <h1 className="flex justify-center p-4 font-bold text-2xl text-[#0A5483] font-serif">
+            {" "}
+            HEBERGEMENT
+          </h1>
+          <div className="flex justify-center p-8">
+            <Button
+              onClick={handleEnvoyerClick}
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ width: "30%" }}
+            >
+              Ajouter une proposition
+            </Button>
+          </div>
+          <div className="flex justify-center"></div>
+          {listeHeber.map((e) => (
+            <HebergementDeroulement
+              heber={e}
+              deleteH={() => handleDeleteHebergement(e.idHebergement)}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

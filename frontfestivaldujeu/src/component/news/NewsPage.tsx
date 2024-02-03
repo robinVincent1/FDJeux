@@ -7,6 +7,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { User } from "../admin/AdminPage";
 import { robin } from "../profil/ProfilPage";
 import Navbar from "../layout/Navbar";
+import Loader from "../layout/Loader";
 
 export type NewsType = {
   idNews: string;
@@ -15,7 +16,6 @@ export type NewsType = {
   createur: string;
   favori: boolean;
 };
-
 
 export const NewsPage = () => {
   const [news, setNews] = useState<NewsType[]>([]);
@@ -26,11 +26,11 @@ export const NewsPage = () => {
       try {
         const id = localStorage.getItem("userId");
         const response = await fetch(`http://localhost:8080/user/${id}`, {
-          method: 'GET', // Remplacez 'GET' par la méthode que vous souhaitez utiliser
+          method: "GET", // Remplacez 'GET' par la méthode que vous souhaitez utiliser
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          }
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         });
         const data = await response.json();
         setUserConnected(data);
@@ -48,80 +48,120 @@ export const NewsPage = () => {
   useEffect(() => {
     // Appel API pour récupérer toutes les infos
     fetch("http://localhost:8080/news", {
-      method: 'GET', // Remplacez 'GET' par la méthode HTTP que vous souhaitez utiliser
+      method: "GET", // Remplacez 'GET' par la méthode HTTP que vous souhaitez utiliser
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     })
       .then((response) => response.json())
       .then((data) => setNews(data))
       .then((data) => console.log(data))
-      .catch((error) => console.error("Erreur lors de la récupération des infos :", error));
+      .then(() => setLoad(0))
+      .catch((error) =>
+        console.error("Erreur lors de la récupération des infos :", error)
+      );
   }, []);
 
   const onDele = (id: string) => {
-    setNews((news) => news.filter((item) => item.idNews !== id)
-  );
-  }
+    setNews((news) => news.filter((item) => item.idNews !== id));
+  };
 
   const handleUpdateNews = async (updatedNews: NewsType) => {
     try {
       // Appel API pour mettre à jour la news côté serveur
-      const response = await fetch(`http://localhost:8080/news/${updatedNews.idNews}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        body: JSON.stringify(updatedNews),
-      });
+      const response = await fetch(
+        `http://localhost:8080/news/${updatedNews.idNews}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify(updatedNews),
+        }
+      );
 
       if (response.status === 200) {
         // Mise à jour locale de la liste de news
         setNews((currentNews) =>
           currentNews.map((item) =>
-            item.idNews === updatedNews.idNews ? { ...item, ...updatedNews } : item
+            item.idNews === updatedNews.idNews
+              ? { ...item, ...updatedNews }
+              : item
           )
         );
         console.log("News mise à jour avec succès !");
       } else {
-        console.error(`Erreur lors de la mise à jour de la news. Statut ${response.status}`);
+        console.error(
+          `Erreur lors de la mise à jour de la news. Statut ${response.status}`
+        );
       }
     } catch (error: any) {
-      console.error("Erreur lors de la mise à jour de la news :", error.message);
+      console.error(
+        "Erreur lors de la mise à jour de la news :",
+        error.message
+      );
     }
   };
 
+  const [loading, setLoading] = useState<boolean>(true);
+  const [load, setLoad] = useState(-1);
+
+  useEffect(() => {
+    if (load !== -1) {
+      setLoading(false);
+    }
+  }, [load]);
+
   return (
     <div>
-      <Navbar/>
-      <h1 className="flex justify-center p-4 font-bold text-2xl text-[#0A5483] font-serif"> NEWS</h1>
-      <div className=" justify-center ml-8">
-        {news.map((e) => {
-          return (
-            <div className="p-8">
-              <News
-                titre={e.titre}
-                description={e.description}
-                createur={e.createur}
-                favori={e.favori}
-                id={e.idNews}
-                onDelete={() => onDele(e.idNews)}
-                onUpdate={(updatedNews: NewsType) => handleUpdateNews(updatedNews)}
-              />
-            </div>
-          );
-        })}
-
-        <div className="flex justify-center p-4 mr-4 text-lg">
-          {(userConnected.role == "admin" || userConnected.role == "Résponsable soirée") && (
-            <Link to="/respoSoiree/creerNews" className="mr-4">
-              <AddIcon className="border text-[#3379FF] rounded-2xl border-[#3379FF] hover:text-white hover:bg-[#3379FF]" />
-            </Link>
-          )}
+      {loading ? (
+        <div>
+          <div>
+            <Navbar />
+          </div>
+          <div>
+            <Loader />
+          </div>
         </div>
-      </div>
+      ) : (
+        <div>
+          <Navbar />
+          <h1 className="flex justify-center p-4 font-bold text-2xl text-[#0A5483] font-serif">
+            {" "}
+            NEWS
+          </h1>
+          <div className=" justify-center ml-8">
+            {news.map((e) => {
+              return (
+                <div className="p-8">
+                  <News
+                    titre={e.titre}
+                    description={e.description}
+                    createur={e.createur}
+                    favori={e.favori}
+                    id={e.idNews}
+                    onDelete={() => onDele(e.idNews)}
+                    onUpdate={(updatedNews: NewsType) =>
+                      handleUpdateNews(updatedNews)
+                    }
+                  />
+                </div>
+              );
+            })}
+
+            <div className="flex justify-center p-4 mr-4 text-lg">
+              {(userConnected.role == "admin" ||
+                userConnected.role == "Résponsable soirée") && (
+                <Link to="/respoSoiree/creerNews" className="mr-4">
+                  <AddIcon className="border text-[#3379FF] rounded-2xl border-[#3379FF] hover:text-white hover:bg-[#3379FF]" />
+                </Link>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

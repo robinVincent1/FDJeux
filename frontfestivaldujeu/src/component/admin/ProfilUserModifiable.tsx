@@ -2,7 +2,13 @@ import { useState, ChangeEvent } from "react";
 import { User } from "./AdminPage";
 import "../output.css";
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
-import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from "@mui/material";
 
 type ProfilUserModifiableProps = {
   u: User;
@@ -17,7 +23,7 @@ export const ProfilUserModifiable = ({
 }: ProfilUserModifiableProps) => {
   const [modif, setModif] = useState(true);
 
-  const handleSelectChange = ( event: SelectChangeEvent<string>) => {
+  const handleSelectChange = (event: SelectChangeEvent<string>) => {
     setNouveauRole(event.target.value as string);
   };
 
@@ -25,16 +31,14 @@ export const ProfilUserModifiable = ({
   const [nouveauRole, setNouveauRole] = useState(u.role);
 
   const ModifRole = async () => {
-    const idUser = localStorage.getItem("userId");
-
     try {
       const response = await fetch(
-        `http://localhost:8080/user/ModifRole/${idUser}`,
+        `http://localhost:8080/user/ModifRole/${u.idUser}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify({
             role: nouveauRole,
@@ -62,7 +66,7 @@ export const ProfilUserModifiable = ({
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify({
             nouveauRole: nouveauRole,
@@ -106,9 +110,7 @@ export const ProfilUserModifiable = ({
           ) : (
             <div className="p-4 flex">
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">
-                  Role
-                </InputLabel>
+                <InputLabel id="demo-simple-select-label">Role</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -116,6 +118,9 @@ export const ProfilUserModifiable = ({
                   label="Hebergement"
                   onChange={handleSelectChange}
                 >
+                  {!modif && (
+                    <MenuItem value={ancienRole}>{ancienRole}</MenuItem>
+                  )}
                   <MenuItem value="Admin">Admin</MenuItem>
                   <MenuItem value="Référent">Référent</MenuItem>
                   <MenuItem value="Résponsable soirée">Réspo soirée</MenuItem>
