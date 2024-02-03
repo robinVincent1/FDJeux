@@ -180,11 +180,11 @@ export const ProfilPage = () => {
       ) : (
         <div className="">
           <Navbar />
-          <h1 className="flex justify-center pt-16 font-bold text-2xl text-[#0A5483] font-serif">
+          <h1 className="flex justify-center p-8 font-bold text-2xl text-[#0A5483] font-serif">
             {" "}
             PROFIL
           </h1>
-          <div className="flex justify-center p-4 pt-16">
+          <div className="flex justify-center p-8 ">
             <StyledBadge
               overlap="circular"
               anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
@@ -197,17 +197,17 @@ export const ProfilPage = () => {
             </StyledBadge>
           </div>
 
-          <div className="flex justify-center">
+          <div className="flex justify-center bg-[#0E8DDF]">
             <div className=" justify-center p-4">
-              <p className="font-bold font-serif p-4">
+              <p className="font-bold font-serif text-white p-4">
                 {user.firstName} {user.lastName}
               </p>
             </div>
             <div className=" justify-center p-4">
-              <p className="font-bold font-serif p-4">{user.role}</p>
+              <p className="font-bold font-serif text-white p-4">{user.role}</p>
             </div>
             <div className=" justify-center p-4">
-              <p className="font-bold font-serif p-4">
+              <p className="font-bold font-serif text-white p-4">
                 {user.nbEdition} participations
               </p>
             </div>

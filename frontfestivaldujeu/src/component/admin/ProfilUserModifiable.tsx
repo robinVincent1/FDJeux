@@ -95,8 +95,8 @@ export const ProfilUserModifiable = ({
           <div className="text-md font-bold  text-[#0A5483] flex justify-center">
             {u.firstName} {u.lastName}
           </div>
-          <div className=" text-sm flex justify-center">{u.pseudo}</div>
-          <div className="text-sm flex justify-center">{u.email}</div>
+          <div className=" text-sm ">{u.pseudo}</div>
+          <div className="text-sm pb-2">{u.email}</div>
           {modif ? (
             <button
               className="border rounded p-2"
