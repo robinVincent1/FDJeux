@@ -451,7 +451,7 @@ interface CreneauProps {
                 Statut :{ouvert ? "Ouvert" : "Fermé"}
                 </Typography>
                 <Typography>
-                 Date : {nomjour} {heure_debut}H-{heure_fin}H
+                 Horaire : {heure_debut}H-{heure_fin}H
                 </Typography>
                 <Typography>
                 Inscription : ({nb_inscrit}/{nb_max})
@@ -510,7 +510,8 @@ interface CreneauProps {
                         >
                       <ModalClose />
                       <Typography id="modal-modal-title" variant="h6" component="h2">Modifier le créneau</Typography>
-                      <FormControl fullWidth>
+                      <div className="py-4">
+                      <FormControl fullWidth >
                             <InputLabel id="demo-simple-select-label">Etat</InputLabel>
                             <Select
                               labelId="demo-simple-select-label"
@@ -522,20 +523,28 @@ interface CreneauProps {
                               <MenuItem key={1} value={"Ouvert"}>Ouvert</MenuItem>
                               <MenuItem key={0} value={"Fermé"}>Fermé</MenuItem>
                             </Select>
+                            </FormControl>
+                        </div>
+                      
+                            <div className="py-4">
                             <TextField id="outlined-basic" label="Nombre max" variant="outlined" value={nbmaxmodifier} onChange={handlechangenbmax} />
+                            </div>
+                            <div className="py-4">
+                              <FormControl fullWidth>
+                            <InputLabel id="select-referent-label">Référent</InputLabel>
                             <Select
-                              labelId="demo-simple-select-label"
+                              labelId="select-referent-label"
                               id="demo-simple-select"
+                              label="Référent"
                               value={thereferentid.toString()}
-                              label="Referent"
                               onChange={setthenewreferent}
                             >
                               {referentlist.map((referent) => (
                                 <MenuItem key={referent.idUser} value={referent.idUser}>{referent.pseudo}</MenuItem>
                               ))}
                               </Select>
-                          </FormControl>
-                          <Button onClick={handleCloseModifier}>Fermer</Button>
+                              </FormControl>
+                              </div>
                           <Button onClick={() => {
                             changeOuvert();
                             changeNbMax();
