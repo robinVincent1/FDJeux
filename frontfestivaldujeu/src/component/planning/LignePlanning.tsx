@@ -12,7 +12,7 @@ interface LigneProps {
     idPlanningGeneraLigne:number;
     titre:string;
     nb_creneaux:number;
-    list_creneaux: Creneau[];
+    list_creneaux: (Creneau|null)[];
     idPlanning:number;
     onUpdated?: () => void;
   }
@@ -126,20 +126,25 @@ const LignePlanning: React.FC<LigneProps> = ({
       }, [idligne, titreligne, onUpdated]);
 
       const generateCreneaux = () => {
-      const creneaux : any  = [];
-      //console.log("list_creneaux 1 " , list_creneaux);
-      {Array.isArray(list_creneaux) && list_creneaux.map((creneau) => (
+        const creneaux: any[] = [];
+        //console.log("list_creneaux 1 " , list_creneaux);
+        {Array.isArray(list_creneaux) && list_creneaux.map((creneau) => (
+          creneau?
+          creneaux.push(
+            <td key={creneau?.idCreneau} className="px-6 py-4 bg-blue-500 border border-slate-300">
+              <Creneau idCreneau={creneau?.idCreneau} ouvert={creneau?.ouvert} heure_debut={creneau?.heure_debut?.split(':')[2]} heure_fin={creneau?.heure_fin?.split(':')[2]} JourId={creneau?.JourId} titre={titreligne} nb_max={creneau?.nb_max} nb_inscrit={creneau?.nb_inscrit} ReferentId={creneau?.ReferentId} />
+            </td>
+          ):
         creneaux.push(
-          <td key={creneau.idCreneau}  className="px-6 py-4 bg-blue-500">
-            <Creneau idCreneau={creneau.idCreneau} ouvert={creneau.ouvert} heure_debut={creneau.heure_debut.split(':')[2]} heure_fin={creneau.heure_fin.split(':')[2]} JourId={creneau.JourId} titre={titreligne} nb_max={creneau.nb_max} nb_inscrit={creneau.nb_inscrit} ReferentId={creneau.ReferentId} />
-          </td>
+          <td className="px-6 py-4 bg-blue-500 border border-slate-300"> Pas de créneau</td>
         )
-      ))}
-      return creneaux;
-    };
+        ))
+      creneaux.push(<td className="bg-white border-slate-0"></td>)}
+        return creneaux;
+      };
     
   return (
-        <tr className="bg-blue-600 border-b border-blue-400">
+        <tr className="bg-blue-600">
     <th scope="row" className="bg-blue-600 border-b border-blue-400">
     <Button onClick={handleOpen}>{titre}</Button>
       <Modal 

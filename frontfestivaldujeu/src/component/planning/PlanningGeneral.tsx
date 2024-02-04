@@ -45,7 +45,7 @@ interface Ligne {
   idPlanningGeneralLigne : number;
   PlanningGeneralId: number;
   titre: string;
-  list_creneaux : Creneau[];
+  list_creneaux : (Creneau|null)[];
 }
 
 interface PlanningGeneralProps {
@@ -213,6 +213,7 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
   }
   }
    )
+   setmaj(4)
   }
 
   async function modifyjour(jourId: number){
@@ -469,22 +470,28 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
       ligne.list_creneaux = [];
     });
     for(let i = 0; i < list_ligne.length; i++){
+      console.log("ici")
       for(let j=0; j < list_jours.length; j++){
-        for(let k=0; k < list_jours[j].list_horaire.length; k++){
-          const creneauData = await getcreneaubyId(list_jours[j].id, list_jours[j].list_horaire[k].id, list_ligne[i].idPlanningGeneralLigne,PlanningId);
-          if (creneauData == undefined ) {
-            await createcreneau(list_jours[j].id,list_jours[j].list_horaire[k].id,list_ligne[i].idPlanningGeneralLigne,list_ligne[i].titre,list_jours[j].list_horaire[k].heure_debut,list_jours[j].list_horaire[k].heure_fin);
-
-          }
-          if (creneauData) {
-            newlistligne[i].list_creneaux.push(creneauData)
+        if (list_jours[j].list_horaire.length === 0) {
+          newlistligne[i].list_creneaux.push(null);
+        } else {
+          for(let k=0; k < list_jours[j].list_horaire.length; k++){
+            const creneauData = await getcreneaubyId(list_jours[j].id, list_jours[j].list_horaire[k].id, list_ligne[i].idPlanningGeneralLigne,PlanningId);
+            if (creneauData == undefined ) {
+              await createcreneau(list_jours[j].id,list_jours[j].list_horaire[k].id,list_ligne[i].idPlanningGeneralLigne,list_ligne[i].titre,list_jours[j].list_horaire[k].heure_debut,list_jours[j].list_horaire[k].heure_fin);
+              addcreneautolistligne()
+              setmaj(4)
+            }
+            if (creneauData) {
+              newlistligne[i].list_creneaux.push(creneauData)
+            }
           }
         }
+      }
     }
+    console.log('newlistligne' , newlistligne);
+    setListLigne(newlistligne)
   }
-  setListLigne(newlistligne)
-}
-
 
 
 
@@ -506,6 +513,10 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
       catch (error) {
     console.error('Erreur lors de l\'ajout de la ligne', error);
     }
+    console.log('bien ici')
+    setInputValue('');
+    setListLigne([...list_ligne, {idPlanningGeneralLigne: 0, PlanningGeneralId: PlanningId, titre: inputValue, list_creneaux: []}])
+    addcreneautolistligne();
     setmaj(3)
   }
 
@@ -688,11 +699,12 @@ useEffect(() => {
         <table className="w-full text-sm text-left rtl:text-right text-blue-100 dark:text-blue-100">
           <col/>
   <colgroup span={list_jours.length}></colgroup>
-  <thead className="text-xs text-white uppercase bg-blue-600 border-b border-blue-400 dark:text-white">
+  <thead className="text-xs text-white uppercase bg-blue-600  dark:text-white">
   <tr>
-  <td rowSpan={list_jours.length+1}></td>
+  <td rowSpan={list_jours.length}></td>
     {list_jours.map((jour)=> (
-            <th colSpan={Array.isArray(jour.list_horaire) ? jour.list_horaire.length : 0} scope="colgroup" className="px-6 py-3 bg-blue-500">
+            <th colSpan={Array.isArray(jour.list_horaire) ? jour.list_horaire.length : 0} scope="colgroup" className="px-6 py-3 bg-blue-500 border border-slate-300 ">
+              <div className="flex items-stretch">
               <Button onClick={() => {setSelectedValue_ModifyJour(jour.nom);
                 handleOpenModal_ModifyJour(jour.id)}} >{jour.nom}</Button>
               <Modal
@@ -722,6 +734,7 @@ useEffect(() => {
                   <Button onClick={() => handleCloseModal_ModifyJour(jour.id)} color="danger">Fermer</Button>
                 </ModalDialog>
               </Modal>
+    
               <div>
               <Button onClick={() => handleOpenModal_Presence(jour.id)} color="danger">Présence</Button>
               <Modal
@@ -774,11 +787,12 @@ useEffect(() => {
                 </ModalDialog>
               </Modal>
               </div>
+              </div>
 
             </th>
       ))}
-      <th>
-      <Button onClick={handleOpenModal_Jour} color="danger">Ajouter un jour</Button>
+      <th className="bg-white">
+      <Button onClick={handleOpenModal_Jour} className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Jour</Button>
       <Modal 
         open={openModal_Jour}
         onClose={handleCloseModal_Jour}
@@ -821,8 +835,8 @@ useEffect(() => {
     <tr>
     {list_jours.map((jour)=> (
       <>
-        {jour.list_horaire && jour.list_horaire.map((horaire) => (
-          <th scope="col" className="px-6 py-3 bg-blue-500">
+        {jour.list_horaire && jour.list_horaire.length > 0 ?  jour.list_horaire.map((horaire) => (
+          <th scope="col" className="px-6 py-3 bg-blue-500 border border-slate-300">
           <Button onClick={() => {setInputValueModifyHoraire_Debut(horaire.heure_debut);
             setInputValueModifyHoraire_Fin(horaire.heure_fin);
             handleOpenModal_ModifyHoraire(horaire.id)}} >{horaire.heure_debut}h-{horaire.heure_fin}h</Button>
@@ -842,17 +856,19 @@ useEffect(() => {
             </ModalDialog>
           </Modal>
           </th>
-         ))}
+         )):
+          <th scope="col" className="px-6 py-3 bg-blue-500 border border-slate-300">Pas d'horaire</th>
+        }
         
         </>
       ))}
   </tr>
   </thead>
-  <tbody>
+  <tbody >
   {Array.isArray(list_ligne) && list_ligne.map((ligne)=> (
     'titre' in ligne && <LignePlanning onUpdated={handleLignePlanningUpdate} titre={ligne.titre} nb_creneaux={nbColonne} list_creneaux={ligne.list_creneaux as Creneau[]} idPlanningGeneraLigne={ligne.idPlanningGeneralLigne} idPlanning={PlanningId}/>
     ))}
-          <Button onClick={handleOpenModal_Ligne} color="danger">Ajouter une ligne</Button>
+          <Button onClick={handleOpenModal_Ligne} className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">+</Button>
       <Modal 
         open={openModal_Ligne}
         onClose={handleCloseModal_Ligne}
