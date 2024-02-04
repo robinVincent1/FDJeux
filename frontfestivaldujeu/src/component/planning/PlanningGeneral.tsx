@@ -842,6 +842,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
                     className="px-6 py-3 bg-blue-500 border border-slate-300 "
                   >
                     <div className="flex items-stretch">
+                    {userConnected && ( userConnected.role == "admin" ? (
                       <Button
                         onClick={() => {
                           setSelectedValue_ModifyJour(jour.nom);
@@ -850,6 +851,10 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
                       >
                         {jour.nom}
                       </Button>
+                    ) : (
+
+                      <Typography>{jour.nom}</Typography>
+                    ))}
                       <Modal
                         open={openModals_ModifyJour[jour.id] || false}
                         onClose={() => handleCloseModal_ModifyJour(jour.id)}
@@ -901,12 +906,15 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
                       </Modal>
 
                       <div className="ml-2 mr-2">
+                      {userConnected && (userConnected.role == "admin"  || userConnected.role=="accueil bénévole") && (
                         <Button
                           onClick={() => handleOpenModal_Presence(jour.id)}
                           color="danger"
                         >
                           Présence
                         </Button>
+                      )}
+                      
                         <Modal
                           open={openModals_Presence[jour.id] || false}
                           onClose={() => handleCloseModal_Presence(jour.id)}
@@ -969,7 +977,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
                           >
                             +
                           </Button>
-                        )}
+                        )}  
                         <Modal
                           open={openModals[jour.id] || false}
                           onClose={() => handleCloseModal_Horaire(jour.id)}
@@ -1061,6 +1069,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
                           scope="col"
                           className="px-6 py-3 bg-blue-500 border border-slate-300"
                         >
+                           {userConnected && ( userConnected.role == "admin" ? (
                           <Button
                             onClick={() => {
                               setInputValueModifyHoraire_Debut(
@@ -1072,6 +1081,12 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
                           >
                             {horaire.heure_debut}h-{horaire.heure_fin}h
                           </Button>
+                           ):(
+                            <div>
+                              {horaire.heure_debut}h-{horaire.heure_fin}h
+                            </div>
+                           )
+                           )}
                           <Modal
                             open={openModals_ModifyHoraire[horaire.id] || false}
                             onClose={() =>
