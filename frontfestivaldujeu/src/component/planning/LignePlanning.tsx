@@ -161,21 +161,22 @@ const LignePlanning: React.FC<LigneProps> = ({
                 <Typography id="modal-modal-title" variant="h6" component="h2">{titreligne}</Typography>
               
               <Input type="text" placeholder="Modifier le nom de la ligne"  value={titreligne} onChange={handletitreligne} />
-                <Button className="bg-red-600 shadow-lg shadow-indigo-500/20" onClick={() => {
-                  deleteligne();
-                  onclose();
-                }}>
-                  Supprimé
-                </Button>
-                <Button variant="outlined" color="danger"  onClick={onclose}>
-                  Fermé
-                </Button>
-                <Button className="bg-[#6f4ef2] shadow-lg shadow-indigo-500/20" onClick={ () => {
+              <div className="flex">
+              <Button className="bg-[#6f4ef2] shadow-lg shadow-indigo-500/20" onClick={ () => {
                   modifylignetitre();
                   onclose();
                   }}>
                   Modifié
                 </Button>
+                <Button className="bg-red-600 shadow-lg shadow-indigo-500/20" color="danger" onClick={() => {
+                  deleteligne();
+                  onclose();
+                }}>
+                  Supprimé
+                </Button>
+
+
+                </div>
         </ModalDialog>
       </Modal>
       </th>

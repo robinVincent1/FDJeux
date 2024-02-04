@@ -12,6 +12,7 @@ import Switch from '@mui/material/Switch';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Form } from 'react-router-dom';
+import { Typography } from '@mui/material';
 
 interface Horaire {
   id: number;
@@ -716,6 +717,9 @@ useEffect(() => {
                 aria-describedby="modal-modal-description"
               >
                 <ModalDialog>
+                  <Typography variant="h6" id="modal-modal-title">
+                    Modifier le jour 
+                  </Typography>
                 <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Jour</InputLabel>
                 <Select
@@ -730,10 +734,11 @@ useEffect(() => {
               ))}
 
             </Select>
-</FormControl>
-                  <Button onClick={() => {modifyjour(jour.id); handleCloseModal_ModifyJour(jour.id)}} color="danger">Modifier</Button>
+          </FormControl>
+                <div className="flexible">
+                  <Button onClick={() => {modifyjour(jour.id); handleCloseModal_ModifyJour(jour.id)}} >Modifier</Button>
                   <Button onClick={() => {deletejour(jour.id); handleCloseModal_ModifyJour(jour.id)}} color="danger">Supprimer</Button>
-                  <Button onClick={() => handleCloseModal_ModifyJour(jour.id)} color="danger">Fermer</Button>
+                  </div>
                 </ModalDialog>
               </Modal>
     
@@ -759,9 +764,7 @@ useEffect(() => {
                       </FormGroup>
                     </div>
                   ))}
-                  <Button color="danger" onClick={() => handleCloseModal_Presence(jour.id)}>
-                    Fermé
-                  </Button>
+
                 </ModalDialog>
               </Modal>
               </div>
@@ -780,9 +783,7 @@ useEffect(() => {
                   Ajouter une horaire
                   <Input className="w-1/2" type="text" placeholder="Heure de début" value={inputValueHoraire_Debut}  onChange={handleInputHoraire_Debut} />
                   <Input className="w-1/2" type="text" placeholder="Heure de fin"  value={inputValueHoraire_Fin} onChange={handleInputHoraire_Fin} />
-                  <Button color="danger" onClick={() => handleCloseModal_Horaire(jour.id)}>
-                    Fermé
-                  </Button>
+
                   <Button className="bg-[#6f4ef2] shadow-lg shadow-indigo-500/20" onClick={() => addtolisthoraire(jour.id)}>
                     Ajouter
                   </Button>
@@ -820,10 +821,6 @@ useEffect(() => {
               ))}
               </Select>
             </FormControl>
-              
-                <Button color="danger" onClick={handleCloseModal_Jour}>
-                  Fermé
-                </Button>
                 <Button className="bg-[#6f4ef2] shadow-lg shadow-indigo-500/20" onClick ={  () => {
                   addtolistjour();
                   handleCloseModal_Jour();}}
@@ -849,12 +846,15 @@ useEffect(() => {
             aria-describedby="modal-modal-description"
           >
             <ModalDialog>
-            Ajouter une horaire
+            Modifier l'horaire 
                   <Input className="w-1/2" type="text" placeholder="Heure de début" value={inputValueModifyHoraire_Debut}  onChange={handleInputModifyHoraire_Debut} />
                   <Input className="w-1/2" type="text" placeholder="Heure de fin"  value={inputValueModifyHoraire_Fin} onChange={handleInputModifyHoraire_Fin} />
-              <Button color="danger" onClick={() => {modifyhoraire(horaire.id)} } >Modifier</Button>
+                  <div className="flexible ">
+              <Button  onClick={() => {modifyhoraire(horaire.id)} } >Modifier</Button>
               <Button color="danger" onClick={() => {deletehoraire(horaire.id) ;handleCloseModal_Horaire(horaire.id)} } >Supprimer</Button>
-              <Button color="danger" onClick={() => {handleCloseModal_ModifyHoraire(horaire.id)} } >Fermer</Button>
+              </div>
+          
+    
             </ModalDialog>
           </Modal>
           </th>
@@ -883,9 +883,7 @@ useEffect(() => {
                 >
               Ajouter une ligne
               <Input type="text" placeholder="Nom de la ligne"  value={inputValue} onChange={handleInput} />
-                <Button color="danger" onClick={handleCloseModal_Ligne}>
-                  Fermé
-                </Button>
+
                 <Button className="bg-[#6f4ef2] shadow-lg shadow-indigo-500/20" onClick ={  () => {
                   addligne();
                   handleCloseModal_Ligne();}}
