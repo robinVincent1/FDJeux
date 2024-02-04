@@ -135,7 +135,6 @@ const LignePlanning: React.FC<LigneProps> = ({
 
       const generateCreneaux = () => {
         const creneaux: any[] = [];
-        //console.log("list_creneaux 1 " , list_creneaux);
         {Array.isArray(list_creneaux) && list_creneaux.map((creneau) => (
           creneau ?
           creneaux.push(

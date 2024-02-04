@@ -475,6 +475,9 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
     });
     for (let i = 0; i < list_ligne.length; i++) {
       for (let j = 0; j < list_jours.length; j++) {
+        if (list_jours[j].list_horaire.length === 0) {
+          newlistligne[i].list_creneaux .push(null)
+        }
         for (let k=0; k<list_jours[j].list_horaire.length; k++){
             const horaire = list_jours[j].list_horaire[k];
             const creneauData = await getcreneaubyId(list_jours[j].id, horaire.id, list_ligne[i].idPlanningGeneralLigne, PlanningId);
