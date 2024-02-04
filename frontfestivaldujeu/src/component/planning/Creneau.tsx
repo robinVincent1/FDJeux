@@ -88,7 +88,6 @@ interface CreneauProps {
           getreferentlist().then(result => setreferentlist(result as User[]));
           getthereferent().then(result => setthereferent(result as User));
           getflexiblebenevole().then(result => setlistflexible(result as User[]))
-          console.log(list_flexible)
         }, [isInscrit])
 
         async function getflexiblebenevole(){

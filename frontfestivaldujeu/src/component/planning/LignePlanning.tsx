@@ -1,5 +1,5 @@
 'use client'
-import React, { ChangeEvent, useState,useEffect } from 'react'
+import React, { ChangeEvent, useState,useEffect,useCallback } from 'react'
 import Creneau from './Creneau'
 import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
@@ -12,8 +12,9 @@ interface LigneProps {
     idPlanningGeneraLigne:number;
     titre:string;
     nb_creneaux:number;
-    list_creneaux: Creneau[];
+    list_creneaux: (Creneau|null)[];
     idPlanning:number;
+    onUpdated?: () => void;
   }
 
   interface User{
@@ -42,6 +43,7 @@ interface LigneProps {
     nb_max: number;
     nb_inscrit: number;
     ReferentId : number | -1;
+  
   }
 
 const LignePlanning: React.FC<LigneProps> = ({
@@ -49,13 +51,15 @@ const LignePlanning: React.FC<LigneProps> = ({
     idPlanningGeneraLigne,
     nb_creneaux,
     list_creneaux,
-    idPlanning
+    idPlanning,
+    onUpdated
 }) => {
     const [titre, setTitre] = useState<string>(initialTitre);
     const [inputValue, setInputValue] = useState<string>('');
     const [open, setOpen] = React.useState(false);
     const [idligne,setidligne] = React.useState<number>(idPlanningGeneraLigne);
     const [titreligne,settitreligne] = React.useState<string>(titre);
+    const [maj,setmaj] = React.useState<number>(0);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
@@ -73,7 +77,7 @@ const LignePlanning: React.FC<LigneProps> = ({
         handleClose();
       }
 
-      async function deleteligne(){
+      const deleteligne = useCallback(async () => {
         const response = await fetch(`http://localhost:8080/planning_general_ligne/${idligne}`, {
           method: 'DELETE',
           headers: {
@@ -81,8 +85,7 @@ const LignePlanning: React.FC<LigneProps> = ({
             Authorization: `Bearer ${localStorage.getItem('token')}`
           },
         });
-
-
+      
         const deletecreneaux = await fetch(`http://localhost:8080/creneau/deletebyligne/${idligne}`, {
           method : 'DELETE',
           headers : {
@@ -90,14 +93,20 @@ const LignePlanning: React.FC<LigneProps> = ({
             Authorization: `Bearer ${localStorage.getItem('token')}`
           },
         })
-
+      
         const deletedcreneaux = await deletecreneaux.json()
         console.log(deletedcreneaux)
         const data = await response.json();
         console.log(data);
-      }
+        setmaj(3)
+      
+        // Call onUpdated after the deletion
+        if (onUpdated) {
+          onUpdated();
+        }
+      }, [idligne, onUpdated]);
 
-      async function modifylignetitre(){
+      const modifylignetitre = useCallback(async () => {
         const response = await fetch(`http://localhost:8080/planning_general_ligne/modifytitre/${idligne}`, {
           method: 'PUT',
           headers: {
@@ -108,24 +117,34 @@ const LignePlanning: React.FC<LigneProps> = ({
         });
         const data = await response.json();
         console.log(data);
-      }
-
+        setTitre(titreligne);
+      
+        // Call onUpdated after the modification
+        if (onUpdated) {
+          onUpdated();
+        }
+      }, [idligne, titreligne, onUpdated]);
 
       const generateCreneaux = () => {
-      const creneaux : any  = [];
-      //console.log("list_creneaux 1 " , list_creneaux);
-      {Array.isArray(list_creneaux) && list_creneaux.map((creneau) => (
+        const creneaux: any[] = [];
+        //console.log("list_creneaux 1 " , list_creneaux);
+        {Array.isArray(list_creneaux) && list_creneaux.map((creneau) => (
+          creneau?
+          creneaux.push(
+            <td key={creneau?.idCreneau} className="px-6 py-4 bg-blue-500 border border-slate-300">
+              <Creneau idCreneau={creneau?.idCreneau} ouvert={creneau?.ouvert} heure_debut={creneau?.heure_debut?.split(':')[2]} heure_fin={creneau?.heure_fin?.split(':')[2]} JourId={creneau?.JourId} titre={titreligne} nb_max={creneau?.nb_max} nb_inscrit={creneau?.nb_inscrit} ReferentId={creneau?.ReferentId} />
+            </td>
+          ):
         creneaux.push(
-          <td key={creneau.idCreneau}  className="px-6 py-4 bg-blue-500">
-            <Creneau idCreneau={creneau.idCreneau} ouvert={creneau.ouvert} heure_debut={creneau.heure_debut.split(':')[2]} heure_fin={creneau.heure_fin.split(':')[2]} JourId={creneau.JourId} titre={titreligne} nb_max={creneau.nb_max} nb_inscrit={creneau.nb_inscrit} ReferentId={creneau.ReferentId} />
-          </td>
+          <td className="px-6 py-4 bg-blue-500 border border-slate-300"> Pas de créneau</td>
         )
-      ))}
-      return creneaux;
-    };
+        ))
+      creneaux.push(<td className="bg-white border-slate-0"></td>)}
+        return creneaux;
+      };
     
   return (
-        <tr className="bg-blue-600 border-b border-blue-400">
+        <tr className="bg-blue-600">
     <th scope="row" className="bg-blue-600 border-b border-blue-400">
     <Button onClick={handleOpen}>{titre}</Button>
       <Modal 
@@ -139,7 +158,7 @@ const LignePlanning: React.FC<LigneProps> = ({
                 variant="plain"
                 >
                 <ModalClose />
-                <Typography id="modal-modal-title" variant="h6" component="h2">{titre}</Typography>
+                <Typography id="modal-modal-title" variant="h6" component="h2">{titreligne}</Typography>
               
               <Input type="text" placeholder="Modifier le nom de la ligne"  value={titreligne} onChange={handletitreligne} />
                 <Button className="bg-red-600 shadow-lg shadow-indigo-500/20" onClick={() => {

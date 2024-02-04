@@ -39,6 +39,49 @@ const getbyJour = async (req, res) => {
     }
 };
 
+const deleteByHoraireId = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const deletehoraire = await Creneaux.destroy({
+            where: { HoraireId: id }
+        });
+
+        if (deletehoraire) {
+            res.status(200).json({
+                message: "Creneau deleted successfully",
+            });
+        } else {
+            res.status(404).json({
+                message: "Creneau not found",
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: "Error deleting creneau",
+            error: error.message
+        });
+    }
+}
+
+const modifyHoraire = async (req, res) => {
+    try {
+        const creneaux = await Creneaux.findAll({
+            where: {
+                HoraireId: req.params.id,
+            },
+        });
+        if (!creneaux.length) throw new Error('Creneau not found');
+        for (let creneau of creneaux) {
+            await creneau.update({heure_debut:req.body.heure_debut, heure_fin:req.body.heure_fin});
+        }
+        res.send(creneaux);
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({ errors: error.message });
+    }
+}
+
+
 const getCreneauById = async (req, res) => {
     try {
         const creneau = await Creneaux.findOne({
@@ -198,6 +241,30 @@ const deleteById = async (req, res) => {
                 });
             }
         }
+
+        const deleteByJourId = async (req, res) => {
+            try {
+                const id = req.params.id;
+                const deletejour = await Creneaux.destroy({
+                    where: { JourId: id }
+                });
+        
+                if (deletejour) {
+                    res.status(200).json({
+                        message: "Creneau deleted successfully",
+                    });
+                } else {
+                    res.status(404).json({
+                        message: "Creneau not found",
+                    });
+                }
+            } catch (error) {
+                res.status(500).json({
+                    message: "Error deleting creneau",
+                    error: error.message
+                });
+            }
+        }
     
 
     module.exports = {
@@ -205,11 +272,14 @@ const deleteById = async (req, res) => {
         modifyReferent,
         modifyNbMax,
         modifyOuvert,
+        modifyHoraire,
         createCreneau,
         getbyId,
         addnbinscrit,
         subtractnbinscrit,
         getCreneauById,
         deleteLigne,
-        getbyJour
+        getbyJour,
+        deleteByHoraireId,
+        deleteByJourId
     }
