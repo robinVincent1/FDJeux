@@ -25,6 +25,7 @@ export const PageAccueil = () => {
   const [list_jeu, setListJeu] = useState<any[]>([]);
   const navigate = useNavigate();
   const [maj, setMaj] = useState(false);
+  const [majtab,setmajtab] = useState(0);
 
   const setMajToggle = () => {
     setMaj(!maj);
@@ -49,7 +50,7 @@ export const PageAccueil = () => {
       .catch((error) =>
         console.error("Erreur lors de la récupération du festival :", error)
       );
-  }, [navigate, maj]);
+  }, [navigate, maj,majtab]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -140,6 +141,11 @@ export const PageAccueil = () => {
     }
   };
 
+  const handleJeuEspace = async (planZone: string) => {
+    getJeubyEspace(planZone).then((data) => setListJeu(data));
+    setmajtab(4)
+  }
+
   const getJeubyEspace = async (planZone: string) => {
     try {
       const response = await fetch(`http://localhost:8080/csv/getjeu/${planZone}`, {
@@ -163,6 +169,8 @@ export const PageAccueil = () => {
       console.error("Erreur lors de la récupération :", error.message);
     }
   }
+
+
 
   const getAllEspace = async () => {
     try {
@@ -341,9 +349,21 @@ export const PageAccueil = () => {
             <div>
               {list_espace.map((e) => (
                 <div>
-                  <Button onClick={() => {getJeubyEspace(e.planZone)}}className="flex justify-center text-lg">{e.planZone}</Button>
+                  <Button onClick={() => {handleJeuEspace(e.planZone)}}className="flex justify-center text-lg">{e.planZone}</Button>
                 </div>
               ))}
+              <table>
+                <th>Nom du jeu</th>
+                <th>Nombre de joueurs</th>
+                <th>A animer ?</th>
+              {list_jeu.map((e) => (
+                <tr>
+                  <td>{e.nameGame}</td>
+                  <td>{e.nbPlayers}</td>
+                  <td>{e.toAnimate}</td>
+                </tr>
+              ))}
+                </table>
                 
             </div>
 
