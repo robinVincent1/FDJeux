@@ -170,7 +170,7 @@ const LignePlanning: React.FC<LigneProps> = ({
               
               <Input type="text" placeholder="Modifier le nom de la ligne"  value={titreligne} onChange={handletitreligne} />
               <div className="flex">
-              <Button className="bg-[#6f4ef2] shadow-lg shadow-indigo-500/20" onClick={ () => {
+              <Button className="bg-[#6f4ef2] shadow-lg shadow-indigo-500/20 " onClick={ () => {
                   modifylignetitre();
                   onclose();
                   }}>

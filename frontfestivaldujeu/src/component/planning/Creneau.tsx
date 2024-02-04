@@ -443,6 +443,32 @@ interface CreneauProps {
           }
         }
       }
+
+      const [userConnected, setUserConnected] = useState<User>();
+
+      useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const id = localStorage.getItem("userId");
+            const response = await fetch(`http://localhost:8080/user/${id}`, {
+              method: "GET", // Remplacez 'GET' par la méthode que vous souhaitez utiliser
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            });
+            const data = await response.json();
+            setUserConnected(data);
+          } catch (error) {
+            console.error(
+              "Erreur lors de la récupération de l'utilisateur :",
+              error
+            );
+          }
+        };
+    
+        fetchData();
+      }, []);
   
     return (
           <div >
@@ -488,8 +514,16 @@ interface CreneauProps {
                 
                 
                 <div className="flexible">
-                <Button onClick={() => {handleOpenFlexible()}}>Inscrire des bénévoles</Button>
-                <Button onClick={handleOpenModifier}>Modifié</Button>
+                <div className='mr-2 pb-2'>
+                  {userConnected && userConnected.role == "admin" && 
+                    <Button onClick={() => {handleOpenFlexible()}}>Inscrire des bénévoles</Button>
+                  }
+                </div>
+                <div className='pb-2'>
+                {userConnected && userConnected.role == "admin" && 
+                    <Button onClick={handleOpenModifier}>Modifié</Button>
+                  }
+                </div>
                 
                 <Modal
                       open={openFlexible}
@@ -502,7 +536,7 @@ interface CreneauProps {
                         variant="plain"
                         >
                       <ModalClose />
-                      {list_flexible.map((benevole) => (
+                      {list_flexible && list_flexible.map((benevole) => (
                         <div className="flexible">
                           <div >
                           <Typography>{benevole.pseudo}</Typography>
@@ -562,7 +596,7 @@ interface CreneauProps {
                               value={thereferentid.toString()}
                               onChange={setthenewreferent}
                             >
-                              {referentlist.map((referent) => (
+                              {referentlist && referentlist.map((referent) => (
                                 <MenuItem key={referent.idUser} value={referent.idUser}>{referent.pseudo}</MenuItem>
                               ))}
                               </Select>
