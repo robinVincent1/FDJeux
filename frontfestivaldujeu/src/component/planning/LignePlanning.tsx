@@ -43,6 +43,7 @@ interface LigneProps {
     nb_max: number;
     nb_inscrit: number;
     ReferentId : number | -1;
+    onUpdated?: () => void; 
   
   }
 
@@ -59,6 +60,7 @@ const LignePlanning: React.FC<LigneProps> = ({
     const [open, setOpen] = React.useState(false);
     const [idligne,setidligne] = React.useState<number>(idPlanningGeneraLigne);
     const [titreligne,settitreligne] = React.useState<string>(titre);
+    const [creneauPlanningUpdated, setCreneauPlanningUpdated] = React.useState<boolean>(false);
     const [maj,setmaj] = React.useState<number>(0);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -71,6 +73,12 @@ const LignePlanning: React.FC<LigneProps> = ({
         const value = event.target.value;
         settitreligne(value);
       }
+
+      const handleCreneauPlanningUpdate = useCallback(() => {
+        onUpdated && onUpdated();
+        console.log('Creneau updated');
+      }, []);
+    
 
 
       function onclose(){
@@ -132,13 +140,14 @@ const LignePlanning: React.FC<LigneProps> = ({
           creneau ?
           creneaux.push(
             <td key={creneau?.idCreneau} className="px-6 py-4 bg-blue-500 border border-slate-300">
-              <Creneau idCreneau={creneau?.idCreneau} ouvert={creneau?.ouvert} heure_debut={creneau?.heure_debut} heure_fin={creneau?.heure_fin} JourId={creneau?.JourId} titre={titreligne} nb_max={creneau?.nb_max} nb_inscrit={creneau?.nb_inscrit} ReferentId={creneau?.ReferentId} />
+              <Creneau onUpdated={handleCreneauPlanningUpdate} idCreneau={creneau?.idCreneau} ouvert={creneau?.ouvert} heure_debut={creneau?.heure_debut} heure_fin={creneau?.heure_fin} JourId={creneau?.JourId} titre={titreligne} nb_max={creneau?.nb_max} nb_inscrit={creneau?.nb_inscrit} ReferentId={creneau?.ReferentId} />
             </td>
           ):
         creneaux.push(
           <td className="px-6 py-4 bg-blue-500 border border-slate-300"> Pas de créneau</td>
         )
         ))
+        
       creneaux.push(<td className="bg-white border-slate-0"></td>)}
         return creneaux;
       };
