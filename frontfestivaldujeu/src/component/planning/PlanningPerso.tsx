@@ -23,7 +23,7 @@ interface Creneau{
   titre:string,
   nb_max:number,
   nb_inscrit:number,
-  referent : User,
+  referent? : User,
   heure_debut: string;
   heure_fin: string;
   ReferentId: number;
@@ -86,6 +86,10 @@ export const PlanningPerso : React.FC<PlanningProps> = ({
         Authorization: `Bearer ${localStorage.getItem('token')}`
       },
     })
+    if (!response.ok) {
+      // You can throw an error or return a default value
+      return {idUser:0,email:'',active:false,role:'',firstName:'',lastName:'',pseudo:'Pas de référent',postalAdress:'',propo:'',association:'',telephone:'',flexible:false};
+    }
       const userData: User = await response.json();
       return userData
     }catch(error){
@@ -100,6 +104,8 @@ export const PlanningPerso : React.FC<PlanningProps> = ({
       try {
         const creneau = await getcreneauxbyId(idcreneau);
         if (creneau) {
+          const referent = await getreferent(creneau.ReferentId);
+          creneau.referent = referent;
           newlistcreneaux.push(creneau);
         }
       } catch (error) {
@@ -175,11 +181,11 @@ export const PlanningPerso : React.FC<PlanningProps> = ({
   
     fetchData();
     getidcreneaubyuserid(iduser).then((creneauData) => setListIdCreneaux(creneauData || []))
-  }, []);
+  }, [ iduser]);
 
   useEffect(() => {
     fillListCreneaux().then((creneauData) => setListCreneaux(creneauData || []));
-  }, [list_idcreneaux]);
+  }, [list_idcreneaux, iduser]);
 
 
   return (
@@ -205,15 +211,15 @@ export const PlanningPerso : React.FC<PlanningProps> = ({
             <div>{horaire.heure_debut}h-{horaire.heure_fin}h</div>
             {list_creneaux && list_creneaux.map((creneau, creneauIndex) => (
               creneau.HoraireId === horaire.id &&
-              <td key={creneauIndex}>
-                {creneau.titre}  Référent :  {creneau.referent.pseudo} {creneau.referent.telephone}
+              <td key={creneauIndex} className="">
+                {creneau.titre}  Référent :  {creneau.referent?.pseudo} {creneau.referent?.telephone}
               </td>
             ))}
           </th>
         ))
       ) : (
-        <th scope="col" className="px-6 py-3 bg-red-500 border border-slate-300">
-          <div>Pas d'horaire</div>
+        <th scope="col" className="px-6 py-3 bg-blue-500 border border-slate-300">
+          <div>Rien de prévu</div>
         </th>
       )}
     </React.Fragment>
