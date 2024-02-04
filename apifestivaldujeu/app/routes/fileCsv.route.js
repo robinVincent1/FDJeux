@@ -6,7 +6,9 @@ module.exports = app => {
 
   router.get('/get', isLoggedIn, csvController.getCsv);
 
-  router.get('/getallEspace',isLoggedIn, csvController.getAllEspace);
+  router.get('/getallespace',isLoggedIn, csvController.getAllEspace);
+
+  router.get('/getjeu/:planZone',isLoggedIn, csvController.getJeuByEspace)
 
   router.post('/post', isLoggedIn, csvController.importCsv);
 
