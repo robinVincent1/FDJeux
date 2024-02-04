@@ -816,7 +816,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
   }, []);
 
   return (
-    <div className="overflow-x-auto shadow-md sm:rounded-lg">
+    <div className="overflow-x-auto  sm:rounded-lg ml-4">
       <p className="flex justify-center p-16 font-bold text-2xl text-[#0A5483] font-serif">
         Planning général
       </p>
@@ -828,9 +828,9 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
           <table className="w-full text-sm text-left rtl:text-right text-blue-100 dark:text-blue-100">
             <col />
             <colgroup span={list_jours.length}></colgroup>
-            <thead className="text-xs text-white uppercase bg-blue-600  dark:text-white">
+            <thead className="text-xs text-white uppercase bg-blue-400  dark:text-white">
               <tr>
-                <td rowSpan={list_jours.length}></td>
+                <td className="bg-blue-500" rowSpan={list_jours.length}></td>
                 {list_jours.map((jour) => (
                   <th
                     colSpan={
@@ -839,11 +839,12 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
                         : 0
                     }
                     scope="colgroup"
-                    className="px-6 py-3 bg-blue-500 border border-slate-300 "
+                    className="px-6 py-3 bg-blue-500 border-r border-slate-300 "
                   >
                     <div className="flex items-stretch">
                     {userConnected && ( userConnected.role == "admin" ? (
                       <Button
+                        
                         onClick={() => {
                           setSelectedValue_ModifyJour(jour.nom);
                           handleOpenModal_ModifyJour(jour.id);
@@ -908,8 +909,9 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
                       <div className="ml-2 mr-2">
                       {userConnected && (userConnected.role == "admin"  || userConnected.role=="accueil bénévole") && (
                         <Button
+                          
                           onClick={() => handleOpenModal_Presence(jour.id)}
-                          color="danger"
+                          color="success"
                         >
                           Présence
                         </Button>
@@ -972,6 +974,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
                       <div>
                         {userConnected && userConnected.role == "admin" && (
                           <Button
+                          variant='outlined'
                             onClick={() => handleOpenModal_Horaire(jour.id)}
                             color="danger"
                           >
@@ -1012,7 +1015,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
                     </div>
                   </th>
                 ))}
-                <th className="bg-white">
+                <th className="bg-white p-4">
                   {userConnected && userConnected.role == "admin" && (
                     <Button
                       onClick={handleOpenModal_Jour}
@@ -1067,10 +1070,11 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
                       jour.list_horaire.map((horaire) => (
                         <th
                           scope="col"
-                          className="px-6 py-3 bg-blue-500 border border-slate-300"
+                          className="px-6 py-3  border border-slate-300"
                         >
                            {userConnected && ( userConnected.role == "admin" ? (
                           <Button
+                            variant='outlined'
                             onClick={() => {
                               setInputValueModifyHoraire_Debut(
                                 horaire.heure_debut
@@ -1140,7 +1144,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
                     ) : (
                       <th
                         scope="col"
-                        className="px-6 py-3 bg-blue-500 border border-slate-300"
+                        className="px-6 py-3  border border-slate-300 text-blue-600"
                       >
                         Pas d'horaire
                       </th>
@@ -1164,14 +1168,16 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
                       />
                     )
                 )}
+                <div className="p-4">
               {userConnected && userConnected.role == "admin" && (
                 <Button
                   onClick={handleOpenModal_Ligne}
-                  className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+                  className="  text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
                 >
                   ↓
                 </Button>
               )}
+              </div>
               <Modal
                 open={openModal_Ligne}
                 onClose={handleCloseModal_Ligne}

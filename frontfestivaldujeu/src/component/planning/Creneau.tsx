@@ -473,7 +473,7 @@ interface CreneauProps {
     return (
           <div >
             <>
-        <Button onClick={() => {handleOpen(); fillListBenevole()}}>
+        <Button style={{ backgroundColor: 'transparent' }} variant='outlined' onClick={() => {handleOpen(); fillListBenevole()}}>
             <CircularProgress size="lg" color={ChoseColor()} determinate value={(nb_inscrit/nb_max)*100}>
                 {nb_inscrit}/{nb_max}
             </CircularProgress>
