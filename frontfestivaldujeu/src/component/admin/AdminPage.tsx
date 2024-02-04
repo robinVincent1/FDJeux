@@ -197,9 +197,11 @@ export const AdminPage = () => {
           </h1>
           <div className=" grid grid-cols-4">
             <div className="">
+              <div className="pb-4">
               <strong className="flex justify-center text-white  p-4 font-bold font-serif bg-[#0E8DDF]">
                 Référent
               </strong>
+              </div>
               {listeReferent.map((user) => (
                 <ProfilUserModifiable
                   key={user.idUser}
@@ -210,10 +212,11 @@ export const AdminPage = () => {
               ))}
             </div>
             <div className="">
+              <div className="pb-4">
               <strong className="flex justify-center text-white  p-4 font-bold font-serif bg-[#0E8DDF]">
                 Résponsable soirée{" "}
               </strong>
-
+                </div>
               {listeRespoSoiree.map((user) => (
                 <ProfilUserModifiable
                   key={user.idUser}
@@ -224,9 +227,11 @@ export const AdminPage = () => {
               ))}
             </div>
             <div className="">
+              <div className="pb-4">
               <strong className="flex justify-center text-white  p-4 font-bold font-serif bg-[#0E8DDF]">
                 Bénévole Accueil
               </strong>
+              </div>
               {listeAccueilBenevole.map((user) => (
                 <ProfilUserModifiable
                   key={user.idUser}
@@ -237,9 +242,11 @@ export const AdminPage = () => {
               ))}
             </div>
             <div className="">
+              <div className="pb-4">
               <strong className="flex justify-center text-white  p-4 font-bold font-serif bg-[#0E8DDF]">
                 Bénévole
               </strong>
+              </div>
               {listeBenevole.map((user) => (
                 <ProfilUserModifiable
                   key={user.idUser}
