@@ -21,8 +21,11 @@ export const PageAccueil = () => {
   const [userConnected, setUserConnected] = useState<User>(robin);
   const [admin, setAdmin] = useState(false);
   const [isInscrit, setIsInscrit] = useState(false);
+  const [list_espace, setListEspace] = useState<any[]>([]);
+  const [list_jeu, setListJeu] = useState<any[]>([]);
   const navigate = useNavigate();
   const [maj, setMaj] = useState(false);
+  const [majtab,setmajtab] = useState(0);
 
   const setMajToggle = () => {
     setMaj(!maj);
@@ -47,7 +50,7 @@ export const PageAccueil = () => {
       .catch((error) =>
         console.error("Erreur lors de la récupération du festival :", error)
       );
-  }, [navigate, maj]);
+  }, [navigate, maj,majtab]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,7 +75,9 @@ export const PageAccueil = () => {
     };
 
     fetchData();
+    
   }, []);
+
 
   useEffect(() => {
     // Cet effet s'exécutera chaque fois que userConnected ou festi sera mis à jour
@@ -98,6 +103,10 @@ export const PageAccueil = () => {
         console.error("Erreur lors de la récupération des infos :", error)
       );
   }, []);
+
+  useEffect(() => {
+    getAllEspace().then((data) => setListEspace(data));
+  },[]);
 
   useEffect(() => {
     // Appel API pour récupérer toutes les infos
@@ -131,6 +140,61 @@ export const PageAccueil = () => {
       console.error("Erreur lors de la suppression de l'information :", error);
     }
   };
+
+  const handleJeuEspace = async (planZone: string) => {
+    getJeubyEspace(planZone).then((data) => setListJeu(data));
+    setmajtab(4)
+  }
+
+  const getJeubyEspace = async (planZone: string) => {
+    try {
+      const response = await fetch(`http://localhost:8080/csv/getjeu/${planZone}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (!response.ok) {
+        // Gérer les erreurs ici
+        console.error("Erreur lors de la récupération :", response.statusText);
+      } else {
+        // Si tout s'est bien passé
+        const data = await response.json();
+        console.log('data jeu', data)
+        return data;
+      }
+    } catch (error: any) {
+      console.error("Erreur lors de la récupération :", error.message);
+    }
+  }
+
+
+
+  const getAllEspace = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/csv/getallespace`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (!response.ok) {
+        // Gérer les erreurs ici
+        console.error("Erreur lors de la récupération :", response.statusText);
+      } else {
+        // Si tout s'est bien passé
+        const data = await response.json();
+        console.log('data espace', data)
+        return data;
+      }
+    } catch (error: any) {
+      console.error("Erreur lors de la récupération :", error.message);
+    }
+  }
 
   const InscriptionFesti = async (festivalId: string, flexible: boolean) => {
     const id = localStorage.getItem("userId");
@@ -283,7 +347,24 @@ export const PageAccueil = () => {
             </div>
 
             <div>
-              <p className="p-4">Liste de jeux</p>
+              {list_espace.map((e) => (
+                <div>
+                  <Button onClick={() => {handleJeuEspace(e.planZone)}}className="flex justify-center text-lg">{e.planZone}</Button>
+                </div>
+              ))}
+              <table>
+                <th>Nom du jeu</th>
+                <th>Nombre de joueurs</th>
+                <th>A animer ?</th>
+              {list_jeu.map((e) => (
+                <tr>
+                  <td>{e.nameGame}</td>
+                  <td>{e.nbPlayers}</td>
+                  <td>{e.toAnimate}</td>
+                </tr>
+              ))}
+                </table>
+                
             </div>
 
             <div>

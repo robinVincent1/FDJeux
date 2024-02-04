@@ -87,10 +87,24 @@ const getCsv = async (req, res) => {
     }
 };
 
+const getJeuByEspace = async (req, res) => {
+    const planZone = req.params.planZone;
+    try {
+        const jeux = await Csv.findAll({
+            where: { planZone: planZone }
+        });
+        res.json(jeux);
+    } catch (error) {
+        console.error('Erreur lors de la récupération des données:', error);
+        res.status(500).json({ error: 'Erreur lors de la récupération des données' });
+    }
+}
+
 const getAllEspace = async (req, res) => {
     try {
         const espace = await Csv.findAll({
             attributes: ['planZone'],
+            group: ['planZone'],
         });
         res.json(espace);
     } catch (error) {
@@ -99,4 +113,4 @@ const getAllEspace = async (req, res) => {
     }
 }
 
-module.exports = { importCsv, getCsv, getAllEspace };
+module.exports = { importCsv, getCsv, getAllEspace,getJeuByEspace };
