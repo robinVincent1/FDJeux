@@ -184,6 +184,7 @@ export const PlanningPerso : React.FC<PlanningProps> = ({
 
   return (
 <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+<p className="flex justify-center p-16 font-bold text-2xl text-[#0A5483] font-serif">Planning Personnel</p>
         <table className="w-full text-sm text-left rtl:text-right text-blue-100 dark:text-blue-100">
           <col/>
   <colgroup span={list_jours.length}></colgroup>

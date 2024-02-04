@@ -1,6 +1,7 @@
 import {PlanningPerso} from './PlanningPerso'
 import React, { useState, useEffect } from 'react';
 import Navbar from '../layout/Navbar';
+import Loader from '../layout/Loader';
 
 export const PlanningPersoPage = () => {
   const [idPlanning,setIdPlanning] = useState<number>(-1)
@@ -38,7 +39,12 @@ export const PlanningPersoPage = () => {
   return (
     <div>
     {loading ? (
-      <p>Chargement en cours...</p>
+      <div>
+        <div><Navbar/></div>
+      <div>
+        <Loader />
+      </div>
+      </div>
     ) : (
       <div>
       <div><Navbar/></div>
