@@ -70,6 +70,7 @@ export const PlanningPerso : React.FC<PlanningProps> = ({
       },
     })
       const creneauData: Creneau = await response.json();
+      console.log('creneauData',creneauData)
       return creneauData
     }catch(error){
       console.error('Erreur lors de la récupération des creneaux', error);
@@ -99,8 +100,6 @@ export const PlanningPerso : React.FC<PlanningProps> = ({
       try {
         const creneau = await getcreneauxbyId(idcreneau);
         if (creneau) {
-          const referent = getreferent(creneau.ReferentId)
-          creneau.referent = await referent || {idUser:0,email:"",active:false,role:"",firstName:"",lastName:"",pseudo:"",postalAdress:"",propo:"",association:"",telephone:"",flexible:false};
           newlistcreneaux.push(creneau);
         }
       } catch (error) {
@@ -190,23 +189,20 @@ export const PlanningPerso : React.FC<PlanningProps> = ({
   <colgroup span={list_jours.length}></colgroup>
   <thead className="text-xs text-white uppercase bg-blue-600 border-b border-blue-400 dark:text-white">
   <tr>
-  <td rowSpan={list_jours.length+1}></td>
     {list_jours.map((jour)=> (
-            <th colSpan={Array.isArray(jour.list_horaire) ? jour.list_horaire.length : 0} scope="colgroup" className="px-6 py-3 bg-blue-500">
+            <th colSpan={Array.isArray(jour.list_horaire) ? jour.list_horaire.length : 0} scope="colgroup" className="px-6 py-3 bg-blue-500 border border-slate-300">
               {jour.nom}
             </th>
       ))}
-      <th>
-      </th>
   </tr>
   <tr>
   {list_jours.map((jour, jourIndex) => (
     <React.Fragment key={jourIndex}>
       {jour.list_horaire && jour.list_horaire.length > 0 ? (
         jour.list_horaire.map((horaire, horaireIndex) => (
-          <th key={horaireIndex} scope="col" className="px-6 py-3 bg-blue-500">
+          <th key={horaireIndex} scope="col" className="px-6 py-3 bg-blue-500 border border-slate-300">
             <div>{horaire.heure_debut}h-{horaire.heure_fin}h</div>
-            {list_creneaux.map((creneau, creneauIndex) => (
+            {list_creneaux && list_creneaux.map((creneau, creneauIndex) => (
               creneau.HoraireId === horaire.id &&
               <td key={creneauIndex}>
                 {creneau.titre}  Référent :  {creneau.referent.pseudo} {creneau.referent.telephone}
@@ -215,7 +211,7 @@ export const PlanningPerso : React.FC<PlanningProps> = ({
           </th>
         ))
       ) : (
-        <th scope="col" className="px-6 py-3 bg-red-500">
+        <th scope="col" className="px-6 py-3 bg-red-500 border border-slate-300">
           <div>Pas d'horaire</div>
         </th>
       )}
