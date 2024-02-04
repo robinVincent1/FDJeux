@@ -150,11 +150,41 @@ const LignePlanning: React.FC<LigneProps> = ({
       creneaux.push(<td className="bg-white border-slate-0"></td>)}
         return creneaux;
       };
+
+      const [userConnected, setUserConnected] = useState<User>();
+
+      useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const id = localStorage.getItem("userId");
+            const response = await fetch(`http://localhost:8080/user/${id}`, {
+              method: "GET", // Remplacez 'GET' par la méthode que vous souhaitez utiliser
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            });
+            const data = await response.json();
+            setUserConnected(data);
+          } catch (error) {
+            console.error(
+              "Erreur lors de la récupération de l'utilisateur :",
+              error
+            );
+          }
+        };
+    
+        fetchData();
+      }, []);
     
   return (
         <tr className="bg-blue-600">
     <th scope="row" className="bg-blue-600 border-b border-blue-400">
+      {userConnected && ( userConnected.role == "admin" ? (
     <Button onClick={handleOpen}>{titre}</Button>
+      ) : (
+        <Typography>{titre}</Typography>
+      ))}
       <Modal 
         open={open}
         onClose={handleClose}
