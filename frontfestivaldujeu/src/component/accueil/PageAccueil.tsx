@@ -317,6 +317,21 @@ export const PageAccueil = () => {
               Bienvenue sur le site du Festival du Jeu de Montpellier !
             </p>
           </h1>
+          <div className="p-8 fondAccueil">
+            <h1 className="flex justify-center font-bold p-4 text-xl font-mono">
+              {festi.nom}
+            </h1>
+
+            <div className="pb-8">
+              <p className="flex justify-center text-lg">Début</p>
+              <p className="font-bold flex justify-center font-mono">
+                {festi.date}
+              </p>
+            </div>
+          <div>
+          <img className="place-content-center" src="https://scontent.fmpl1-1.fna.fbcdn.net/v/t39.30808-6/398170719_831679315627252_5908524801591238179_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=783fdb&_nc_ohc=nc7wPA_BJ9EAX8vwPW4&_nc_ht=scontent.fmpl1-1.fna&oh=00_AfBoUw6CtERWQt5aUI13apciOZRZTha3MQLxqrOfZpDQ-w&oe=65C59D9A"/>
+          </div>
+
           <div className=" flex justify-center break-words p-4 bg-[#0E8DDF]">
             {listeInfos.map((e) => (
               <InfosDeroulement
@@ -334,19 +349,10 @@ export const PageAccueil = () => {
               </Link>
             ) : null}
           </div>
-          <div className="p-8 fondAccueil">
-            <h1 className="flex justify-center font-bold p-4 text-xl font-mono">
-              {festi.nom}
-            </h1>
 
-            <div className="pb-8">
-              <p className="flex justify-center text-lg">Début</p>
-              <p className="font-bold flex justify-center font-mono">
-                {festi.date}
-              </p>
-            </div>
 
               <div className="flex justify-center">
+                <img src="https://www.educol.net/coloriage-jeu-de-societe-dl5516.jpg" />
             <div className="flex ">
               <div className="p-2 border rounded-xl border-black">
               {list_espace.map((e) => (
@@ -373,7 +379,7 @@ export const PageAccueil = () => {
               ))}
                 </table>
                 </div>
-            </div>
+            i</div>
                 </div>
             <div>
               <p className="flex justify-center p-8 font-bold font-serif">Nos membres</p>
@@ -414,7 +420,7 @@ export const PageAccueil = () => {
             )}
           </div>
           <div
-            className="pt-4 grid gap-4 "
+            className="pt-4 grid-rows-1 gap-4 w-1/2 "
             style={{
               gridTemplateColumns: `repeat(${listeNewsFav.length}, minmax(0, 1fr))`,
             }}
@@ -424,7 +430,12 @@ export const PageAccueil = () => {
                 <NewsFav news={e} />
               </div>
             ))}
+            
           </div>
+          <div className="w-1/2">
+          <img src="https://us.123rf.com/450wm/alexpokusay/alexpokusay2008/alexpokusay200800088/153768854-journal-dans-les-mains-croquis-illustration-vectorielle-de-gravure-conception-d-impression-de.jpg"></img>
+            </div>
+          
         </div>
       )}
     </div>
