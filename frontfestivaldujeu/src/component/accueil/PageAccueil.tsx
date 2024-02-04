@@ -354,13 +354,18 @@ export const PageAccueil = () => {
               ))}
               <table>
                 <th>Nom du jeu</th>
-                <th>Nombre de joueurs</th>
                 <th>A animer ?</th>
+                <th>Public destiné</th>
+                <th>Lien de la notice</th>
+                <th>Reçu ?</th>
+                
               {list_jeu.map((e) => (
                 <tr>
                   <td>{e.nameGame}</td>
-                  <td>{e.nbPlayers}</td>
                   <td>{e.toAnimate}</td>
+                  <td>{e.type}</td>
+                  <td>{e.notice}</td>
+                  <td>{e.received}</td>
                 </tr>
               ))}
                 </table>
