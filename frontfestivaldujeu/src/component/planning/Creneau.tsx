@@ -484,9 +484,13 @@ interface CreneauProps {
                         >
                       <ModalClose />
                       {list_flexible.map((benevole) => (
-                        <div>
+                        <div className="flexible">
+                          <div >
                           <Typography>{benevole.pseudo}</Typography>
-                          <Button onClick={() => {inscription(benevole.idUser,idCreneau,nb_inscrit); handleCloseFlexible()}}>+</Button>
+                          </div>
+                          <div>
+                          <Button onClick={() => {inscription(benevole.idUser,idCreneau,nb_inscrit); handleCloseFlexible()}}>Inscrire</Button>
+                          </div>
                         </div>
                       ))}
                       </ModalDialog>
