@@ -30,7 +30,6 @@ export const PlanningGeneralPage = () => {
         })
 
         const festival : {idPlanning:string} = await response.json();
-        console.log('festival idPlanning',festival.idPlanning)
         const idPlanning = parseInt(festival.idPlanning)
         return idPlanning
     }catch(error){

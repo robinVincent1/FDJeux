@@ -40,6 +40,7 @@ interface CreneauProps {
     nb_max: number;
     nb_inscrit: number;
     ReferentId : number;
+    onUpdated?: () => void;
   }
   
   const Creneau: React.FC<CreneauProps> = ({
@@ -52,6 +53,7 @@ interface CreneauProps {
     nb_max,
     nb_inscrit,
     ReferentId,
+    onUpdated
   }) => {
         const [open, setOpen] = React.useState(false);
         const [openModifier, setOpenModifier] = React.useState(false);
@@ -206,6 +208,9 @@ interface CreneauProps {
           }catch(error){
             console.log(error)
           }
+          if (onUpdated) {
+            onUpdated();
+          }
         }
 
         async function getNomJour(id:number){
@@ -329,6 +334,9 @@ interface CreneauProps {
         }catch(error){
           console.log(error)
         }
+        if (onUpdated) {
+          onUpdated();
+        }
       }
 
       async function subnbinscrit(nb_inscrit:number){
@@ -363,6 +371,9 @@ interface CreneauProps {
         }catch(error){
           console.log(error)
         }
+        if (onUpdated) {
+          onUpdated();
+        }
       }
 
       async function changeNbMax(){
@@ -379,6 +390,9 @@ interface CreneauProps {
           })
         }catch(error){
           console.log(error)
+        }
+        if (onUpdated) {
+          onUpdated();
         }
       }
 
@@ -406,22 +420,27 @@ interface CreneauProps {
           catch(error){
             console.log(error)
           }
+          if (onUpdated) {
+            onUpdated();
+          }
       }
       
       function ChoseColor(): any {
         let chosedcolor = "inherit"
-        const percentage = nb_inscrit/nb_max *100
-        if (ouvert){
-          if (percentage<34){
-            chosedcolor = "danger"
+        if (nb_max != 0) {
+          const percentage = nb_inscrit / nb_max * 100;
+          if (ouvert) {
+            if (percentage < 34) {
+              chosedcolor = "danger";
+            }
+            if (percentage < 67 && percentage >= 34) {
+              chosedcolor = "warning";
+            }
+            if (percentage < 100 && percentage >= 67) {
+              chosedcolor = "success";
+            }
+            return chosedcolor;
           }
-          if (percentage<67 && percentage>=34){
-            chosedcolor = "warning"
-          }
-          if(percentage<100 && percentage>=67){
-            chosedcolor = "success"
-          }
-          return chosedcolor
         }
       }
   

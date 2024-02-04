@@ -13,6 +13,9 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Form } from 'react-router-dom';
 import { Typography } from '@mui/material';
+import Loader from '../layout/Loader'
+import { FlashAutoTwoTone } from '@mui/icons-material';
+import { get } from 'http';
 
 interface Horaire {
   id: number;
@@ -92,18 +95,18 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
   const [openModal_Ligne, setOpenModal_Ligne] = React.useState(false);
   const [openModal_Jour, setOpenModal_Jour] = React.useState(false);
   const [list_jours, setListJours] = useState<Jour[]>([]);
+  const [list_lignewithoutcreneaux, setListLignewithoutcreneaux] = useState<Ligne[]>([]);
   const [list_ligne, setListLigne] = useState<Ligne[]>([]);
   const [loading, setLoading] = useState(true);
   const [listUserPresent,setListUserPresent] = useState<User[]>([]);
   const [maj,setmaj] = useState<number>(0);
   const [lignePlanningUpdated, setLignePlanningUpdated] = useState(false);
+  const [hasAddedCreneaux, setHasAddedCreneaux] = useState(false);
 
 
 
   const handleLignePlanningUpdate = () => {
     setmaj(12);
-    console.log(maj , 'update ligne planning')
-    setLignePlanningUpdated(true);
   };
 
 
@@ -465,34 +468,32 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
   }
   
 
-  async function addcreneautolistligne (){
-    const newlistligne : Ligne[] = [...list_ligne];
+  async function addcreneautolistligne(): Promise<Ligne[]> {
+    const newlistligne: Ligne[] = [...list_lignewithoutcreneaux];
     newlistligne.forEach(ligne => {
       ligne.list_creneaux = [];
     });
-    for(let i = 0; i < list_ligne.length; i++){
-      console.log("ici")
-      for(let j=0; j < list_jours.length; j++){
-        if (list_jours[j].list_horaire.length === 0) {
-          newlistligne[i].list_creneaux.push(null);
-        } else {
-          for(let k=0; k < list_jours[j].list_horaire.length; k++){
-            const creneauData = await getcreneaubyId(list_jours[j].id, list_jours[j].list_horaire[k].id, list_ligne[i].idPlanningGeneralLigne,PlanningId);
-            if (creneauData == undefined ) {
-              await createcreneau(list_jours[j].id,list_jours[j].list_horaire[k].id,list_ligne[i].idPlanningGeneralLigne,list_ligne[i].titre,list_jours[j].list_horaire[k].heure_debut,list_jours[j].list_horaire[k].heure_fin);
-              addcreneautolistligne()
-              setmaj(4)
+    for (let i = 0; i < list_ligne.length; i++) {
+      for (let j = 0; j < list_jours.length; j++) {
+        for (let k=0; k<list_jours[j].list_horaire.length; k++){
+            const horaire = list_jours[j].list_horaire[k];
+            const creneauData = await getcreneaubyId(list_jours[j].id, horaire.id, list_ligne[i].idPlanningGeneralLigne, PlanningId);
+            if (creneauData && newlistligne[i] && newlistligne[i].list_creneaux) {
+              newlistligne[i].list_creneaux.push(creneauData);  
             }
-            if (creneauData) {
-              newlistligne[i].list_creneaux.push(creneauData)
+            if (creneauData === undefined) {
+              await createcreneau(list_jours[j].id, horaire.id, list_ligne[i].idPlanningGeneralLigne, list_ligne[i].titre, horaire.heure_debut, horaire.heure_fin);
+              const newcreneau = await getcreneaubyId(list_jours[j].id, horaire.id, list_ligne[i].idPlanningGeneralLigne, PlanningId);
+             if(newcreneau && newlistligne[i] && newlistligne[i].list_creneaux){
+              newlistligne[i].list_creneaux.push(newcreneau);
+             }
             }
           }
         }
       }
+    return newlistligne;
     }
-    console.log('newlistligne' , newlistligne);
-    setListLigne(newlistligne)
-  }
+  
 
 
 
@@ -514,16 +515,11 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
       catch (error) {
     console.error('Erreur lors de l\'ajout de la ligne', error);
     }
-    console.log('bien ici')
-    setInputValue('');
-    setListLigne([...list_ligne, {idPlanningGeneralLigne: 0, PlanningGeneralId: PlanningId, titre: inputValue, list_creneaux: []}])
-    addcreneautolistligne();
-    setmaj(3)
+      setmaj(4);
   }
 
   async function getligne (){
     try{
-      console.log()
       const response = await fetch(`http://localhost:8080/planning_general_ligne/${PlanningId}`, {
       method: 'GET',
       headers: {
@@ -532,13 +528,16 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
       },
     })
       const ligneData: Ligne[] = await response.json();
-      setListLigne(ligneData) 
+      return ligneData
+      
     }catch(error){
       console.error('Erreur lors de la récupération des lignes', error);
     }
   }
 
-  
+
+
+
 
   async function gethorairebyId(jourid : number,idPlanning : number){
     try{
@@ -629,11 +628,6 @@ function presentornot(isPresent: number) {
     setSelectedValue(event.target.value as string);
   };
 
-
-
- // ...
-
-useEffect(() => {
   const fetchData = async () => {
     setNbColonne(0);
     try {
@@ -658,25 +652,33 @@ useEffect(() => {
           newlistjour.push(jour);
         }
       }
-
-      setListJours(newlistjour);
+      return newlistjour;
     } catch (error) {
       console.error('Erreur lors de la récupération des jours', error);
     } 
   };
 
-  fetchData();
-  getligne();
+ // ...
+
+useEffect(() => {
+  fetchData().then(result => { setListJours(result as Jour[]); });
 }, [maj]);
 
 useEffect(() => {
-  console.log('la')
-  getligne();
-},[maj])
-
-const [hasAddedCreneaux, setHasAddedCreneaux] = useState(false);
+  getligne().then(result => { setListLignewithoutcreneaux(result as Ligne[]);})
+}, [list_jours]);
 
 useEffect(() => {
+  addcreneautolistligne().then(result => {setListLigne(result as Ligne[]);})
+},[list_lignewithoutcreneaux]);
+
+useEffect(() => {
+  setLoading(false);
+},[list_ligne]);
+
+
+
+/*useEffect(() => {
   if (list_ligne.length > 0 && !hasAddedCreneaux && list_jours.length > 0) {
     addcreneautolistligne();
     setHasAddedCreneaux(true);
@@ -686,7 +688,7 @@ useEffect(() => {
     setLoading(false)
   }
 }, [list_ligne, hasAddedCreneaux,list_jours,maj]);
-
+*/
 
 
 
@@ -696,7 +698,7 @@ useEffect(() => {
       <p className="flex justify-center p-16 font-bold text-2xl text-[#0A5483] font-serif">Planning général</p>
           {loading ? (
       // Afficher un indicateur de chargement ou un message pendant le chargement
-      <p>Chargement en cours...</p>
+      <Loader/>
     ) : (
       <div className="pt-6">
         <table className="w-full text-sm text-left rtl:text-right text-blue-100 dark:text-blue-100">
