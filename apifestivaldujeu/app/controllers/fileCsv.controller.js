@@ -87,4 +87,16 @@ const getCsv = async (req, res) => {
     }
 };
 
-module.exports = { importCsv, getCsv };
+const getAllEspace = async (req, res) => {
+    try {
+        const espace = await Csv.findAll({
+            attributes: ['planZone'],
+        });
+        res.json(espace);
+    } catch (error) {
+        console.error('Erreur lors de la récupération des données:', error);
+        res.status(500).json({ error: 'Erreur lors de la récupération des données' });
+    }
+}
+
+module.exports = { importCsv, getCsv, getAllEspace };
