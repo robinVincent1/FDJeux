@@ -14,6 +14,8 @@ const Hebergement = require('./hebergement.model')(sequelize, Sequelize);
 const Festival = require("./festival.model")(sequelize, Sequelize);
 const CreneauBenevole = require('./creneau_benevole.model')(sequelize,Sequelize)
 const Repas = require("./repas.model")(sequelize, Sequelize);
+const Csv = require("./fileCsv.model")(sequelize, Sequelize);
+
 
 module.exports = {
   User,
@@ -30,4 +32,5 @@ module.exports = {
   Festival,
   CreneauBenevole,
   Repas,
+  Csv,
 };
