@@ -691,11 +691,13 @@ useEffect(() => {
 
 
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <div className="overflow-x-auto shadow-md sm:rounded-lg">
+      <p className="flex justify-center p-16 font-bold text-2xl text-[#0A5483] font-serif">Planning général</p>
           {loading ? (
       // Afficher un indicateur de chargement ou un message pendant le chargement
       <p>Chargement en cours...</p>
     ) : (
+      <div className="pt-6">
         <table className="w-full text-sm text-left rtl:text-right text-blue-100 dark:text-blue-100">
           <col/>
   <colgroup span={list_jours.length}></colgroup>
@@ -792,7 +794,7 @@ useEffect(() => {
             </th>
       ))}
       <th className="bg-white">
-      <Button onClick={handleOpenModal_Jour} className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Jour</Button>
+      <Button onClick={handleOpenModal_Jour} className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">+</Button>
       <Modal 
         open={openModal_Jour}
         onClose={handleCloseModal_Jour}
@@ -894,7 +896,7 @@ useEffect(() => {
       </Modal>
   </tbody>
 </table>
-    )}
+    </div>)}
     </div>
   )
 }
