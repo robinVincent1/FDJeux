@@ -53,7 +53,7 @@ const pages = [
   { title: "Festival", href: "/festival" },
   { title: "Planning General ", href: "/planning_general" },
   { title: "News", href: "/news" },
-  { title: "Planning Personel", href: "/planning_perso" },
+  { title: "Planning Personnel", href: "/planning_perso" },
   { title: "Forum", href: "/forum" },
   { title: "Hebergement", href: "/hebergement" },
   { title: "Repas", href: "/repas" },
