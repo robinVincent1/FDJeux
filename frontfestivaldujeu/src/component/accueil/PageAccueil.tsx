@@ -339,41 +339,44 @@ export const PageAccueil = () => {
               {festi.nom}
             </h1>
 
-            <div>
+            <div className="pb-8">
               <p className="flex justify-center text-lg">Début</p>
               <p className="font-bold flex justify-center font-mono">
                 {festi.date}
               </p>
             </div>
 
-            <div>
+              <div className="flex justify-center">
+            <div className="flex ">
+              <div className="p-2 border rounded-xl border-black">
               {list_espace.map((e) => (
                 <div>
                   <Button onClick={() => {handleJeuEspace(e.planZone)}}className="flex justify-center text-lg">{e.planZone}</Button>
                 </div>
               ))}
-              <table>
-                <th>Nom du jeu</th>
-                <th>A animer ?</th>
-                <th>Public destiné</th>
-                <th>Lien de la notice</th>
-                <th>Reçu ?</th>
+              </div>
+
+              <div className="ml-4 flex justify-center">
+              <table className="border border-black ml-8 pt-4">
+                <th className="p-4 text-[#0A5483] border-black font-serif border-r">Nom du jeu</th>
+                <th className="p-4 text-[#0A5483] border-black font-serif border-r">Public destiné</th>
+                <th className="p-4 text-[#0A5483] border-black font-serif border-r">Lien de la notice</th>
+                <th className="p-4 text-[#0A5483] border-black font-serif border-r">Reçu </th>
                 
               {list_jeu.map((e) => (
                 <tr>
-                  <td>{e.nameGame}</td>
-                  <td>{e.toAnimate}</td>
-                  <td>{e.type}</td>
-                  <td>{e.notice}</td>
-                  <td>{e.received}</td>
+                  <td className="p-4 border-r border-black">{e.nameGame}</td>
+                  <td className="p-4 border-r border-black">{e.type}</td>
+                  <td className="p-4 border-r border-black" style={{ wordBreak: 'break-all' }}>{e.notice}</td>
+                  <td className="p-4 border-r border-black">{e.received}</td>
                 </tr>
               ))}
                 </table>
-                
+                </div>
             </div>
-
+                </div>
             <div>
-              <p className="flex justify-center">Nos membres</p>
+              <p className="flex justify-center p-8 font-bold font-serif">Nos membres</p>
             </div>
 
             <TableauAcc Festi={festi} />
