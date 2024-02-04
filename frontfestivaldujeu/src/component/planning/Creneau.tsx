@@ -445,22 +445,33 @@ interface CreneauProps {
                 >
                 <ModalClose />
                 <Typography id="modal-modal-title" variant="h6" component="h2">
-                {ouvert ? "Ouvert" : "Fermé"} / {titre} / {nomjour} {heure_debut}H-{heure_fin}H ({nb_inscrit}/{nb_max})
+                {titre} 
                 </Typography>
-                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                 <Typography>
+                Statut :{ouvert ? "Ouvert" : "Fermé"}
+                </Typography>
+                <Typography>
+                 Date : {nomjour} {heure_debut}H-{heure_fin}H
+                </Typography>
+                <Typography>
+                Inscription : ({nb_inscrit}/{nb_max})
+                </Typography>
+                <Typography>Référent : {thereferent?.pseudo || "Pas de référent"}  {thereferent?.telephone}</Typography>
+                <Typography>
+                  Inscrit(s) :
                 <IconButton aria-label="delete" disabled color="primary">
                   {list_benevole.map((benevole) => (
-                    <Typography style={{ color: benevole.isPresent ? 'green' : 'red' }}>{benevole.pseudo}</Typography>
+                    <Typography style={{ color: benevole.isPresent ? 'green' : 'red' }}> • {benevole.pseudo}</Typography>
                   ))}
                     
               </IconButton>
               </Typography>
                 
-                <Typography>Referent : {thereferent?.pseudo}  {thereferent?.telephone}</Typography>
-                </Typography>
-                <Button onClick={handleOpenModifier}>Modifié</Button>
+                
+                <div className="flexible">
                 <Button onClick={() => {handleOpenFlexible()}}>Inscrire des bénévoles</Button>
+                <Button onClick={handleOpenModifier}>Modifié</Button>
+                
                 <Modal
                       open={openFlexible}
                       onClose={handleCloseFlexible}
@@ -483,8 +494,8 @@ interface CreneauProps {
 
                 {ouvert ? (
                 isInscrit ? (
-                <Button onClick={() => desinscription(userId(),idCreneau,nb_inscrit)}>Se désinscrire</Button>
-                ):( <Button onClick={() => inscription(userId(),idCreneau,nb_inscrit)}>S'inscrire</Button>)
+                <Button color="danger" onClick={() => desinscription(userId(),idCreneau,nb_inscrit)}>Se désinscrire</Button>
+                ):( <Button color="success" onClick={() => inscription(userId(),idCreneau,nb_inscrit)}>S'inscrire</Button>)
                 ) : null}
 
                   <Modal
@@ -534,6 +545,7 @@ interface CreneauProps {
 
                       </ModalDialog>
                       </Modal>
+                      </div>
                     
             </ModalDialog>
         </Modal>

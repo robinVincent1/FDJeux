@@ -129,10 +129,10 @@ const LignePlanning: React.FC<LigneProps> = ({
         const creneaux: any[] = [];
         //console.log("list_creneaux 1 " , list_creneaux);
         {Array.isArray(list_creneaux) && list_creneaux.map((creneau) => (
-          creneau?
+          creneau ?
           creneaux.push(
             <td key={creneau?.idCreneau} className="px-6 py-4 bg-blue-500 border border-slate-300">
-              <Creneau idCreneau={creneau?.idCreneau} ouvert={creneau?.ouvert} heure_debut={creneau?.heure_debut?.split(':')[2]} heure_fin={creneau?.heure_fin?.split(':')[2]} JourId={creneau?.JourId} titre={titreligne} nb_max={creneau?.nb_max} nb_inscrit={creneau?.nb_inscrit} ReferentId={creneau?.ReferentId} />
+              <Creneau idCreneau={creneau?.idCreneau} ouvert={creneau?.ouvert} heure_debut={creneau?.heure_debut} heure_fin={creneau?.heure_fin} JourId={creneau?.JourId} titre={titreligne} nb_max={creneau?.nb_max} nb_inscrit={creneau?.nb_inscrit} ReferentId={creneau?.ReferentId} />
             </td>
           ):
         creneaux.push(

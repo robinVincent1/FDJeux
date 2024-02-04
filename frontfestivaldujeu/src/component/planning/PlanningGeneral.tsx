@@ -378,7 +378,7 @@ const PlanningGeneral : React.FC<PlanningGeneralProps> = ({
 
   async function getcreneaubyJourId(jourId: number){
     try {
-      const response = await fetch(`http://localhost:8080/creneau/${jourId}/${PlanningId}`, {
+      const response = await fetch(`http://localhost:8080/creneau/getbyjour/${jourId}/${PlanningId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
