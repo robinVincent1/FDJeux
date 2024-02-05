@@ -7,7 +7,6 @@ import { robin } from "../profil/ProfilPage";
 import Navbar from "../layout/Navbar";
 import Loader from "../layout/Loader";
 import { Buffer } from "buffer";
-import { InfosDeroulement } from "../infosPratiques/InfosDeroulement";
 
 export type Festival = {
   idFestival: string;
