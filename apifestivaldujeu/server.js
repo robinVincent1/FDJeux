@@ -10,7 +10,7 @@ const init = require('./init');
 
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://festival-jeu-mtp-api.onrender.com',
+  'https://festival-jeu-mtp.onrender.com',
 ];
 
 app.use(cors({
