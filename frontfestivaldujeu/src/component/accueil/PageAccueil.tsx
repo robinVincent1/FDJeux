@@ -23,13 +23,14 @@ export const PageAccueil = () => {
   const [userConnected, setUserConnected] = useState<User>(robin);
   const [admin, setAdmin] = useState(false);
   const [isInscrit, setIsInscrit] = useState(false);
+  const [list_espace, setListEspace] = useState<any[]>([]);
+  const [list_jeu, setListJeu] = useState<any[]>([]);
   const navigate = useNavigate();
   const [currentInfoIndex, setCurrentInfoIndex] = useState(0);
   const [list_espace, setListEspace] = useState<any[]>([]);
   const [list_jeu, setListJeu] = useState<any[]>([]);
   const [maj, setMaj] = useState(false);
   const [majtab, setmajtab] = useState(0);
-
 
   const setMajToggle = () => {
     setMaj(!maj);
@@ -54,7 +55,7 @@ export const PageAccueil = () => {
       .catch((error) =>
         console.error("Erreur lors de la récupération du festival :", error)
       );
-  }, [navigate, maj]);
+  }, [navigate, maj, majtab]);
 
   useEffect(() => {
     const fetchData = async () => {
