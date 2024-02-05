@@ -1,472 +1,184 @@
-import React, { useState, useEffect } from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import Dropdown from "./Dropdown";
-import Dropdown2 from "./Dropdown2";
-import "../styles/styles.css";
-import "../output.css";
-import { useNavigate } from "react-router-dom";
-import Autocomplete from "@mui/material/Autocomplete";
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-} from "@mui/material";
+import React, { useState, useEffect, FormEvent } from "react";
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { useNavigate } from 'react-router-dom';
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-function Copyright(props: any) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        FestivalDuJeux
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+interface SignInProps { }
 
-export default function SignUp() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
-  const [login, setLogin] = useState(false);
-  const [err, setError] = useState("");
+function SignIn(props: SignInProps) {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
-  const [proposition, setProposition] = useState(true);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [postalAdress, setPostalAdress] = useState("");
-  const [photoProfil, setPhotoProfil] = useState("");
-  const [telephone, setTelephone] = useState("");
-  const [association, setAssociation] = useState("");
-  const [nbEdition, setNbEdition] = useState(0);
-  const [pseudo, setPseudo] = useState("");
-  const [propo, setPropo] = useState("");
-  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
-  const [firstNameError, setFirstNameError] = useState("");
-  const [lastNameError, setLastNameError] = useState("");
-  const [associationError, setAssociationError] = useState("");
-  const [hebergementError, setHebergementError] = useState("");
-  const associationOptions = ["Association 1", "Association 2", "Aucune"];
+  const [err, setErr] = useState<string>('');
+  const [showPassword, setShowPassword] = useState(false);
 
-  useEffect(() => {
-    const nav = document.querySelector("nav");
-    if (nav) {
-      nav.style.display = "none";
-    }
-    return () => {
-      if (nav) {
-        nav.style.display = "block";
-      }
-    };
-  }, []);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    console.log("First Name:", firstName);
-    console.log("Last Name:", lastName);
-
-    if (!firstName) {
-      return setFirstNameError("Veuillez entrer votre prénom.");
-    } else {
-      setFirstNameError("");
-    }
-
-    if (!lastName) {
-      return setLastNameError("Veuillez entrer votre nom.");
-    } else {
-      setLastNameError("");
-    }
-    // Validation de l'adresse e-mail
-    if (!email) {
-      return setEmailError("Veuillez entrer une adresse e-mail.");
-    } else if (!/\S+@\S+\.\S{2,3}/.test(email)) {
-      return setEmailError("L'adresse e-mail est invalide.");
-    } else {
-      setEmailError("");
-    }
-
-    // Validation du mot de passe
-    if (!password) {
-      return setPasswordError("Veuillez entrer un mot de passe.");
-    } else if (password.length < 8) {
-      return setPasswordError(
-        "Le mot de passe doit contenir au moins 8 caractères."
-      );
-      // Validation du mot de passe avec au moins un chiffre, une lettre en majuscule, une lettre en minuscule et un caractère spécial
-    } else if (!/^(?=.*\d)(?=.*[A-Z])(?=.*\W).{8,}$/.test(password)) {
-      return setPasswordError(
-        "Le mot de passe doit contenir au moins un chiffre, une lettre en majuscule, une lettre en minuscule et un caractère spécial."
-      );
-    } else {
-      setPasswordError("");
-    }
-
-    // Validation de la confirmation du mot de passe
-    if (!confirmPassword) {
-      return setConfirmPasswordError("Veuillez confirmer votre mot de passe.");
-    } else if (password !== confirmPassword) {
-      return setConfirmPasswordError("Les mots de passe ne correspondent pas.");
-    } else {
-      setConfirmPasswordError("");
-    }
-
-    if (!association) {
-      return setAssociationError("Veuillez entrer le nom de l'association.");
-    } else {
-      setAssociationError("");
-    }
-
-    console.log("Association:", firstName);
     try {
-      console.log("j'essai de fetch");
-      const response = await fetch("http://localhost:8080/user/", {
-        method: "POST",
+      console.log("j'essai d'envoyer le message")
+      const response = await fetch('http://localhost:8080/user/login', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          email,
-          password,
-          firstName,
-          lastName,
-          nbEdition,
-          pseudo,
-          postalAdress,
-          propo,
-          association,
-          telephone,
-          photoProfil,
-          idFestivals: "",
-          flexible: false,
-        }),
+        body: JSON.stringify({ email, password })
       });
       const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.errors || "Erreur identification");
+      if (response.ok) {
+        localStorage.setItem('token', data.accessToken);
+        localStorage.setItem('userId', data.id);
+        navigate('/acceuil');
+        console.log('Connexion réussie');
+      } else {
+        console.log('Identifiants de connexion invalides');
+        throw new Error(data.errors || 'Erreur identification');
       }
-
-      console.log(`Tout va bien tu es là avec le token ${data}`);
-      localStorage.setItem("token", data.accessToken);
-      localStorage.setItem("userId", data.id);
-      setLogin(true);
-      setError("");
-      navigate("/accueil");
     } catch (error: any) {
-      setError(error.message);
+      console.error(error);
+      setErr(error.message);
     }
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-
-    if (files && files.length > 0) {
-      const file = files[0];
-      const reader = new FileReader();
-
-      reader.onloadend = (event: ProgressEvent<FileReader>) => {
-        const readerResult = event.target?.result;
-
-        if (
-          readerResult &&
-          (typeof readerResult === "string" ||
-            readerResult instanceof ArrayBuffer)
-        ) {
-          setPhotoProfil(readerResult as string);
-          setPhotoPreview(readerResult as string); // Mettre à jour photoPreview avec l'URL de l'image
-        }
-      };
-
-      reader.readAsDataURL(file);
-    }
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
-  const [selectedOption, setSelectedOption] = useState<string>("");
-
-  const handleSelectChange = (event: SelectChangeEvent<string>) => {
-    const value = event.target.value;
-    setSelectedOption(value);
-
-    if (value === "P") {
-      setProposition(true);
-    } else {
-      setProposition(false);
-    }
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
   };
+  
+
+  useEffect(() => {
+    const nav = document.querySelector('nav');
+    if (nav) {
+      nav.style.display = 'none';
+    }
+
+    return () => {
+      if (nav) {
+        nav.style.display = 'block';
+      }
+    };
+  }, [navigate]);
 
   return (
-    <div>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Inscription
-          </Typography>
-
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="Prénom"
-                  autoFocus
-                  onChange={(e) => setFirstName(e.target.value)}
-                  error={!!firstNameError}
-                  helperText={firstNameError}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Nom"
-                  name="lastName"
-                  autoComplete="family-name"
-                  onChange={(e) => setLastName(e.target.value)}
-                  error={!!lastNameError}
-                  helperText={lastNameError}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Adresse email"
-                  name="email"
-                  autoComplete="email"
-                  onChange={(e) => setEmail(e.target.value)}
-                  error={!!emailError}
-                  helperText={emailError}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Mot de passe"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  error={!!passwordError}
-                  helperText={passwordError}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="confirmPassword"
-                  label="Confirmer le mot de passe"
-                  type="password"
-                  id="confirmPassword"
-                  autoComplete="new-password"
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  error={!!confirmPasswordError}
-                  helperText={confirmPasswordError}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  name="nb edition precedente"
-                  label="Edition(s) précédente(s) ?"
-                  type="number"
-                  id="nbEdition"
-                  value={nbEdition.toString()}
-                  onChange={(e) => {
-                    const value = parseInt(e.target.value, 10);
-                    if (!isNaN(value) && value >= 0) {
-                      setNbEdition(value);
-                    }
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  name="pseudo"
-                  label="Pseudo"
-                  type="text"
-                  id="pseudo"
-                  onChange={(e) => setPseudo(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required={proposition}
-                  fullWidth
-                  name="adresse postale"
-                  label="Adresse postale"
-                  type="text"
-                  id="adPostale"
-                  onChange={(e) => setPostalAdress(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  name="telephone"
-                  label="Numéro de téléphone"
-                  type="tel"
-                  id="telephone"
-                  onChange={(e) => setTelephone(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Autocomplete
-                  fullWidth
-                  options={associationOptions}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Nom de l'association"
-                      error={!!associationError}
-                      helperText={associationError}
-                    />
-                  )}
-                  onChange={(
-                    event: React.ChangeEvent<{}>,
-                    newValue: string | null
-                  ) => setAssociation(newValue ?? "")}
-                  freeSolo
-                  selectOnFocus
-                  clearOnBlur
-                  handleHomeEndKeys
-                  defaultValue=""
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">
-                    Hebergement
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={selectedOption}
-                    label="Hebergement"
-                    onChange={handleSelectChange}
-                  >
-                    <MenuItem value="P">Proposition</MenuItem>
-                    <MenuItem value="R">Recherche</MenuItem>
-                    <MenuItem value="Ri">Rien</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-
-              {proposition && (
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    name="Proposition"
-                    label="Proposition"
-                    type="text"
-                    id="Proposition"
-                    onChange={(e) => setPropo(e.target.value)}
-                  />
-                </Grid>
-              )}
-              <Grid item xs={12}>
-                <input
-                  accept="image/*"
-                  style={{ display: "none" }}
-                  id="upload-photo"
-                  type="file"
-                  onChange={handleFileChange}
-                />
-                <label
-                  htmlFor="upload-photo"
-                  style={{
-                    display: "inline-block",
-                    padding: "10px 15px",
-                    cursor: "pointer",
-                    backgroundColor: "#f0f0f0",
-                    border: "1px solid #ccc",
-                    borderRadius: "5px",
-                    fontSize: "16px",
-                  }}
-                >
-                  Choisir une photo de profil
-                </label>
-                {photoPreview && (
-                  <img
-                    src={photoPreview}
-                    alt="Photo de profil"
-                    style={{
-                      width: "150px",
-                      height: "150px",
-                      borderRadius: "50%",
-                      objectFit: "cover",
-                      marginTop: "10px",
-                      display: "block",
-                      margin: "0 auto",
-                    }}
-                  />
-                )}
-              </Grid>
+    <div style={{
+      backgroundImage: 'url("BlueWall.jpeg")',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center center',
+      backgroundRepeat: 'no-repeat', // Utilisez 'no-repeat' pour éviter la répétition de l'image
+      height: '100vh', // Assure que l'image couvre toute la hauteur de la vue
+      width: '100vw', // Assure que l'image couvre toute la largeur de la vue
+      position: 'fixed', // Changez ici pour 'fixed' pour fixer l'image lors du défilement
+      top: 0,
+      left: 0,
+      zIndex: -1, // Place l'image derrière tout contenu
+    }}>
+    <Container component="main" maxWidth="md">
+      <CssBaseline />
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          backgroundColor: 'white',
+          padding: 3,
+          borderRadius: 2,
+          boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .3)',
+        }}
+      >
+        <div>
+          <img src="/logo_FDJ_FINAL.svg"></img>
+        </div>
+        <Typography component="h1" variant="h5" sx={{ color: '#164d9c', margin: '20px 0' }}>
+          Se connecter
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                autoComplete="given-name"
+                name="email"
+                required
+                fullWidth
+                id="email"
+                label="Email ou Téléphone"
+                autoFocus
+                onChange={(e) => setEmail(e.target.value)}
+                sx={{ bgcolor: 'white', borderRadius: 1, borderColor: '#164d9c' }}
+              />
             </Grid>
+            <Grid item xs={12}>
+              <TextField
+                name="password"
+                required
+                fullWidth
+                id="password"
+                label="Mot de Passe"
+                type={showPassword ? 'text' : 'password'}
+                onChange={(e) => setPassword(e.target.value)}
+                sx={{ bgcolor: 'white', borderRadius: 1, borderColor: '#164d9c' }}
+                InputProps={{ // Ajoutez cette prop pour le TextField du mot de passe
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+            {/* Ajoutez d'autres champs de la même manière */}
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 4, mb: 2, bgcolor: '#164d9c', '&:hover': { bgcolor: '#164d9c' } }}
             >
-              Sign Up
+              Se connecter
             </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
+            
+          </Grid>
+          <Grid container>
+              <Grid container justifyContent="center">
+                <Link href="#" variant="body2">
+                  Mot de passe oublié ?
+                </Link>
+              </Grid>
+              <Grid container justifyContent="center">
                 <Link href="/" variant="body2">
-                  Déjà inscrit ? Connectes-toi !
+                  {"Pas encore de compte ? Inscrits-toi !"}
                 </Link>
               </Grid>
             </Grid>
-          </Box>
-        </Box>
-        <Copyright sx={{ mt: 5 }} />
-      </Container>
+        </form>
+      </Box>
+      
+    </Container>
     </div>
   );
+
+
 }
+
+export default SignIn;

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BlockQuestion } from "./BlockQuestion";
-import TextField from "@mui/material/TextField";
-import { Button } from "@mui/material";
+import { Container, Grid, TextField, Button, Typography, Card, CardContent, Box } from "@mui/material";
 import { robin } from "../profil/ProfilPage";
 import { User } from "../admin/AdminPage";
 import Navbar from "../layout/Navbar";
@@ -28,6 +27,7 @@ export const PageForum = () => {
   const [newOb, setNewOb] = useState("");
   const [erreur, setErreur] = useState(false);
   const [userConnected, setUserConnected] = useState<User>(robin);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -121,6 +121,10 @@ export const PageForum = () => {
             ...prevListe,
             { ...newQuestion, idQuestion: responseData.idQuestion },
           ]);
+
+          // Réinitialiser les champs de saisie
+          setNewq("");
+          setNewOb("");
         } else {
           console.error(
             `Erreur lors de la création de la question. Statut ${response.status}`
@@ -134,6 +138,7 @@ export const PageForum = () => {
       }
     }
   };
+
 
   // Fonction pour supprimer une question
   const deleteQuestion = async (questionId: string) => {
@@ -188,65 +193,63 @@ export const PageForum = () => {
   }, [load]);
 
   return (
-    <div>
-      {loading ? (
-        <div>
-          <div>
-            <Navbar />
-          </div>
-          <div>
-            <Loader />
-          </div>
-        </div>
-      ) : (
-        <div>
-          <Navbar />
-          <h1 className="flex justify-center p-4 font-bold text-2xl text-[#0A5483] font-serif">
-            {" "}
-            FORUM
-          </h1>
-
-          {liste &&
-            liste.map((e) => (
-              <BlockQuestion
-                quest={e}
-                deleteQuestion={() => handleDeleteQuestion(e)}
-                u={userConnected}
-              />
-            ))}
-
-          <div className="pt-8 ml-16 mr-16 flex">
-            <TextField
-              onChange={handleq}
-              fullWidth
-              label="Posez votre question ici !"
-              id="fullWidth"
-              size="medium"
-            />
-          </div>
-          <div className="pt-4 ml-16 pb-2 mr-16">
-            <TextField
-              onChange={handlob}
-              fullWidth
-              label="Quel est l'objet de votre question ?"
-              id="fullWidth"
-              size="medium"
-              style={{ width: "50%" }}
-            />
-          </div>
-          <div className="ml-4 flex justify-center">
-            <Button
-              onClick={handleCreerQuestion}
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ width: "20%" }}
-            >
+    <>
+      <Navbar />
+      <Container maxWidth="lg">
+        <h1 className="flex justify-center p-4 font-bold text-2xl text-[#0A5483] font-serif">
+          {" "}
+          FORUM
+        </h1>
+        <Box mt={4} mb={2} display="flex" flexDirection="column" gap={2}>
+          <TextField
+            label="Quel est l'objet de votre question ?"
+            variant="outlined"
+            fullWidth
+            onChange={handlob}
+            value={newOb}
+          />
+          <TextField
+            label="Posez votre question ici !"
+            variant="outlined"
+            fullWidth
+            multiline
+            rows={4}
+            onChange={handleq}
+            value={newq}
+          />
+          <Box display="flex" justifyContent="center">
+            <Button onClick={handleCreerQuestion} variant="contained" sx={{ mt: 2 }}>
               Envoyer
             </Button>
-          </div>
-        </div>
-      )}
-    </div>
+          </Box>
+        </Box>
+
+        {loading ? (
+          <Box display="flex" justifyContent="center" alignItems="center" minHeight="80vh">
+            <Loader />
+          </Box>
+        ) : (
+          <>
+
+            <Grid container spacing={4}>
+              {liste.map((e) => (
+                <Grid item xs={12} key={e.idQuestion}>
+                  <Card variant="outlined" sx={{ mb: 2 }}>
+                    <CardContent>
+                      <BlockQuestion
+                        quest={e}
+                        deleteQuestion={() => handleDeleteQuestion(e)}
+                        u={userConnected}
+                      />
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+
+          </>
+        )}
+      </Container>
+    </>
   );
-};
+}

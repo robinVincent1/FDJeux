@@ -19,9 +19,10 @@ import { styled } from "@mui/material/styles";
 import Badge from "@mui/material/Badge";
 import { Festival, test } from "../festival/PageFestival";
 
+
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
-    backgroundColor: "#44b700",
+    backgroundColor: "#1e5bb0",
     color: "#44b700",
     boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
     "&::after": {
@@ -190,105 +191,23 @@ function Navbar() {
   }, []);
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ backgroundColor: "#1e5bb0" }}>
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <img src="/logo_FDJ_FINAL.svg" />
+        <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
+          <img src="/logo_FDJ_FINAL.svg" alt="Logo" style={{ marginRight: "auto" }} />
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {pages.map((page, index) => (
-                <MenuItem key={index} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page.title}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: "center" }}>
             {pages.map((page, index) => (
-              <Link
-                key={index}
-                to={page.href}
-                style={{ textDecoration: "none" }}
-              >
-                {page.title == "Repas" ? (
-                  <div>
-                    {repasSM == 2 || repasSS == 2 || repasDM == 2 ? (
-                      <Badge color="error" variant="dot">
-                        <Button color="inherit">{page.title}</Button>
-                      </Badge>
-                    ) : (
-                      <Button color="inherit">{page.title}</Button>
-                    )}
-                  </div>
-                ) : (
-                  <Button color="inherit">{page.title}</Button>
-                )}
+              <Link key={index} to={page.href} style={{ textDecoration: "none", color: "white", margin: "0 10px" }}>
+                <Button sx={{ color: "white", display: 'block' }}>{page.title}</Button>
               </Link>
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <StyledBadge
-                  overlap="circular"
-                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                  variant="dot"
-                >
-                  <Avatar
-                    sx={{ bgcolor: "#0A5483", width: "50px", height: "50px" }}
-                  >
-                   
-
-                  </Avatar>
-                </StyledBadge>
+                <Avatar alt="Profil" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -309,7 +228,7 @@ function Navbar() {
             >
               {settings.map((setting, index) => (
                 <MenuItem key={index} onClick={handleCloseUserMenu}>
-                  <Link to={setting.href} style={{ textDecoration: "none" }}>
+                  <Link to={setting.href} style={{ textDecoration: "none", color: "inherit" }}>
                     <Typography textAlign="center">{setting.title}</Typography>
                   </Link>
                 </MenuItem>

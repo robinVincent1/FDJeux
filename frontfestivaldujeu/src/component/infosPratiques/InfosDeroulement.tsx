@@ -1,27 +1,40 @@
-import React from "react";
-import { Infos } from "./PageInfos";
-import { Button, IconButton } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
+import React, { useEffect, useState } from 'react';
+import { Box, Typography, Paper, Slide, IconButton, Fade } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+interface Infos {
+  idInfos: string;
+  titre: string;
+  description: string;
+}
 
 interface InfosDeroulementProps {
-  inf: Infos;
-  onDelete: () => void;
+  infos: Infos[];
+  onDelete: (id: string) => void;
   isAdmin: boolean;
 }
 
-export const InfosDeroulement: React.FC<InfosDeroulementProps> = ({
-  inf,
-  onDelete,
-  isAdmin,
-}) => {
-  const handleDeleteInfos = async () => {
+export const InfosDeroulement: React.FC<InfosDeroulementProps> = ({ infos, onDelete, isAdmin }) => {
+  const [currentInfoIndex, setCurrentInfoIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentInfoIndex((prevIndex) => (prevIndex + 1) % infos.length);
+    }, 3000); // Change d'information toutes les 10 secondes
+
+    return () => clearInterval(interval);
+  }, [infos.length]);
+
+  const currentInfo = infos[currentInfoIndex];
+
+  const handleDelete = async () => {
     const confirmDelete = window.confirm(
-      "Etes-vous sur de vouloir supprimer cette information ?"
+      "Etes-vous sûr de vouloir supprimer cette information ?"
     );
     if (confirmDelete) {
       try {
         const response = await fetch(
-          `http://localhost:8080/infos/${inf.idInfos}`,
+          `http://localhost:8080/infos/${currentInfo.idInfos}`,
           {
             method: "DELETE",
             headers: {
@@ -30,10 +43,12 @@ export const InfosDeroulement: React.FC<InfosDeroulementProps> = ({
             },
           }
         );
-
+  
         if (response.status === 204) {
           // Suppression réussie
-          onDelete(); // Appeler la fonction onDelete pour mettre à jour l'état parent
+          onDelete(currentInfo.idInfos);
+          // Mettre à jour l'index pour pointer vers la prochaine information
+          setCurrentInfoIndex((prevIndex) => (prevIndex + 1) % infos.length);
         } else {
           // Gérer d'autres statuts de réponse en conséquence
           console.error(
@@ -46,25 +61,33 @@ export const InfosDeroulement: React.FC<InfosDeroulementProps> = ({
           error.message
         );
       }
-      console.log("Question deleted!");
+      console.log("Information deleted!");
     }
   };
+  
 
+  if (!infos.length) {
+    return null; // Ne rien afficher s'il n'y a pas d'infos
+  }
   return (
-    <div className=" p-2 ml-2 mr-2 break-words">
-      <h1 className="flex font-bold text-white p-2">
-      <div className="pr-4">
-        {isAdmin &&
-          <IconButton aria-label="delete" color="error" onClick={handleDeleteInfos}>
+    <Paper elevation={4} sx={{ backgroundColor: '#1e5bb0', color: '#ffffff', padding: '8px', margin: '8px auto', width: '100%' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+        <Slide in={true} direction="right" timeout={1000}>
+          <Typography variant="h6" gutterBottom>
+            {currentInfo.titre}
+          </Typography>
+        </Slide>
+        <Fade in={true} timeout={1000}>
+          <Typography>
+            {currentInfo.description}
+          </Typography>
+        </Fade>
+        {isAdmin && (
+          <IconButton onClick={handleDelete} color="inherit">
             <DeleteIcon />
           </IconButton>
-        }
-      </div>
-        {inf.titre}
-      </h1>
-      <div className="flex justify-center text-white break-words p-">
-        {inf.description}
-      </div>
-    </div>
+        )}
+      </Box>
+    </Paper>
   );
-};
+}

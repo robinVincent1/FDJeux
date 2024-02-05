@@ -92,43 +92,57 @@ export const PageHebergement = () => {
   }, [load]);
 
   return (
+    <div className="bg-gray-50 min-h-screen">
+  {loading ? (
     <div>
-      {loading ? (
-        <div>
-          <div>
-            <Navbar />
-          </div>
-          <div>
-            <Loader />
-          </div>
-        </div>
-      ) : (
-        <div>
-          <Navbar />
-          <h1 className="flex justify-center p-4 font-bold text-2xl text-[#0A5483] font-serif">
-            {" "}
-            HEBERGEMENT
-          </h1>
-          <div className="flex justify-center p-8">
-            <Button
-              onClick={handleEnvoyerClick}
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ width: "30%" }}
-            >
-              Ajouter une proposition
-            </Button>
-          </div>
-          <div className="flex justify-center"></div>
-          {listeHeber.map((e) => (
+      <Navbar />
+      <div className="flex justify-center items-center min-h-screen">
+        <Loader />
+      </div>
+    </div>
+  ) : (
+    <div>
+      <Navbar />
+      <div className="text-center py-8  shadow-md">
+      <h1 className="flex justify-center p-4 font-bold text-2xl text-[#0A5483] font-serif">
+          {" "}
+          Hébergement
+        </h1>
+        <p className="mt-2 text-lg text-gray-600">
+          Trouvez et proposez des hébergements pour le festival.
+        </p>
+      </div>
+      <div className="mt-6 flex justify-center">
+        <Button
+          onClick={handleEnvoyerClick}
+          variant="contained"
+          sx={{
+            bgcolor: '#0A5483',
+            '&:hover': { bgcolor: '#0073e6' },
+            color: 'white',
+            width: '250px',
+          }}
+        >
+          Ajouter une proposition
+        </Button>
+      </div>
+      <div className="mt-6 px-4 sm:px-6 lg:px-8">
+        {listeHeber.length > 0 ? (
+          listeHeber.map((e) => (
             <HebergementDeroulement
+              key={e.idHebergement}
               heber={e}
               deleteH={() => handleDeleteHebergement(e.idHebergement)}
             />
-          ))}
-        </div>
-      )}
+          ))
+        ) : (
+          <p className="text-center text-gray-600 mt-4">
+            Aucune proposition d'hébergement disponible pour le moment.
+          </p>
+        )}
+      </div>
     </div>
+  )}
+</div>
   );
 };

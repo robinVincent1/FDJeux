@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../output.css";
 import { Infos } from "../infosPratiques/PageInfos";
@@ -7,12 +7,14 @@ import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import { NewsType } from "../news/NewsPage";
 import { NewsFav } from "./NewsFav";
 import { Festival, test } from "../festival/PageFestival";
-import TableauAcc from "./TableauAcc";
-import { Button } from "@mui/material";
+import { Button, Card, CardContent, CircularProgress, Grid } from '@mui/material';
 import { User } from "../admin/AdminPage";
 import { robin } from "../profil/ProfilPage";
 import Navbar from "../layout/Navbar";
-import Loader from "../layout/Loader";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Box, Container } from '@mui/material';
+import TableauAcc from "./TableauAcc";
+
 
 export const PageAccueil = () => {
   const [listeInfos, setListeInfos] = useState<Infos[]>([]);
@@ -24,6 +26,9 @@ export const PageAccueil = () => {
   const [list_espace, setListEspace] = useState<any[]>([]);
   const [list_jeu, setListJeu] = useState<any[]>([]);
   const navigate = useNavigate();
+  const [currentInfoIndex, setCurrentInfoIndex] = useState(0);
+  const [list_espace, setListEspace] = useState<any[]>([]);
+  const [list_jeu, setListJeu] = useState<any[]>([]);
   const [maj, setMaj] = useState(false);
   const [majtab, setmajtab] = useState(0);
 
@@ -297,157 +302,181 @@ export const PageAccueil = () => {
     }
   }, [load]);
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentInfoIndex((prevIndex) => (prevIndex + 1) % listeInfos.length);
+    }, 2000); // Change l'info toutes les 2 secondes
+
+    return () => clearInterval(intervalId); // Nettoie l'intervalle
+  }, [listeInfos.length]);
+
+  console.log(listeInfos);
+
   return (
-    <div>
-      {loading ? (
-        <div>
-          <div>
-            <Navbar />
+    <>
+      <Navbar />
+      <Container maxWidth="lg">
+        <Box sx={{ my: 4 }}>
+          <Typography
+            variant="h4"
+            component="h1"
+            gutterBottom
+            align="center"
+            sx={{
+              fontFamily: 'Dancing Script',
+              fontSize: '2.5rem', // Taille de police personnalisée
+              fontWeight: 'bold', // Gras
+              color: '#1e5bb0', // Couleur de texte personnalisée
+              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)', // Ombre du texte
+              marginBottom: '16px', // Marge inférieure pour plus d'espace
+            }}
+          >
+            Bienvenue sur le site du Festival du Jeu de Montpellier !
+          </Typography>
+          <div className="flex justify-center pt-8" style={{ marginBottom: '20px' }}>
+            <img src="/Wallpap.png" alt="Affiche de l'édition 2024 du Festival du Jeu à Montpellier" />
           </div>
-          <div>
-            <Loader />
-          </div>
-        </div>
-      ) : (
-        <div className="bg-grey min-h-screen">
-          <Navbar />
-
-          <div className="p-8 fondAccueil">
-            <div className="flex justify-center p-8 pb-16">
-              <img
-                className="place-content-center"
-                src="https://scontent.fmpl1-1.fna.fbcdn.net/v/t39.30808-6/398170719_831679315627252_5908524801591238179_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=783fdb&_nc_ohc=nc7wPA_BJ9EAX8vwPW4&_nc_ht=scontent.fmpl1-1.fna&oh=00_AfBoUw6CtERWQt5aUI13apciOZRZTha3MQLxqrOfZpDQ-w&oe=65C59D9A"
+          <Typography
+            variant="h4"
+            component="h2"
+            gutterBottom
+            align="center"
+            sx={{
+              fontFamily: 'Dancing Script',
+              fontSize: '2.5rem', // Taille de police personnalisée
+              fontWeight: 'bold', // Gras
+              color: '#1e5bb0', // Couleur de texte personnalisée
+              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)', // Ombre du texte
+              marginBottom: '16px', // Marge inférieure pour plus d'espace
+            }}
+          >
+            Actualité
+          </Typography>
+          {listeInfos.length > 0 ? (
+            <Box sx={{ display: 'flex', justifyContent: 'center', overflow: 'hidden', my: 2 }}>
+              <InfosDeroulement
+                infos={listeInfos}
+                onDelete={(id) => deleteInfo(id)}
+                isAdmin={admin}
               />
-            </div>
+            </Box>
+          ) : (
+            <CircularProgress />
+          )}
+          {admin && (
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+              <Button component={Link} to="/admin/creerinfos" startIcon={<AddCircleRoundedIcon />} variant="contained">
+                Ajouter Info
+              </Button>
+            </Box>
+          )}
+        </Box>
 
-            <div className=" flex justify-center break-words p-4 bg-[#0E8DDF]">
-              {listeInfos.map((e) => (
-                <InfosDeroulement
-                  inf={e}
-                  onDelete={() => deleteInfo(e.idInfos)}
-                  isAdmin={admin}
-                />
+        <Card sx={{ mb: 4, backgroundColor: '#e6f7ff' }}>
+          <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Typography variant="h5" component="div">{festi.nom}</Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">Début: {festi.date}</Typography>
+            {/* D'autres détails du festival ici */}
+          </CardContent>
+          {isInscrit ? (
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 2 }}>
+              <CheckCircleIcon sx={{ color: 'green', fontSize: 48 }} />
+              <Typography variant="h6" color="text.secondary" >
+                Vous êtes inscrit !
+              </Typography>
+            </Box>
+          ) : (
+            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, p: 2 }}>
+              <Button variant="contained" onClick={() => InscriptionFesti(festi.idFestival, false)}>
+                S'inscrire
+              </Button>
+            </Box>
+          )}
+        </Card>
+        <Grid container spacing={2}>
+          {listeNewsFav.map((news, index) => (
+            <Grid item xs={12} md={4} key={index}>
+              <NewsFav news={news} />
+            </Grid>
+          ))}
+        </Grid>
+
+        <Typography variant="h5" component="h2" gutterBottom align="center" sx={{
+          fontFamily: 'Dancing Script',
+          fontSize: '2.5rem',
+          fontWeight: 'bold',
+          color: '#1e5bb0',
+          textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)',
+          marginBottom: '20px',
+          marginTop: '20px',
+        }}>
+          Espaces du Festival
+        </Typography>
+        <Box sx={{
+          display: 'flex',
+          overflowX: 'auto',
+          p: 2,
+          gap: 3,
+          bgcolor: '#e3f2fd',
+          borderRadius: '15px',
+          boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.1)',
+        }}>
+          {list_espace.map((e, index) => (
+            <Button
+              key={index}
+              variant="outlined"
+              onClick={() => handleJeuEspace(e.planZone)}
+              sx={{
+                textTransform: 'none',
+                fontSize: '1rem',
+                color: '#1e88e5',
+                borderColor: '#1e88e5',
+                whiteSpace: 'nowrap',
+                minWidth: 140,
+                height: 56,
+                ':hover': {
+                  bgcolor: '#bbdefb',
+                  borderColor: '#42a5f5',
+                  color: '#0d47a1',
+                },
+              }}
+            >
+              {e.planZone}
+            </Button>
+          ))}
+        </Box>
+        <TableContainer component={Paper} sx={{ boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .2)', marginBottom: '20px' }}>
+          <Table sx={{ minWidth: 650 }} aria-label="espaces table">
+            <TableHead>
+              <TableRow>
+                <TableCell sx={{ fontWeight: 'bold', color: '#1e5bb0' }}>Nom du jeu</TableCell>
+                <TableCell sx={{ fontWeight: 'bold', color: '#1e5bb0' }}>Public destiné</TableCell>
+                <TableCell sx={{ fontWeight: 'bold', color: '#1e5bb0' }}>Lien de la notice</TableCell>
+                <TableCell sx={{ fontWeight: 'bold', color: '#1e5bb0' }}>Reçu</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {list_jeu.map((jeu) => (
+                <TableRow key={jeu.nameGame}>
+                  <TableCell>{jeu.nameGame}</TableCell>
+                  <TableCell>{jeu.type}</TableCell>
+                  <TableCell style={{ wordBreak: 'break-all' }}>{jeu.notice}</TableCell>
+                  <TableCell>{jeu.received}</TableCell>
+                </TableRow>
               ))}
-              {admin ? (
-                <Link
-                  to="/admin/creerinfos"
-                  className="text-white p-4 flex justify-center items-center"
-                >
-                  <AddCircleRoundedIcon />
-                </Link>
-              ) : null}
-            </div>
-
-            <div className="flex justify-center pt-8">
-              <img src="https://www.educol.net/coloriage-jeu-de-societe-dl5516.jpg" />
-
-              <div className="flex ">
-                <div className="p-2 ">
-                  {list_espace.map((e) => (
-                    <div>
-                      <Button
-                        onClick={() => {
-                          handleJeuEspace(e.planZone);
-                        }}
-                        className="flex justify-center text-lg "
-                      >
-                        {e.planZone}
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-                <div className="ml-4 flex justify-center">
-                  <table className=" ml-8 pt-">
-                    <th className="p- text-[#0A5483]  font-serif ">
-                      Nom du jeu
-                    </th>
-                    <th className="p- text-[#0A5483]  font-serif ">
-                      Public destiné
-                    </th>
-                    <th className="p- text-[#0A5483]  font-serif ">
-                      Lien de la notice
-                    </th>
-                    <th className="p- text-[#0A5483] font-serif ">
-                      Reçu{" "}
-                    </th>
-
-                    {list_jeu.map((e) => (
-                      <tr>
-                        <td className="p- ">
-                          {e.nameGame}
-                        </td>
-                        <td className="p-">{e.type}</td>
-                        <td
-                          className="p-  text-xs"
-                          style={{ wordBreak: "break-all" }}
-                        >
-                          {e.notice}
-                        </td>
-                        <td className="p- ">
-                          {e.received}
-                        </td>
-                      </tr>
-                    ))}
-                  </table>
-                </div>
-                
-              </div>
-            </div>
-          </div>
-          <div className="p-2 flex justify-center">
-            {isInscrit ? null : (
-              <div className="flex">
-                <div className="p-2 flex justify-center">
-                  <Button
-                    onClick={() => {
-                      InscriptionFesti(test.idFestival, false);
-                    }}
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ width: "100%" }}
-                  >
-                    S'inscrire
-                  </Button>
-                </div>
-                <div className="p-2 flex justify-center">
-                  <Button
-                    onClick={() => {
-                      InscriptionFesti(test.idFestival, true);
-                    }}
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ width: "100%" }}
-                  >
-                    S'inscrire (flexible)
-                  </Button>
-                </div>
-              </div>
-            )}
-          </div>
-          <div className="pt-4 grid grid-cols-2 gap-4 ml-8 pb-8">
-            <div>
-            {listeNewsFav.map((e) => (
-              <div className="p-2 ">
-                <NewsFav news={e} />
-              </div>
-            ))}
-            </div>
-            <div className="flex justify-center">
-              <img src="https://us.123rf.com/450wm/alexpokusay/alexpokusay2008/alexpokusay200800088/153768854-journal-dans-les-mains-croquis-illustration-vectorielle-de-gravure-conception-d-impression-de.jpg"></img>
-            </div>
-          </div>
-          <div className="">
-              <p className="flex justify-center p-8 font-bold font-serif">
-                Nos membres
-              </p>
-            </div>
-              <div className="pb-16">
-            <TableauAcc Festi={festi} />
-            </div>
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <div className="">
+          <p className="flex justify-center p-8 font-bold font-serif">
+            Nos membres
+          </p>
         </div>
-      )}
-    </div>
+        <div className="pb-16">
+          <TableauAcc Festi={festi} />
+        </div>
+      </Container>
+
+    </>
   );
-};
+}
