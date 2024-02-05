@@ -25,7 +25,7 @@ export const PageAccueil = () => {
   const [list_jeu, setListJeu] = useState<any[]>([]);
   const navigate = useNavigate();
   const [maj, setMaj] = useState(false);
-  const [majtab,setmajtab] = useState(0);
+  const [majtab, setmajtab] = useState(0);
 
   const setMajToggle = () => {
     setMaj(!maj);
@@ -50,7 +50,7 @@ export const PageAccueil = () => {
       .catch((error) =>
         console.error("Erreur lors de la récupération du festival :", error)
       );
-  }, [navigate, maj,majtab]);
+  }, [navigate, maj, majtab]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,9 +75,7 @@ export const PageAccueil = () => {
     };
 
     fetchData();
-    
   }, []);
-
 
   useEffect(() => {
     // Cet effet s'exécutera chaque fois que userConnected ou festi sera mis à jour
@@ -106,7 +104,7 @@ export const PageAccueil = () => {
 
   useEffect(() => {
     getAllEspace().then((data) => setListEspace(data));
-  },[]);
+  }, []);
 
   useEffect(() => {
     // Appel API pour récupérer toutes les infos
@@ -143,18 +141,21 @@ export const PageAccueil = () => {
 
   const handleJeuEspace = async (planZone: string) => {
     getJeubyEspace(planZone).then((data) => setListJeu(data));
-    setmajtab(4)
-  }
+    setmajtab(4);
+  };
 
   const getJeubyEspace = async (planZone: string) => {
     try {
-      const response = await fetch(`http://localhost:8080/csv/getjeu/${planZone}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await fetch(
+        `http://localhost:8080/csv/getjeu/${planZone}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       if (!response.ok) {
         // Gérer les erreurs ici
@@ -162,15 +163,13 @@ export const PageAccueil = () => {
       } else {
         // Si tout s'est bien passé
         const data = await response.json();
-        console.log('data jeu', data)
+        console.log("data jeu", data);
         return data;
       }
     } catch (error: any) {
       console.error("Erreur lors de la récupération :", error.message);
     }
-  }
-
-
+  };
 
   const getAllEspace = async () => {
     try {
@@ -188,13 +187,13 @@ export const PageAccueil = () => {
       } else {
         // Si tout s'est bien passé
         const data = await response.json();
-        console.log('data espace', data)
+        console.log("data espace", data);
         return data;
       }
     } catch (error: any) {
       console.error("Erreur lors de la récupération :", error.message);
     }
-  }
+  };
 
   const InscriptionFesti = async (festivalId: string, flexible: boolean) => {
     const id = localStorage.getItem("userId");
@@ -312,80 +311,88 @@ export const PageAccueil = () => {
       ) : (
         <div className="bg-grey min-h-screen">
           <Navbar />
-          <h1 className="p-16 text-xl font-bold flex justify-center font-serif">
-            <p className="  text-[#0A5483]">
-              Bienvenue sur le site du Festival du Jeu de Montpellier !
-            </p>
-          </h1>
+
           <div className="p-8 fondAccueil">
-            <h1 className="flex justify-center font-bold p-4 text-xl font-mono">
-              {festi.nom}
-            </h1>
-
-            <div className="pb-8">
-              <p className="flex justify-center text-lg">Début</p>
-              <p className="font-bold flex justify-center font-mono">
-                {festi.date}
-              </p>
-            </div>
-          <div>
-          <img className="place-content-center" src="https://scontent.fmpl1-1.fna.fbcdn.net/v/t39.30808-6/398170719_831679315627252_5908524801591238179_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=783fdb&_nc_ohc=nc7wPA_BJ9EAX8vwPW4&_nc_ht=scontent.fmpl1-1.fna&oh=00_AfBoUw6CtERWQt5aUI13apciOZRZTha3MQLxqrOfZpDQ-w&oe=65C59D9A"/>
-          </div>
-
-          <div className=" flex justify-center break-words p-4 bg-[#0E8DDF]">
-            {listeInfos.map((e) => (
-              <InfosDeroulement
-                inf={e}
-                onDelete={() => deleteInfo(e.idInfos)}
-                isAdmin={admin}
+            <div className="flex justify-center p-8 pb-16">
+              <img
+                className="place-content-center"
+                src="https://scontent.fmpl1-1.fna.fbcdn.net/v/t39.30808-6/398170719_831679315627252_5908524801591238179_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=783fdb&_nc_ohc=nc7wPA_BJ9EAX8vwPW4&_nc_ht=scontent.fmpl1-1.fna&oh=00_AfBoUw6CtERWQt5aUI13apciOZRZTha3MQLxqrOfZpDQ-w&oe=65C59D9A"
               />
-            ))}
-            {admin ? (
-              <Link
-                to="/admin/creerinfos"
-                className="text-white p-4 flex justify-center items-center"
-              >
-                <AddCircleRoundedIcon />
-              </Link>
-            ) : null}
-          </div>
-
-
-              <div className="flex justify-center">
-                <img src="https://www.educol.net/coloriage-jeu-de-societe-dl5516.jpg" />
-            <div className="flex ">
-              <div className="p-2 border rounded-xl border-black">
-              {list_espace.map((e) => (
-                <div>
-                  <Button onClick={() => {handleJeuEspace(e.planZone)}}className="flex justify-center text-lg">{e.planZone}</Button>
-                </div>
-              ))}
-              </div>
-
-              <div className="ml-4 flex justify-center">
-              <table className="border border-black ml-8 pt-4">
-                <th className="p-4 text-[#0A5483] border-black font-serif border-r">Nom du jeu</th>
-                <th className="p-4 text-[#0A5483] border-black font-serif border-r">Public destiné</th>
-                <th className="p-4 text-[#0A5483] border-black font-serif border-r">Lien de la notice</th>
-                <th className="p-4 text-[#0A5483] border-black font-serif border-r">Reçu </th>
-                
-              {list_jeu.map((e) => (
-                <tr>
-                  <td className="p-4 border-r border-black">{e.nameGame}</td>
-                  <td className="p-4 border-r border-black">{e.type}</td>
-                  <td className="p-4 border-r border-black" style={{ wordBreak: 'break-all' }}>{e.notice}</td>
-                  <td className="p-4 border-r border-black">{e.received}</td>
-                </tr>
-              ))}
-                </table>
-                </div>
-            i</div>
-                </div>
-            <div>
-              <p className="flex justify-center p-8 font-bold font-serif">Nos membres</p>
             </div>
 
-            <TableauAcc Festi={festi} />
+            <div className=" flex justify-center break-words p-4 bg-[#0E8DDF]">
+              {listeInfos.map((e) => (
+                <InfosDeroulement
+                  inf={e}
+                  onDelete={() => deleteInfo(e.idInfos)}
+                  isAdmin={admin}
+                />
+              ))}
+              {admin ? (
+                <Link
+                  to="/admin/creerinfos"
+                  className="text-white p-4 flex justify-center items-center"
+                >
+                  <AddCircleRoundedIcon />
+                </Link>
+              ) : null}
+            </div>
+
+            <div className="flex justify-center pt-8">
+              <img src="https://www.educol.net/coloriage-jeu-de-societe-dl5516.jpg" />
+
+              <div className="flex ">
+                <div className="p-2 ">
+                  {list_espace.map((e) => (
+                    <div>
+                      <Button
+                        onClick={() => {
+                          handleJeuEspace(e.planZone);
+                        }}
+                        className="flex justify-center text-lg "
+                      >
+                        {e.planZone}
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+                <div className="ml-4 flex justify-center">
+                  <table className=" ml-8 pt-">
+                    <th className="p- text-[#0A5483]  font-serif ">
+                      Nom du jeu
+                    </th>
+                    <th className="p- text-[#0A5483]  font-serif ">
+                      Public destiné
+                    </th>
+                    <th className="p- text-[#0A5483]  font-serif ">
+                      Lien de la notice
+                    </th>
+                    <th className="p- text-[#0A5483] font-serif ">
+                      Reçu{" "}
+                    </th>
+
+                    {list_jeu.map((e) => (
+                      <tr>
+                        <td className="p- ">
+                          {e.nameGame}
+                        </td>
+                        <td className="p-">{e.type}</td>
+                        <td
+                          className="p-  text-xs"
+                          style={{ wordBreak: "break-all" }}
+                        >
+                          {e.notice}
+                        </td>
+                        <td className="p- ">
+                          {e.received}
+                        </td>
+                      </tr>
+                    ))}
+                  </table>
+                </div>
+                
+              </div>
+            </div>
           </div>
           <div className="p-2 flex justify-center">
             {isInscrit ? null : (
@@ -419,23 +426,26 @@ export const PageAccueil = () => {
               </div>
             )}
           </div>
-          <div
-            className="pt-4 grid-rows-1 gap-4 w-1/2 "
-            style={{
-              gridTemplateColumns: `repeat(${listeNewsFav.length}, minmax(0, 1fr))`,
-            }}
-          >
+          <div className="pt-4 grid grid-cols-2 gap-4 ml-8 pb-8">
+            <div>
             {listeNewsFav.map((e) => (
               <div className="p-2 ">
                 <NewsFav news={e} />
               </div>
             ))}
-            
-          </div>
-          <div className="w-1/2">
-          <img src="https://us.123rf.com/450wm/alexpokusay/alexpokusay2008/alexpokusay200800088/153768854-journal-dans-les-mains-croquis-illustration-vectorielle-de-gravure-conception-d-impression-de.jpg"></img>
             </div>
-          
+            <div className="flex justify-center">
+              <img src="https://us.123rf.com/450wm/alexpokusay/alexpokusay2008/alexpokusay200800088/153768854-journal-dans-les-mains-croquis-illustration-vectorielle-de-gravure-conception-d-impression-de.jpg"></img>
+            </div>
+          </div>
+          <div className="">
+              <p className="flex justify-center p-8 font-bold font-serif">
+                Nos membres
+              </p>
+            </div>
+              <div className="pb-16">
+            <TableauAcc Festi={festi} />
+            </div>
         </div>
       )}
     </div>

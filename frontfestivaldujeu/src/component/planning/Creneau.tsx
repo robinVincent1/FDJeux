@@ -250,6 +250,9 @@ interface CreneauProps {
           }catch(error){
             console.log(error)
           }
+          if (onUpdated) {
+            onUpdated();
+          }
         }
 
         async function promisecheckinscrit() : Promise<boolean> {
@@ -354,6 +357,9 @@ interface CreneauProps {
         }catch(error){
           console.log(error)
         }
+        if (onUpdated) {
+          onUpdated();
+        }
       }
 
       async function changeOuvert(){
@@ -436,7 +442,7 @@ interface CreneauProps {
             if (percentage < 67 && percentage >= 34) {
               chosedcolor = "warning";
             }
-            if (percentage < 100 && percentage >= 67) {
+            if (percentage <= 100 && percentage >= 67) {
               chosedcolor = "success";
             }
             return chosedcolor;
@@ -542,7 +548,7 @@ interface CreneauProps {
                           <Typography>{benevole.pseudo}</Typography>
                           </div>
                           <div>
-                          <Button onClick={() => {inscription(benevole.idUser,idCreneau,nb_inscrit); handleCloseFlexible()}}>Inscrire</Button>
+                          <Button onClick={() => {inscription(benevole.idUser,idCreneau,nb_inscrit + 1); handleCloseFlexible()}}>Inscrire</Button>
                           </div>
                         </div>
                       ))}
@@ -551,8 +557,8 @@ interface CreneauProps {
 
                 {ouvert ? (
                 isInscrit ? (
-                <Button color="danger" onClick={() => desinscription(userId(),idCreneau,nb_inscrit)}>Se désinscrire</Button>
-                ):( <Button color="success" onClick={() => inscription(userId(),idCreneau,nb_inscrit)}>S'inscrire</Button>)
+                <Button color="danger" onClick={() => desinscription(userId(),idCreneau,nb_inscrit )}>Se désinscrire</Button>
+                ):( <Button color="success" onClick={() => inscription(userId(),idCreneau,nb_inscrit )}>S'inscrire</Button>)
                 ) : null}
 
                   <Modal

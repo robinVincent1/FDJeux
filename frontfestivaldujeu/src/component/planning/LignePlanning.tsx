@@ -109,7 +109,7 @@ const LignePlanning: React.FC<LigneProps> = ({
     console.log(deletedcreneaux);
     const data = await response.json();
     console.log(data);
-    setmaj(3);
+    setmaj(maj + 1);
 
     // Call onUpdated after the deletion
     if (onUpdated) {

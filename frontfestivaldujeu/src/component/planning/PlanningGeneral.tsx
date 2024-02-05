@@ -121,7 +121,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
   const [hasAddedCreneaux, setHasAddedCreneaux] = useState(false);
 
   const handleLignePlanningUpdate = () => {
-    setmaj(12);
+    setmaj(maj + 1); 
   };
 
   const handleChange_ModifyJour = (event: SelectChangeEvent) => {
@@ -162,7 +162,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
       ...prevOpenModals,
       [horaireId]: false,
     }));
-    setmaj(5);
+    setmaj(maj + 1);
   };
 
   const handleOpenModal_ModifyJour = (jourId: number) => {
@@ -263,7 +263,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
         console.error("Erreur lors de l'ajout de la ligne", error);
       }
     });
-    setmaj(4);
+    setmaj(maj + 1);
   }
 
   async function modifyjour(jourId: number) {
@@ -281,7 +281,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
     } catch (error) {
       console.error("Erreur lors de l'ajout de la ligne", error);
     }
-    setmaj(3);
+    setmaj(maj + 1);
   }
 
   async function deletejour(jourId: number) {
@@ -316,7 +316,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
     } catch (error) {
       console.error("Erreur lors de l'ajout de la ligne", error);
     }
-    setmaj(4);
+    setmaj(maj + 1);
   }
 
   async function deletehoraire(horaireId: number) {
@@ -344,7 +344,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
     } catch (error) {
       console.error("Erreur lors de l'ajout de la ligne", error);
     }
-    setmaj(6);
+    setmaj(maj + 1);
   }
 
   async function modifyhoraire(horaireId: number) {
@@ -381,7 +381,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
       console.error("Erreur lors de l'ajout de la ligne", error);
     }
     handleCloseModal_ModifyHoraire(horaireId);
-    setmaj(2);
+    setmaj(maj + 1);
   }
 
   async function getUserById(idUser: number) {
@@ -620,7 +620,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
     } catch (error) {
       console.error("Erreur lors de l'ajout de la ligne", error);
     }
-    setmaj(4);
+    setmaj(maj + 1);
   }
 
   async function getligne() {
@@ -685,7 +685,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
     setInputValueHoraire_Debut("");
     setInputValueHoraire_Fin("");
     handleCloseModal_Horaire(jourid);
-    setmaj(2);
+    setmaj(maj + 1);
   }
 
   async function addtolistjour() {
@@ -708,7 +708,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
     } catch (error) {
       console.error("Erreur lors de l'ajout du jour", error);
     }
-    setmaj(1);
+    setmaj(maj + 1);
   }
 
   function changeisPresent(isPresent: number) {
