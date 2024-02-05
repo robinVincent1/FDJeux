@@ -3,6 +3,18 @@ import { Link } from "react-router-dom";
 import "../output.css";
 import { News } from "../news/News";
 import { useState } from "react";
+import { 
+  Container, 
+  Grid, 
+  Card, 
+  CardActionArea, 
+  CardContent, 
+  CardActions, 
+  Button, 
+  Typography,
+  CircularProgress,
+  Box
+} from '@mui/material';
 import AddIcon from "@mui/icons-material/Add";
 import { User } from "../admin/AdminPage";
 import { robin } from "../profil/ProfilPage";
@@ -115,53 +127,49 @@ export const NewsPage = () => {
   }, [load]);
 
   return (
-    <div>
+    <>
+    <Navbar />
+    <Container maxWidth="lg">
+      
       {loading ? (
-        <div>
-          <div>
-            <Navbar />
-          </div>
-          <div>
-            <Loader />
-          </div>
-        </div>
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="80vh">
+          <CircularProgress />
+        </Box>
       ) : (
-        <div>
-          <Navbar />
+        <>
           <h1 className="flex justify-center p-4 font-bold text-2xl text-[#0A5483] font-serif">
             {" "}
             NEWS
           </h1>
-          <div className=" justify-center ml-8">
-            {news.map((e) => {
-              return (
-                <div className="p-8">
-                  <News
-                    titre={e.titre}
-                    description={e.description}
-                    createur={e.createur}
-                    favori={e.favori}
-                    id={e.idNews}
-                    onDelete={() => onDele(e.idNews)}
-                    onUpdate={(updatedNews: NewsType) =>
-                      handleUpdateNews(updatedNews)
-                    }
-                  />
-                </div>
-              );
-            })}
-
-            <div className="flex justify-center p-4 mr-4 text-lg">
-              {(userConnected.role == "admin" ||
-                userConnected.role == "Résponsable soirée") && (
-                <Link to="/respoSoiree/creerNews" className="mr-4">
-                  <AddIcon className="border text-[#3379FF] rounded-2xl border-[#3379FF] hover:text-white hover:bg-[#3379FF]" />
-                </Link>
-              )}
-            </div>
-          </div>
-        </div>
+          <Grid container spacing={4} justifyContent="center">
+            {news.map((e) => (
+              <Grid item xs={12} sm={6} md={4} key={e.idNews}>
+                <Card elevation={4}>
+                  <CardActionArea>
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {e.titre}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {e.description}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                  
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+          {(userConnected.role === "admin" || userConnected.role === "Résponsable soirée") && (
+            <Box display="flex" justifyContent="center" mt={4}>
+              <Button variant="contained" startIcon={<AddIcon />} component={Link} to="/respoSoiree/creerNews" color="primary">
+                Create News
+              </Button>
+            </Box>
+          )}
+        </>
       )}
-    </div>
+    </Container>
+    </>
   );
-};
+}

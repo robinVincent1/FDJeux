@@ -524,3 +524,7 @@ video {
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
 }
+
+.dropdownMenu {
+  z-index: 100; /* Valeur exemple pour s'assurer qu'il apparaît au-dessus des autres éléments */
+}
