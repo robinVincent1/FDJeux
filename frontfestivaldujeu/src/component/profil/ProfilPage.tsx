@@ -92,7 +92,7 @@ export const ProfilPage = () => {
     const fetchData = async () => {
       try {
         const id = localStorage.getItem("userId");
-        const response = await fetch(`http://localhost:8080/user/${id}`, {
+        const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/user/${id}`, {
           method: "GET", // Remplacez 'GET' par la méthode que vous souhaitez utiliser
           headers: {
             "Content-Type": "application/json",
@@ -128,7 +128,7 @@ export const ProfilPage = () => {
     const id = localStorage.getItem("userId");
 
     try {
-      const response = await fetch(`http://localhost:8080/user/ModifProfil`, {
+      const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/user/ModifProfil`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

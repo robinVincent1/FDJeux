@@ -84,7 +84,7 @@ const LignePlanning: React.FC<LigneProps> = ({
 
   const deleteligne = useCallback(async () => {
     const response = await fetch(
-      `http://localhost:8080/planning_general_ligne/${idligne}`,
+      `https://festival-jeu-mtp-api.onrender.com/planning_general_ligne/${idligne}`,
       {
         method: "DELETE",
         headers: {
@@ -95,7 +95,7 @@ const LignePlanning: React.FC<LigneProps> = ({
     );
 
     const deletecreneaux = await fetch(
-      `http://localhost:8080/creneau/deletebyligne/${idligne}`,
+      `https://festival-jeu-mtp-api.onrender.com/creneau/deletebyligne/${idligne}`,
       {
         method: "DELETE",
         headers: {
@@ -119,7 +119,7 @@ const LignePlanning: React.FC<LigneProps> = ({
 
   const modifylignetitre = useCallback(async () => {
     const response = await fetch(
-      `http://localhost:8080/planning_general_ligne/modifytitre/${idligne}`,
+      `https://festival-jeu-mtp-api.onrender.com/planning_general_ligne/modifytitre/${idligne}`,
       {
         method: "PUT",
         headers: {
@@ -183,7 +183,7 @@ const LignePlanning: React.FC<LigneProps> = ({
     const fetchData = async () => {
       try {
         const id = localStorage.getItem("userId");
-        const response = await fetch(`http://localhost:8080/user/${id}`, {
+        const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/user/${id}`, {
           method: "GET", // Remplacez 'GET' par la méthode que vous souhaitez utiliser
           headers: {
             "Content-Type": "application/json",

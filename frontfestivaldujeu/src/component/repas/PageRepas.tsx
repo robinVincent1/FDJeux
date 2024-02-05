@@ -43,7 +43,7 @@ export const PageRepas = () => {
     const fetchData = async () => {
       try {
         const id = localStorage.getItem("userId");
-        const response = await fetch(`http://localhost:8080/user/${id}`, {
+        const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/user/${id}`, {
           method: "GET", // Remplacez 'GET' par la méthode que vous souhaitez utiliser
           headers: {
             "Content-Type": "application/json",
@@ -90,7 +90,7 @@ export const PageRepas = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     // Appel API pour récupérer le festival
-    fetch("http://localhost:8080/festival/enCours", {
+    fetch("https://festival-jeu-mtp-api.onrender.com/festival/enCours", {
       method: "GET", // Remplacez 'GET' par la méthode HTTP que vous souhaitez utiliser
       headers: {
         "Content-Type": "application/json",
@@ -107,7 +107,7 @@ export const PageRepas = () => {
   useEffect(() => {
     const idUser = localStorage.getItem("userId");
     // Appel API pour récupérer le repas
-    fetch(`http://localhost:8080/repas/${idUser}/${festi.idFestival}/${1}`, {
+    fetch(`https://festival-jeu-mtp-api.onrender.com/repas/${idUser}/${festi.idFestival}/${1}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -124,7 +124,7 @@ export const PageRepas = () => {
   useEffect(() => {
     const idUser = localStorage.getItem("userId");
     // Appel API pour récupérer le repas
-    fetch(`http://localhost:8080/repas/${idUser}/${festi.idFestival}/${2}`, {
+    fetch(`https://festival-jeu-mtp-api.onrender.com/repas/${idUser}/${festi.idFestival}/${2}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -141,7 +141,7 @@ export const PageRepas = () => {
   useEffect(() => {
     const idUser = localStorage.getItem("userId");
     // Appel API pour récupérer le repas
-    fetch(`http://localhost:8080/repas/${idUser}/${festi.idFestival}/${3}`, {
+    fetch(`https://festival-jeu-mtp-api.onrender.com/repas/${idUser}/${festi.idFestival}/${3}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -158,7 +158,7 @@ export const PageRepas = () => {
   useEffect(() => {
     const idUser = localStorage.getItem("userId");
     // Appel API pour récupérer le repas
-    fetch(`http://localhost:8080/repas/${1}`, {
+    fetch(`https://festival-jeu-mtp-api.onrender.com/repas/${1}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -175,7 +175,7 @@ export const PageRepas = () => {
   useEffect(() => {
     const idUser = localStorage.getItem("userId");
     // Appel API pour récupérer le repas
-    fetch(`http://localhost:8080/repas/${2}`, {
+    fetch(`https://festival-jeu-mtp-api.onrender.com/repas/${2}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -192,7 +192,7 @@ export const PageRepas = () => {
   useEffect(() => {
     const idUser = localStorage.getItem("userId");
     // Appel API pour récupérer le repas
-    fetch(`http://localhost:8080/repas/${3}`, {
+    fetch(`https://festival-jeu-mtp-api.onrender.com/repas/${3}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -209,7 +209,7 @@ export const PageRepas = () => {
 
   const ModifEtat = async (etat: number, idRepas: string) => {
     try {
-      const response = await fetch(`http://localhost:8080/repas/${idRepas}`, {
+      const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/repas/${idRepas}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

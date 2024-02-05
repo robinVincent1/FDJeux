@@ -245,7 +245,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
     list_creneaux?.forEach(async (creneau) => {
       try {
         const response = await fetch(
-          "http://localhost:8080/creneau_benevole/isPresent",
+          "https://festival-jeu-mtp-api.onrender.com/creneau_benevole/isPresent",
           {
             method: "PUT",
             headers: {
@@ -268,7 +268,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
 
   async function modifyjour(jourId: number) {
     try {
-      const response = await fetch(`http://localhost:8080/jours/${jourId}`, {
+      const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/jours/${jourId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -286,7 +286,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
 
   async function deletejour(jourId: number) {
     try {
-      const response = await fetch(`http://localhost:8080/jours/${jourId}`, {
+      const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/jours/${jourId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -294,7 +294,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
         },
       });
       const response2 = await fetch(
-        `http://localhost:8080/horaire/deletebyjour/${jourId}`,
+        `https://festival-jeu-mtp-api.onrender.com/horaire/deletebyjour/${jourId}`,
         {
           method: "DELETE",
           headers: {
@@ -304,7 +304,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
         }
       );
       const response3 = await fetch(
-        `http://localhost:8080/creneau/deletebyjour/${jourId}`,
+        `https://festival-jeu-mtp-api.onrender.com/creneau/deletebyjour/${jourId}`,
         {
           method: "DELETE",
           headers: {
@@ -322,7 +322,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
   async function deletehoraire(horaireId: number) {
     try {
       const response = await fetch(
-        `http://localhost:8080/horaire/${horaireId}`,
+        `https://festival-jeu-mtp-api.onrender.com/horaire/${horaireId}`,
         {
           method: "DELETE",
           headers: {
@@ -332,7 +332,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
         }
       );
       const response2 = await fetch(
-        `http://localhost:8080/creneau/deletebyhoraire/${horaireId}`,
+        `https://festival-jeu-mtp-api.onrender.com/creneau/deletebyhoraire/${horaireId}`,
         {
           method: "DELETE",
           headers: {
@@ -350,7 +350,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
   async function modifyhoraire(horaireId: number) {
     try {
       const response = await fetch(
-        `http://localhost:8080/horaire/${horaireId}`,
+        `https://festival-jeu-mtp-api.onrender.com/horaire/${horaireId}`,
         {
           method: "PUT",
           headers: {
@@ -364,7 +364,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
         }
       );
       const reponse2 = await fetch(
-        `http://localhost:8080/creneau/modifyhoraire/${horaireId}`,
+        `https://festival-jeu-mtp-api.onrender.com/creneau/modifyhoraire/${horaireId}`,
         {
           method: "PUT",
           headers: {
@@ -386,7 +386,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
 
   async function getUserById(idUser: number) {
     try {
-      const response = await fetch(`http://localhost:8080/user/${idUser}`, {
+      const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/user/${idUser}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -414,7 +414,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
   async function getUserIdByCreneauId(idCreneau: number) {
     try {
       const response = await fetch(
-        `http://localhost:8080/creneau_benevole/getbenevoles/${idCreneau}`,
+        `https://festival-jeu-mtp-api.onrender.com/creneau_benevole/getbenevoles/${idCreneau}`,
         {
           method: "GET",
           headers: {
@@ -444,7 +444,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
   async function getcreneaubyJourId(jourId: number) {
     try {
       const response = await fetch(
-        `http://localhost:8080/creneau/getbyjour/${jourId}/${PlanningId}`,
+        `https://festival-jeu-mtp-api.onrender.com/creneau/getbyjour/${jourId}/${PlanningId}`,
         {
           method: "GET",
           headers: {
@@ -482,7 +482,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
     heure_fin: string
   ) {
     try {
-      const response = await fetch("http://localhost:8080/creneau", {
+      const response = await fetch("https://festival-jeu-mtp-api.onrender.com/creneau", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -523,7 +523,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
   ) {
     try {
       const response = await fetch(
-        `http://localhost:8080/creneau/${JourId}/${HoraireId}/${LigneId}/${idPlanning}`,
+        `https://festival-jeu-mtp-api.onrender.com/creneau/${JourId}/${HoraireId}/${LigneId}/${idPlanning}`,
         {
           method: "GET",
           headers: {
@@ -604,7 +604,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
   async function addligne() {
     try {
       const response = await fetch(
-        "http://localhost:8080/planning_general_ligne",
+        "https://festival-jeu-mtp-api.onrender.com/planning_general_ligne",
         {
           method: "POST",
           headers: {
@@ -626,7 +626,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
   async function getligne() {
     try {
       const response = await fetch(
-        `http://localhost:8080/planning_general_ligne/${PlanningId}`,
+        `https://festival-jeu-mtp-api.onrender.com/planning_general_ligne/${PlanningId}`,
         {
           method: "GET",
           headers: {
@@ -645,7 +645,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
   async function gethorairebyId(jourid: number, idPlanning: number) {
     try {
       const response = await fetch(
-        `http://localhost:8080/horaire/${jourid}/${idPlanning}`,
+        `https://festival-jeu-mtp-api.onrender.com/horaire/${jourid}/${idPlanning}`,
         {
           method: "GET",
           headers: {
@@ -663,7 +663,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
 
   async function addtolisthoraire(jourid: number) {
     try {
-      const response = await fetch("http://localhost:8080/horaire", {
+      const response = await fetch("https://festival-jeu-mtp-api.onrender.com/horaire", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -690,7 +690,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
 
   async function addtolistjour() {
     try {
-      const response = await fetch("http://localhost:8080/jours", {
+      const response = await fetch("https://festival-jeu-mtp-api.onrender.com/jours", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -733,7 +733,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
     setNbColonne(0);
     try {
       const response = await fetch(
-        `http://localhost:8080/jours/${PlanningId}`,
+        `https://festival-jeu-mtp-api.onrender.com/jours/${PlanningId}`,
         {
           method: "GET",
           headers: {
@@ -795,7 +795,7 @@ const PlanningGeneral: React.FC<PlanningGeneralProps> = ({ PlanningId }) => {
     const fetchData = async () => {
       try {
         const id = localStorage.getItem("userId");
-        const response = await fetch(`http://localhost:8080/user/${id}`, {
+        const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/user/${id}`, {
           method: "GET", // Remplacez 'GET' par la méthode que vous souhaitez utiliser
           headers: {
             "Content-Type": "application/json",

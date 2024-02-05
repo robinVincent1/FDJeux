@@ -34,7 +34,7 @@ export const InfosDeroulement: React.FC<InfosDeroulementProps> = ({ infos, onDel
     if (confirmDelete) {
       try {
         const response = await fetch(
-          `http://localhost:8080/infos/${currentInfo.idInfos}`,
+          `https://festival-jeu-mtp-api.onrender.com/infos/${currentInfo.idInfos}`,
           {
             method: "DELETE",
             headers: {

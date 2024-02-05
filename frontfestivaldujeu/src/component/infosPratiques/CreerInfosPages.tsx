@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 export const CreerInfosPage = () => {
   const createInfo = async (titre: string, description: string) => {
     try {
-      const response = await fetch("http://localhost:8080/infos", {
+      const response = await fetch("https://festival-jeu-mtp-api.onrender.com/infos", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

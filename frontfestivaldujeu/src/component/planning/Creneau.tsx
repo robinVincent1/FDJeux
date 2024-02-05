@@ -94,7 +94,7 @@ interface CreneauProps {
 
         async function getflexiblebenevole(){
           try{
-            const response = await fetch(`http://localhost:8080/user/flexible/${idFestival}`,{
+            const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/user/flexible/${idFestival}`,{
                 method : 'GET',
                 headers: {
                   'Content-Type': 'application/json',
@@ -111,7 +111,7 @@ interface CreneauProps {
 
         async function getidfestival(){
           try{
-            const response = await fetch(`http://localhost:8080/festival/enCours`,{
+            const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/festival/enCours`,{
                 method : 'GET',
                 headers: {
                   'Content-Type': 'application/json',
@@ -128,7 +128,7 @@ interface CreneauProps {
 
         async function getreferentlist(){
           try{
-            const responseReferent = await fetch(`http://localhost:8080/user/referent/${idFestival}`,{
+            const responseReferent = await fetch(`https://festival-jeu-mtp-api.onrender.com/user/referent/${idFestival}`,{
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
@@ -158,7 +158,7 @@ interface CreneauProps {
       if (thereferentid == -1){
         return undefined
       }
-      const response = await fetch(`http://localhost:8080/user/${thereferentid}`,{
+      const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/user/${thereferentid}`,{
       method : 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -194,7 +194,7 @@ interface CreneauProps {
 
         async function changereferent(){
           try{
-            const reponse = await fetch(`http://localhost:8080/creneau/modifyreferent/${currentIdCreneau}`, {
+            const reponse = await fetch(`https://festival-jeu-mtp-api.onrender.com/creneau/modifyreferent/${currentIdCreneau}`, {
               method: 'PUT',
               headers: {
                 'Content-Type': 'application/json',
@@ -215,7 +215,7 @@ interface CreneauProps {
 
         async function getNomJour(id:number){
           try{
-            const response = await fetch(`http://localhost:8080/jours/${id}`,{
+            const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/jours/${id}`,{
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
@@ -237,7 +237,7 @@ interface CreneauProps {
 
         async function addnbinscrit(nb_inscrit:number){
           try{
-            const reponse = await fetch(`http://localhost:8080/creneau/addnbinscrit/${currentIdCreneau}`, {
+            const reponse = await fetch(`https://festival-jeu-mtp-api.onrender.com/creneau/addnbinscrit/${currentIdCreneau}`, {
               method: 'PUT',
               headers: {
                 'Content-Type': 'application/json',
@@ -270,7 +270,7 @@ interface CreneauProps {
 
         async function getbenevole(idCreneau:number){
           try{
-            const response = await fetch(`http://localhost:8080/creneau_benevole/getbenevoles/${idCreneau}`,{
+            const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/creneau_benevole/getbenevoles/${idCreneau}`,{
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
@@ -296,7 +296,7 @@ interface CreneauProps {
           if (benevoleList) {
             for (let i = 0; i < benevoleList.length; i++){
               const userid = benevoleList[i].idUser;
-              const response = await fetch(`http://localhost:8080/user/${userid}`,{
+              const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/user/${userid}`,{
                 method: 'GET',
                 headers: {
                   'Content-Type': 'application/json',
@@ -320,7 +320,7 @@ interface CreneauProps {
             alert("Vous devez être connecté pour vous désinscrire")
           }
           else{
-          const reponse = await fetch(`http://localhost:8080/creneau_benevole/`, {
+          const reponse = await fetch(`https://festival-jeu-mtp-api.onrender.com/creneau_benevole/`, {
             method: 'DELETE',
             headers: {
               'Content-Type': 'application/json',
@@ -344,7 +344,7 @@ interface CreneauProps {
 
       async function subnbinscrit(nb_inscrit:number){
         try{
-          const reponse = await fetch(`http://localhost:8080/creneau/subnbinscrit/${currentIdCreneau}`, {
+          const reponse = await fetch(`https://festival-jeu-mtp-api.onrender.com/creneau/subnbinscrit/${currentIdCreneau}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
@@ -364,7 +364,7 @@ interface CreneauProps {
 
       async function changeOuvert(){
         try{
-          const reponse = await fetch(`http://localhost:8080/creneau/modifyouvert/${currentIdCreneau}`, {
+          const reponse = await fetch(`https://festival-jeu-mtp-api.onrender.com/creneau/modifyouvert/${currentIdCreneau}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
@@ -384,7 +384,7 @@ interface CreneauProps {
 
       async function changeNbMax(){
         try{
-          const reponse = await fetch(`http://localhost:8080/creneau/modifynbmax/${currentIdCreneau}`, {
+          const reponse = await fetch(`https://festival-jeu-mtp-api.onrender.com/creneau/modifynbmax/${currentIdCreneau}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
@@ -408,7 +408,7 @@ interface CreneauProps {
               alert("Vous devez être connecté pour vous inscrire")
             }
             else{
-            const reponse = await fetch(`http://localhost:8080/creneau_benevole/`, {
+            const reponse = await fetch(`https://festival-jeu-mtp-api.onrender.com/creneau_benevole/`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -456,7 +456,7 @@ interface CreneauProps {
         const fetchData = async () => {
           try {
             const id = localStorage.getItem("userId");
-            const response = await fetch(`http://localhost:8080/user/${id}`, {
+            const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/user/${id}`, {
               method: "GET", // Remplacez 'GET' par la méthode que vous souhaitez utiliser
               headers: {
                 "Content-Type": "application/json",

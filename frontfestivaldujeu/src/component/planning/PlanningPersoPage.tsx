@@ -19,7 +19,7 @@ export const PlanningPersoPage = () => {
   
   async function getidPlanning(){
     try{
-      const response = await fetch(`http://localhost:8080/festival/enCours`,{
+      const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/festival/enCours`,{
           method : 'GET',
           headers: {
             'Content-Type': 'application/json',

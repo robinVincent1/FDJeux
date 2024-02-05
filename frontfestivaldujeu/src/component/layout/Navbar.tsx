@@ -95,7 +95,7 @@ function Navbar() {
     const fetchData = async () => {
       try {
         const id = localStorage.getItem("userId");
-        const response = await fetch(`http://localhost:8080/user/${id}`, {
+        const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/user/${id}`, {
           method: "GET", // Remplacez 'GET' par la méthode que vous souhaitez utiliser
           headers: {
             "Content-Type": "application/json",
@@ -120,7 +120,7 @@ function Navbar() {
   React.useEffect(() => {
     const token = localStorage.getItem('token');
     // Appel API pour récupérer le festival
-    fetch("http://localhost:8080/festival/enCours", {
+    fetch("https://festival-jeu-mtp-api.onrender.com/festival/enCours", {
       method: 'GET', // Remplacez 'GET' par la méthode HTTP que vous souhaitez utiliser
       headers: {
         'Content-Type': 'application/json',
@@ -142,7 +142,7 @@ function Navbar() {
   React.useEffect(() => {
     const idUser = localStorage.getItem("userId");
     // Appel API pour récupérer le repas
-    fetch(`http://localhost:8080/repas/${idUser}/${festi.idFestival}/${1}`, {
+    fetch(`https://festival-jeu-mtp-api.onrender.com/repas/${idUser}/${festi.idFestival}/${1}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -159,7 +159,7 @@ function Navbar() {
   React.useEffect(() => {
     const idUser = localStorage.getItem("userId");
     // Appel API pour récupérer le repas
-    fetch(`http://localhost:8080/repas/${idUser}/${festi.idFestival}/${2}`, {
+    fetch(`https://festival-jeu-mtp-api.onrender.com/repas/${idUser}/${festi.idFestival}/${2}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -176,7 +176,7 @@ function Navbar() {
   React.useEffect(() => {
     const idUser = localStorage.getItem("userId");
     // Appel API pour récupérer le repas
-    fetch(`http://localhost:8080/repas/${idUser}/${festi.idFestival}/${3}`, {
+    fetch(`https://festival-jeu-mtp-api.onrender.com/repas/${idUser}/${festi.idFestival}/${3}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

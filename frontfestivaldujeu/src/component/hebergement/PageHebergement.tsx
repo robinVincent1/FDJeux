@@ -11,7 +11,7 @@ export const PageHebergement = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:8080/hebergement", {
+    fetch("https://festival-jeu-mtp-api.onrender.com/hebergement", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -40,7 +40,7 @@ export const PageHebergement = () => {
   const deleteHebergement = async (HebergementId: string) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/hebergement/${HebergementId}`,
+        `https://festival-jeu-mtp-api.onrender.com/hebergement/${HebergementId}`,
         {
           method: "DELETE",
           headers: {

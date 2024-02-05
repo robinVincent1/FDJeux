@@ -33,7 +33,7 @@ export const PageForum = () => {
     const fetchData = async () => {
       try {
         const id = localStorage.getItem("userId");
-        const response = await fetch(`http://localhost:8080/user/${id}`, {
+        const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/user/${id}`, {
           method: "GET", // Remplacez 'GET' par la méthode que vous souhaitez utiliser
           headers: {
             "Content-Type": "application/json",
@@ -55,7 +55,7 @@ export const PageForum = () => {
 
   useEffect(() => {
     // Appel API pour récupérer toutes les questions avec réponses
-    fetch("http://localhost:8080/qr", {
+    fetch("https://festival-jeu-mtp-api.onrender.com/qr", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -102,7 +102,7 @@ export const PageForum = () => {
         idReponse: [],
       };
       try {
-        const response = await fetch("http://localhost:8080/qr", {
+        const response = await fetch("https://festival-jeu-mtp-api.onrender.com/qr", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -143,7 +143,7 @@ export const PageForum = () => {
   // Fonction pour supprimer une question
   const deleteQuestion = async (questionId: string) => {
     try {
-      const response = await fetch(`http://localhost:8080/qr/${questionId}`, {
+      const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/qr/${questionId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

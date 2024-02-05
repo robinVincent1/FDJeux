@@ -58,7 +58,7 @@ export const BlockQuestion = ({ quest, deleteQuestion, u }: Props) => {
     } else {
       try {
         const response = await fetch(
-          `http://localhost:8080/qr/${quest.idQuestion}`,
+          `https://festival-jeu-mtp-api.onrender.com/qr/${quest.idQuestion}`,
           {
             method: "POST",
             headers: {
@@ -97,7 +97,7 @@ export const BlockQuestion = ({ quest, deleteQuestion, u }: Props) => {
   const deleteReponse = async (reponseId: string) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/qr/reponse/${reponseId}`,
+        `https://festival-jeu-mtp-api.onrender.com/qr/reponse/${reponseId}`,
         {
           method: "DELETE",
           headers: {

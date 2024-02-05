@@ -27,7 +27,7 @@ export const CreerFestival = () => {
 
   const creerPlanning = async() => {
     try{
-      const response = await fetch('http://localhost:8080/planning_general',{
+      const response = await fetch('https://festival-jeu-mtp-api.onrender.com/planning_general',{
         method:'POST',
         headers:{
           'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ export const CreerFestival = () => {
             idPlanning: PlanningId,
         }
         try {
-          const response = await fetch('http://localhost:8080/festival', {
+          const response = await fetch('https://festival-jeu-mtp-api.onrender.com/festival', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ export const CreerFestival = () => {
           const data = await response.json();
           console.log('Festival créé avec succès:', data);
           const idFestival = data.idFestival
-          const putIdFestival = await fetch(`http://localhost:8080/planning_general/${PlanningId}`,{
+          const putIdFestival = await fetch(`https://festival-jeu-mtp-api.onrender.com/planning_general/${PlanningId}`,{
             method:'PUT',
             headers:{
               'Content-Type': 'application/json',

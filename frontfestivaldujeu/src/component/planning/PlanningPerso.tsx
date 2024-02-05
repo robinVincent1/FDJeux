@@ -63,7 +63,7 @@ export const PlanningPerso: React.FC<PlanningProps> = ({
   async function getcreneauxbyId(idCreneau: number) {
     try {
       const response = await fetch(
-        `http://localhost:8080/creneau/getbyid/${idCreneau}`,
+        `https://festival-jeu-mtp-api.onrender.com/creneau/getbyid/${idCreneau}`,
         {
           method: "GET",
           headers: {
@@ -82,7 +82,7 @@ export const PlanningPerso: React.FC<PlanningProps> = ({
 
   async function getreferent(ReferentId: number) {
     try {
-      const response = await fetch(`http://localhost:8080/user/${ReferentId}`, {
+      const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/user/${ReferentId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -134,7 +134,7 @@ export const PlanningPerso: React.FC<PlanningProps> = ({
   async function gethorairebyId(jourid: number) {
     try {
       const response = await fetch(
-        `http://localhost:8080/horaire/${jourid}/${idPlanning}`,
+        `https://festival-jeu-mtp-api.onrender.com/horaire/${jourid}/${idPlanning}`,
         {
           method: "GET",
           headers: {
@@ -153,7 +153,7 @@ export const PlanningPerso: React.FC<PlanningProps> = ({
   async function getidcreneaubyuserid(userid: number) {
     try {
       const response = await fetch(
-        `http://localhost:8080/creneau_benevole/getcreneaux/${userid}`,
+        `https://festival-jeu-mtp-api.onrender.com/creneau_benevole/getcreneaux/${userid}`,
         {
           method: "GET",
           headers: {
@@ -178,7 +178,7 @@ export const PlanningPerso: React.FC<PlanningProps> = ({
       setNbColonne(0);
       try {
         const response = await fetch(
-          `http://localhost:8080/jours/${idPlanning}`,
+          `https://festival-jeu-mtp-api.onrender.com/jours/${idPlanning}`,
           {
             method: "GET",
             headers: {

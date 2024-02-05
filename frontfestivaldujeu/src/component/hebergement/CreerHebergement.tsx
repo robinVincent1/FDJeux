@@ -33,7 +33,7 @@ export const CreerHebergement = () => {
     const fetchData = async () => {
       try {
         const id = localStorage.getItem("userId");
-        const response = await fetch(`http://localhost:8080/user/${id}`, {
+        const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/user/${id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -59,7 +59,7 @@ export const CreerHebergement = () => {
     adresse: string
   ) => {
     try {
-      const response = await fetch("http://localhost:8080/hebergement", {
+      const response = await fetch("https://festival-jeu-mtp-api.onrender.com/hebergement", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

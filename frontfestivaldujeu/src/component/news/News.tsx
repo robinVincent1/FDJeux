@@ -31,7 +31,7 @@ export const News = ({
     const fetchData = async () => {
       try {
         const id = localStorage.getItem("userId");
-        const response = await fetch(`http://localhost:8080/user/${id}`, {
+        const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/user/${id}`, {
           method: "GET", // Remplacez 'GET' par la méthode que vous souhaitez utiliser
           headers: {
             "Content-Type": "application/json",
@@ -59,7 +59,7 @@ export const News = ({
     if (confirmDelete) {
       console.log(id);
       try {
-        const response = await fetch(`http://localhost:8080/news/${id}`, {
+        const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/news/${id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

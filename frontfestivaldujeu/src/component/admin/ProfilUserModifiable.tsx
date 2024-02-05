@@ -33,7 +33,7 @@ export const ProfilUserModifiable = ({
   const ModifRole = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/user/ModifRole/${u.idUser}`,
+        `https://festival-jeu-mtp-api.onrender.com/user/ModifRole/${u.idUser}`,
         {
           method: "PUT",
           headers: {
@@ -61,7 +61,7 @@ export const ProfilUserModifiable = ({
 
     try {
       const response = await fetch(
-        `http://localhost:8080/festival/ModifRoleUser/${idFestival}`,
+        `https://festival-jeu-mtp-api.onrender.com/festival/ModifRoleUser/${idFestival}`,
         {
           method: "PUT",
           headers: {

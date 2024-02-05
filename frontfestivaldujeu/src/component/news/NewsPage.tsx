@@ -37,7 +37,7 @@ export const NewsPage = () => {
     const fetchData = async () => {
       try {
         const id = localStorage.getItem("userId");
-        const response = await fetch(`http://localhost:8080/user/${id}`, {
+        const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/user/${id}`, {
           method: "GET", // Remplacez 'GET' par la méthode que vous souhaitez utiliser
           headers: {
             "Content-Type": "application/json",
@@ -59,7 +59,7 @@ export const NewsPage = () => {
 
   useEffect(() => {
     // Appel API pour récupérer toutes les infos
-    fetch("http://localhost:8080/news", {
+    fetch("https://festival-jeu-mtp-api.onrender.com/news", {
       method: "GET", // Remplacez 'GET' par la méthode HTTP que vous souhaitez utiliser
       headers: {
         "Content-Type": "application/json",
@@ -83,7 +83,7 @@ export const NewsPage = () => {
     try {
       // Appel API pour mettre à jour la news côté serveur
       const response = await fetch(
-        `http://localhost:8080/news/${updatedNews.idNews}`,
+        `https://festival-jeu-mtp-api.onrender.com/news/${updatedNews.idNews}`,
         {
           method: "PUT",
           headers: {

@@ -61,7 +61,7 @@ export const PageFestival = () => {
     const fetchData = async () => {
       try {
         const id = localStorage.getItem("userId");
-        const response = await fetch(`http://localhost:8080/user/${id}`, {
+        const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/user/${id}`, {
           method: "GET", // Remplacez 'GET' par la méthode que vous souhaitez utiliser
           headers: {
             "Content-Type": "application/json",
@@ -83,7 +83,7 @@ export const PageFestival = () => {
 
   useEffect(() => {
     // Appel API pour récupérer tous les festivals
-    fetch("http://localhost:8080/festival", {
+    fetch("https://festival-jeu-mtp-api.onrender.com/festival", {
       method: "GET", // Remplacez 'GET' par la méthode HTTP que vous souhaitez utiliser
       headers: {
         "Content-Type": "application/json",
@@ -128,7 +128,7 @@ export const PageFestival = () => {
     try {
       const token = localStorage.getItem('token');
   
-      const response = await fetch('http://localhost:8080/csv/post', {
+      const response = await fetch('https://festival-jeu-mtp-api.onrender.com/csv/post', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

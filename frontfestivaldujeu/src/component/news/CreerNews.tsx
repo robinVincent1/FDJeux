@@ -23,7 +23,7 @@ export const CreerNews = () => {
     const fetchData = async () => {
       try {
         const id = localStorage.getItem("userId");
-        const response = await fetch(`http://localhost:8080/user/${id}`, {
+        const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/user/${id}`, {
           method: 'GET', // Remplacez 'GET' par la méthode que vous souhaitez utiliser
           headers: {
             'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ export const CreerNews = () => {
 
   const createNews = async (titre: string, description: string, createur: string) => {
     try {
-      const response = await fetch('http://localhost:8080/news', {
+      const response = await fetch('https://festival-jeu-mtp-api.onrender.com/news', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
