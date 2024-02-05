@@ -23,8 +23,6 @@ export const PageAccueil = () => {
   const [userConnected, setUserConnected] = useState<User>(robin);
   const [admin, setAdmin] = useState(false);
   const [isInscrit, setIsInscrit] = useState(false);
-  const [list_espace, setListEspace] = useState<any[]>([]);
-  const [list_jeu, setListJeu] = useState<any[]>([]);
   const navigate = useNavigate();
   const [currentInfoIndex, setCurrentInfoIndex] = useState(0);
   const [list_espace, setListEspace] = useState<any[]>([]);
