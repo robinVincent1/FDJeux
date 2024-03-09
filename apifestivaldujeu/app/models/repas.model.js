@@ -23,7 +23,7 @@ module.exports = (sequelize, Sequelize) => {
         }
     });
 
-    Repas.belongsTo(User, { as: "User", foreignKey: "idUser"})
+
 
     return Repas;
 };
