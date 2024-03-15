@@ -12,7 +12,7 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        nom: {
+        Date: {
             type: Sequelize.STRING,
             allowNull: false,
         },
