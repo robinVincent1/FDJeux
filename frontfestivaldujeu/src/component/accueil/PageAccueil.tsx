@@ -41,7 +41,7 @@ export const PageAccueil = () => {
       return;
     }
     // Appel API pour récupérer le festival
-    fetch("https://festival-jeu-mtp-api.onrender.com/festival/enCours", {
+    fetch("http://localhost:8080/festival/enCours", {
       method: "GET", // Remplacez 'GET' par la méthode HTTP que vous souhaitez utiliser
       headers: {
         "Content-Type": "application/json",
@@ -59,7 +59,7 @@ export const PageAccueil = () => {
     const fetchData = async () => {
       try {
         const id = localStorage.getItem("userId");
-        const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/user/${id}`, {
+        const response = await fetch(`http://localhost:8080/user/${id}`, {
           method: "GET", // Remplacez 'GET' par la méthode que vous souhaitez utiliser
           headers: {
             "Content-Type": "application/json",
@@ -91,7 +91,7 @@ export const PageAccueil = () => {
 
   useEffect(() => {
     // Appel API pour récupérer toutes les news
-    fetch("https://festival-jeu-mtp-api.onrender.com/news/fav", {
+    fetch("http://localhost:8080/news/fav", {
       method: "GET", // Remplacez 'GET' par la méthode HTTP que vous souhaitez utiliser
       headers: {
         "Content-Type": "application/json",
@@ -111,7 +111,7 @@ export const PageAccueil = () => {
 
   useEffect(() => {
     // Appel API pour récupérer toutes les infos
-    fetch("https://festival-jeu-mtp-api.onrender.com/infos", {
+    fetch("http://localhost:8080/infos", {
       method: "GET", // Remplacez 'GET' par la méthode HTTP que vous souhaitez utiliser
       headers: {
         "Content-Type": "application/json",
@@ -128,7 +128,7 @@ export const PageAccueil = () => {
 
   const deleteInfo = async (id: string) => {
     try {
-      await fetch(`https://festival-jeu-mtp-api.onrender.com/infos/${id}`, {
+      await fetch(`http://localhost:8080/infos/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -150,7 +150,7 @@ export const PageAccueil = () => {
   const getJeubyEspace = async (planZone: string) => {
     try {
       const response = await fetch(
-        `https://festival-jeu-mtp-api.onrender.com/csv/getjeu/${planZone}`,
+        `http://localhost:8080/csv/getjeu/${planZone}`,
         {
           method: "GET",
           headers: {
@@ -176,7 +176,7 @@ export const PageAccueil = () => {
 
   const getAllEspace = async () => {
     try {
-      const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/csv/getallespace`, {
+      const response = await fetch(`http://localhost:8080/csv/getallespace`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -202,7 +202,7 @@ export const PageAccueil = () => {
     const id = localStorage.getItem("userId");
 
     try {
-      const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/user`, {
+      const response = await fetch(`http://localhost:8080/user`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -228,7 +228,7 @@ export const PageAccueil = () => {
 
     try {
       const response = await fetch(
-        `https://festival-jeu-mtp-api.onrender.com/festival/${festi.idFestival}`,
+        `http://localhost:8080/festival/${festi.idFestival}`,
         {
           method: "PUT",
           headers: {
@@ -264,7 +264,7 @@ export const PageAccueil = () => {
     const idUser = localStorage.getItem("userId");
 
     try {
-      const response = await fetch(`https://festival-jeu-mtp-api.onrender.com/repas`, {
+      const response = await fetch(`http://localhost:8080/repas`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

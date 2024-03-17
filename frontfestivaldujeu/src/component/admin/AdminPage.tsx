@@ -40,7 +40,7 @@ export const AdminPage = () => {
       return;
     }
     // Appel API pour récupérer le festival
-    fetch("https://festival-jeu-mtp-api.onrender.com/festival/enCours", {
+    fetch("http://localhost:8080/festival/enCours", {
       method: "GET", // Remplacez 'GET' par la méthode HTTP que vous souhaitez utiliser
       headers: {
         "Content-Type": "application/json",
@@ -59,7 +59,7 @@ export const AdminPage = () => {
       try {
         console.log(festi.idFestival);
         const response = await fetch(
-          `https://festival-jeu-mtp-api.onrender.com/user/referent/${festi.idFestival}`,
+          `http://localhost:8080/user/referent/${festi.idFestival}`,
           {
             method: "GET", // Remplacez 'GET' par la méthode que vous souhaitez utiliser
             headers: {
@@ -86,7 +86,7 @@ export const AdminPage = () => {
       try {
         console.log(festi.idFestival);
         const response = await fetch(
-          `https://festival-jeu-mtp-api.onrender.com/user/benevole/${festi.idFestival}`,
+          `http://localhost:8080/user/benevole/${festi.idFestival}`,
           {
             method: "GET", // Remplacez 'GET' par la méthode que vous souhaitez utiliser
             headers: {
@@ -113,7 +113,7 @@ export const AdminPage = () => {
       try {
         console.log(festi.idFestival);
         const response = await fetch(
-          `https://festival-jeu-mtp-api.onrender.com/user/respoSoiree/${festi.idFestival}`,
+          `http://localhost:8080/user/respoSoiree/${festi.idFestival}`,
           {
             method: "GET", // Remplacez 'GET' par la méthode que vous souhaitez utiliser
             headers: {
@@ -140,7 +140,7 @@ export const AdminPage = () => {
       try {
         console.log(festi.idFestival);
         const response = await fetch(
-          `https://festival-jeu-mtp-api.onrender.com/user/accueilBenevole/${festi.idFestival}`,
+          `http://localhost:8080/user/accueilBenevole/${festi.idFestival}`,
           {
             method: "GET", // Remplacez 'GET' par la méthode que vous souhaitez utiliser
             headers: {

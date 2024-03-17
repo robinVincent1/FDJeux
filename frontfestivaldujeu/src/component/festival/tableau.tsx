@@ -20,7 +20,7 @@ export default function tableau({ listeFesti, maj, u }: Props) {
   const ModifEnCours = async (idFestival: string, enCours: boolean) => {
     try {
       const response = await fetch(
-        `https://festival-jeu-mtp-api.onrender.com/festival/modifEnCours/${idFestival}`,
+        `http://localhost:8080/festival/modifEnCours/${idFestival}`,
         {
           method: "PUT",
           headers: {
